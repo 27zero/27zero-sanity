@@ -14,7 +14,6 @@ export default defineType({
   title: 'Authors',
   type: 'document',
   
-
   fields: [
     defineField({
       name: 'name',
