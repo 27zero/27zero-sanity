@@ -13,6 +13,7 @@ export default defineType({
   name: 'author',
   title: 'Authors',
   type: 'document',
+  
 
   fields: [
     defineField({
