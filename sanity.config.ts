@@ -7,7 +7,7 @@ export default defineConfig({
   name: 'default',
   title: '27zero-cms',
 
-  projectId: 'qjn4zzjc',
+  projectId: 'u9sntfl9',
   dataset: 'production',
 
   plugins: [structureTool(), visionTool()],
