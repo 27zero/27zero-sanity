@@ -11,7 +11,6 @@
  * remove those two imports and update the array.
  *
  * Roadmap — schemas to be added in subsequent steps:
- *   client      — client logo strip + marquee + practice page references
  *   practice    — EdTech Marketing practice pages
  *   teamMember  — About page team grid
  */
@@ -25,6 +24,7 @@ import blockContent from './blockContent'
 import settings     from './settings'
 import work         from './work'
 import testimonial  from './testimonial'
+import client       from './client'
 
 export const schemaTypes = [
   // Content
@@ -35,6 +35,7 @@ export const schemaTypes = [
 
   // Editorial
   testimonial,
+  client,
 
   // Supporting
   author,
