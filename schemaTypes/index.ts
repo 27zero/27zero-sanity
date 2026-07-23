@@ -1,18 +1,11 @@
 /**
- * schemaTypes/index.ts
- *
- * Registers all document types with Sanity Studio.
+ * schemaTypes/index.ts — All document types registered with Sanity Studio.
  *
  * Migration note
  * --------------
- * `resource` and `interview` are still registered here to avoid
- * breaking existing documents.  Once all documents are migrated
- * to the unified `post` schema with `contentType` discriminators,
- * remove those two imports and update the array.
- *
- * Roadmap — schemas to be added in subsequent steps:
- *   practice    — EdTech Marketing practice pages
- *   teamMember  — About page team grid
+ * `resource` and `interview` are retained for backwards compatibility.
+ * Once documents are migrated to the unified `post` schema (discriminated
+ * by `contentType`), remove those two imports and update the array.
  */
 
 import author       from './author'
@@ -25,6 +18,8 @@ import settings     from './settings'
 import work         from './work'
 import testimonial  from './testimonial'
 import client       from './client'
+import practice     from './practice'
+import teamMember   from './teamMember'
 
 export const schemaTypes = [
   // Content
@@ -36,6 +31,8 @@ export const schemaTypes = [
   // Editorial
   testimonial,
   client,
+  practice,
+  teamMember,
 
   // Supporting
   author,
