@@ -47,6 +47,7 @@ export default defineType({
     {name: 'mentor',    title: 'Mentor'},
     {name: 'resources', title: 'Resources'},
     {name: 'contact',   title: 'Contact'},
+    {name: 'agency',    title: 'EdTech Marketing'},
   ],
 
   fields: [
@@ -521,7 +522,49 @@ export default defineType({
 
   ],
 
-  preview: {
+    // ════════════════════════════════════════════════════════════════
+    // EDTECH MARKETING AGENCY — new
+    // ════════════════════════════════════════════════════════════════
+
+    defineField({
+      name: 'agencyHero',
+      title: 'Hero',
+      type: 'object',
+      group: 'agency',
+      fields: [
+        defineField({name: 'headline', title: 'Headline', type: 'string',
+          description: 'e.g. "The first and only agency built for EdTech."'}),
+        defineField({name: 'text',     title: 'Subtitle', type: 'string',
+          description: 'e.g. "Three practices. One goal: helping EdTech brands..."'}),
+      ],
+    }),
+
+    defineField({
+      name: 'agencyPracticesSection',
+      title: 'Practices Section',
+      type: 'object',
+      group: 'agency',
+      description: 'The "Three practices. One goal." section header.',
+      fields: [
+        defineField({name: 'headline', title: 'Headline', type: 'string',
+          description: 'e.g. "Three practices. One goal."'}),
+        defineField({name: 'text',     title: 'Text',     type: 'text', rows: 2}),
+      ],
+    }),
+
+    defineField({
+      name: 'agencyClosingCta',
+      title: 'Closing CTA',
+      type: 'object',
+      group: 'agency',
+      description: 'The bottom CTA section of the EdTech Marketing Agency page.',
+      fields: [
+        defineField({name: 'headline', title: 'Headline', type: 'string',
+          description: 'e.g. "Let\'s partner to articulate and unpack meaningful results."'}),
+      ],
+    }),
+
+    preview: {
     select: {title: 'siteTitle'},
     prepare: ({title}) => ({title: title ?? 'Site Settings'}),
   },
