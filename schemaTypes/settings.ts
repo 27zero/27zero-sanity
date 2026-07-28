@@ -278,6 +278,8 @@ export default defineType({
       group: 'home',
       fields: [
         defineField({name: 'headline',    title: 'Headline',     type: 'string'}),
+        defineField({name: 'subtitle',    title: 'Subtitle',     type: 'string',
+          description: 'Short text below the heading. e.g. "First-hand expertise, innovative conceptual thinking & design, client-first approach."'}),
         defineField({name: 'showreelUrl', title: 'Showreel URL', type: 'url',
           description: 'YouTube or Vimeo URL for the showreel button.'}),
       ],
@@ -372,6 +374,20 @@ export default defineType({
         defineField({name: 'text',  title: 'Text',  type: 'text', rows: 3}),
         defineField({name: 'image', title: 'Image', type: 'image',
           options: {hotspot: true}}),
+      ],
+    }),
+
+    defineField({
+      name: 'aboutTeam',
+      title: 'Team Section',
+      type: 'object',
+      group: 'about',
+      description: 'The "The people behind the work" section on the About page.',
+      fields: [
+        defineField({name: 'headline', title: 'Headline', type: 'string',
+          description: 'e.g. "The people behind the work."'}),
+        defineField({name: 'text',     title: 'Text',     type: 'text', rows: 2,
+          description: 'Supporting paragraph below the headline.'}),
       ],
     }),
 
