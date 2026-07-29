@@ -1,225 +1,156 @@
 /**
  * src/mappers/pillarbaseToSanity.ts
  *
- * Converts a PillarbasePost (from the Pillarbase API) into a Sanity post
- * document that matches the `post` schema defined in schemaTypes/post.ts.
+ * Maps a PillarbaseArticle to a Sanity `post` document.
  *
- * No external data fetching happens here.  Author and category references
- * are resolved by the Sanity service (services/sanity.ts) and passed in
- * as pre-resolved Sanity document IDs.
+ * Reuses the existing schemas WITHOUT modification:
+ *   - post (schemaTypes/post.ts)
+ *   - author (schemaTypes/author.ts)
+ *   - category (schemaTypes/category.ts)
+ *   - blockContent (schemaTypes/blockContent.ts)
+ *
+ * The mapper is a pure function — no API calls, no side effects.
+ * Author/category/image references must be pre-resolved and passed in.
  */
 
-import type {PillarbasePost} from '../integrations/pillarbase'
+import type {PillarbaseArticle} from '../integrations/pillarbaseMcp'
 import {markdownToPortableText, htmlToPortableText} from '../utils/markdownToPortableText'
 import type {PortableTextBlock} from '../utils/markdownToPortableText'
 
-// ── Types ────────────────────────────────────────────────────────────────────
+// ── Types ─────────────────────────────────────────────────────────────────────
 
-/** Sanity reference object */
-interface SanityReference {
+interface SanityRef {
   _type: 'reference'
   _ref: string
 }
 
-/** Sanity image asset reference (after upload) */
-interface SanityImageAsset {
+interface SanityImage {
   _type: 'image'
-  asset: SanityReference
+  asset: SanityRef
   alt?: string
-  caption?: string
 }
 
-/** Slug object as Sanity expects it */
 interface SanitySlug {
   _type: 'slug'
   current: string
 }
 
 /**
- * Mapped Sanity post document ready to be written via the Mutations API.
- *
- * Fields map directly to post.ts field names.
- * Fields left `undefined` are omitted from the mutation payload.
+ * A fully-mapped Sanity post document, ready to write.
+ * All fields correspond exactly to schemaTypes/post.ts.
  */
-export interface MappedSanityPost {
+export interface MappedPost {
   _type: 'post'
+  /** Discriminates the post type — always 'blog' for Pillarbase imports */
   contentType: 'blog'
   title: string
   slug: SanitySlug
   excerpt?: string
   body?: PortableTextBlock[]
-  mainImage?: SanityImageAsset
-  author?: SanityReference
-  categories?: SanityReference[]
+  mainImage?: SanityImage
+  author?: SanityRef
+  categories?: SanityRef[]
   publishedAt?: string
   featured: boolean
   seoTitle?: string
   seoDescription?: string
-  /** ogImage asset reference — set after upload; undefined until then */
-  ogImage?: SanityImageAsset
-  /** Pillarbase source ID stored for idempotency checks */
+  ogImage?: SanityImage
+  /**
+   * Tracks the Pillarbase source ID for idempotency.
+   * Stored as a custom field on the post document.
+   * NOTE: If post.ts doesn't have a _pillarbaseId field, add one or use
+   * a GROQ query on title+slug for duplicate detection instead.
+   */
   _pillarbaseId: string
 }
 
 /**
- * Pre-resolved reference IDs supplied by the Sanity service before calling
- * the mapper. The mapper never hits the Sanity API directly.
+ * Pre-resolved Sanity reference IDs supplied by the caller.
+ * The mapper never calls the Sanity API directly.
  */
 export interface ResolvedRefs {
-  /** Sanity document _id of the matched author (or undefined if not found) */
   authorId?: string
-  /** Map from Pillarbase category name → Sanity category document _id */
+  /** pillarbase category name → sanity category _id */
   categoryIds?: Record<string, string>
-  /** Sanity asset _id of the uploaded featured image (or undefined) */
   featuredImageAssetId?: string
-  /** Sanity asset _id of the uploaded OG image (or undefined) */
   ogImageAssetId?: string
 }
 
 // ── Slug generation ───────────────────────────────────────────────────────────
 
-/**
- * Generate a URL-safe slug from a title string.
- * Mirrors the behaviour of Sanity's built-in slug generator.
- */
 function slugify(text: string): string {
   return text
     .toLowerCase()
-    .normalize('NFD')                        // decompose accents
-    .replace(/[\u0300-\u036f]/g, '')         // strip accent marks
-    .replace(/[^a-z0-9\s-]/g, '')           // keep only alphanumeric, spaces, hyphens
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9\s-]/g, '')
     .trim()
-    .replace(/[\s]+/g, '-')                  // spaces → hyphens
-    .replace(/-+/g, '-')                     // collapse consecutive hyphens
-    .slice(0, 96)                            // max 96 chars (post.ts validation)
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-')
+    .slice(0, 96)
 }
 
 // ── Body conversion ───────────────────────────────────────────────────────────
 
-function convertBody(post: PillarbasePost): PortableTextBlock[] {
-  if (!post.content?.trim()) return []
-
-  if (post.content_format === 'html') {
-    return htmlToPortableText(post.content)
-  }
-  // Default: treat as Markdown
-  return markdownToPortableText(post.content)
+function toPortableText(article: PillarbaseArticle): PortableTextBlock[] {
+  if (!article.content?.trim()) return []
+  if (article.content_format === 'html') return htmlToPortableText(article.content)
+  return markdownToPortableText(article.content)
 }
 
 // ── Main mapper ───────────────────────────────────────────────────────────────
 
-/**
- * Map a PillarbasePost to a MappedSanityPost.
- *
- * @param post          Raw post data from the Pillarbase API
- * @param resolvedRefs  Author / category / image IDs resolved by services/sanity.ts
- * @returns             Document ready for Sanity's mutation API
- *
- * @example
- *   const mapped = mapPillarbasePost(pillarbasePost, {
- *     authorId: 'author-123',
- *     categoryIds: {'Marketing': 'cat-456'},
- *     featuredImageAssetId: 'image-789',
- *   })
- */
-export function mapPillarbasePost(
-  post: PillarbasePost,
-  resolvedRefs: ResolvedRefs = {},
-): MappedSanityPost {
-  // ── Title ──────────────────────────────────────────────────────────────────
-  const title = post.title?.trim()
-  if (!title) throw new Error(`[Mapper] Post ${post.id} has no title.`)
+export function mapArticleToPost(
+  article: PillarbaseArticle,
+  refs: ResolvedRefs = {},
+): MappedPost {
+  const title = article.title?.trim()
+  if (!title) throw new Error(`[Mapper] Article ${article.id} has no title`)
 
-  // ── Slug ───────────────────────────────────────────────────────────────────
-  const slugCurrent = post.slug?.trim()
-    ? post.slug.trim().toLowerCase().replace(/\s+/g, '-').replace(/-+/g, '-').slice(0, 96)
+  const slugCurrent = article.slug?.trim()
+    ? article.slug.trim().toLowerCase().replace(/\s+/g, '-').replace(/-+/g, '-').slice(0, 96)
     : slugify(title)
 
-  // ── Excerpt ────────────────────────────────────────────────────────────────
-  // Truncate to 300 chars (post.ts validation rule)
-  const excerpt = post.excerpt?.trim().slice(0, 300) || undefined
+  const excerpt = article.excerpt?.trim().slice(0, 300)
+  const body = toPortableText(article)
 
-  // ── Body (Portable Text) ───────────────────────────────────────────────────
-  const body = convertBody(post)
-
-  // ── Featured image ─────────────────────────────────────────────────────────
-  let mainImage: SanityImageAsset | undefined
-  if (resolvedRefs.featuredImageAssetId) {
-    mainImage = {
-      _type: 'image',
-      asset: {_type: 'reference', _ref: resolvedRefs.featuredImageAssetId},
-      alt: title,
-    }
-  }
-
-  // ── Author reference ───────────────────────────────────────────────────────
-  const author: SanityReference | undefined = resolvedRefs.authorId
-    ? {_type: 'reference', _ref: resolvedRefs.authorId}
+  const mainImage: SanityImage | undefined = refs.featuredImageAssetId
+    ? {_type: 'image', asset: {_type: 'reference', _ref: refs.featuredImageAssetId}, alt: title}
     : undefined
 
-  // ── Category references ────────────────────────────────────────────────────
-  const categories: SanityReference[] = []
-  if (post.categories && resolvedRefs.categoryIds) {
-    for (const cat of post.categories) {
-      const catName = cat.name?.trim()
-      if (catName && resolvedRefs.categoryIds[catName]) {
-        categories.push({_type: 'reference', _ref: resolvedRefs.categoryIds[catName]})
-      }
+  const author: SanityRef | undefined = refs.authorId
+    ? {_type: 'reference', _ref: refs.authorId}
+    : undefined
+
+  const categories: SanityRef[] = []
+  if (article.categories && refs.categoryIds) {
+    for (const cat of article.categories) {
+      const ref = refs.categoryIds[cat.name?.trim()]
+      if (ref) categories.push({_type: 'reference', _ref: ref})
     }
   }
 
-  // ── Published date ─────────────────────────────────────────────────────────
-  const publishedAt =
-    post.published_at ?? post.created_at ?? new Date().toISOString()
+  const ogImage: SanityImage | undefined = refs.ogImageAssetId
+    ? {_type: 'image', asset: {_type: 'reference', _ref: refs.ogImageAssetId}}
+    : undefined
 
-  // ── SEO fields ─────────────────────────────────────────────────────────────
-  const seoTitle = post.seo?.title?.trim().slice(0, 70) || undefined
-  const seoDescription = post.seo?.description?.trim().slice(0, 160) || undefined
-
-  // ── OG image ───────────────────────────────────────────────────────────────
-  let ogImage: SanityImageAsset | undefined
-  if (resolvedRefs.ogImageAssetId) {
-    ogImage = {
-      _type: 'image',
-      asset: {_type: 'reference', _ref: resolvedRefs.ogImageAssetId},
-    }
-  }
-
-  // ── Assemble document ──────────────────────────────────────────────────────
-  const doc: MappedSanityPost = {
+  const doc: MappedPost = {
     _type: 'post',
     contentType: 'blog',
     title,
     slug: {_type: 'slug', current: slugCurrent},
-    featured: post.featured ?? false,
-    _pillarbaseId: post.id,
-    publishedAt,
+    featured: article.featured ?? false,
+    _pillarbaseId: article.id,
+    publishedAt: article.published_at ?? article.created_at ?? new Date().toISOString(),
     ...(excerpt && {excerpt}),
     ...(body.length > 0 && {body}),
     ...(mainImage && {mainImage}),
     ...(author && {author}),
     ...(categories.length > 0 && {categories}),
-    ...(seoTitle && {seoTitle}),
-    ...(seoDescription && {seoDescription}),
+    ...(article.seo?.title?.trim() && {seoTitle: article.seo.title.trim().slice(0, 70)}),
+    ...(article.seo?.description?.trim() && {seoDescription: article.seo.description.trim().slice(0, 160)}),
     ...(ogImage && {ogImage}),
   }
 
   return doc
-}
-
-/**
- * Map multiple Pillarbase posts at once.
- * Posts that fail mapping are returned as Error objects (partial failure safe).
- */
-export function mapPillarbasePosts(
-  posts: PillarbasePost[],
-  resolvedRefsMap: Record<string, ResolvedRefs> = {},
-): Array<MappedSanityPost | Error> {
-  return posts.map(post => {
-    try {
-      return mapPillarbasePost(post, resolvedRefsMap[post.id] ?? {})
-    } catch (err) {
-      return err instanceof Error ? err : new Error(String(err))
-    }
-  })
 }

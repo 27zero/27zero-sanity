@@ -1,33 +1,39 @@
 /**
  * plugins/pillarbase-importer/PillarbaseImporter.tsx
  *
- * Custom Sanity Studio tool: Pillarbase Importer.
+ * Sanity Studio custom tool: Pillarbase Importer.
  *
- * Renders a full-page tool in Sanity Studio that allows editors to:
- *   1. Connect to Pillarbase and list available posts
- *   2. Select one or multiple posts
- *   3. Import them into Sanity as drafts (or published)
- *   4. See real-time progress and success/error feedback
+ * ── Architecture ─────────────────────────────────────────────────────────────
  *
- * Accessing from Studio
- * ─────────────────────
- * The tool appears in the Studio navigation bar as "Pillarbase Importer".
- * It is registered in sanity.config.ts via the pillarbaseImporterPlugin.
+ * Pillarbase exposes an MCP server for AI assistants and a REST API for
+ * programmatic access. This Studio tool communicates with the same Pillarbase
+ * API that the MCP server wraps, using the user's API token directly.
  *
- * Architecture note
- * ─────────────────
- * This component runs entirely inside the browser (Studio is a React app).
- * It calls the Pillarbase API and Sanity client directly from the browser.
- * No server-side route is needed.
+ * The tool does NOT embed an MCP client (Sanity Studio is a React app, not
+ * an AI assistant). Instead it calls the Pillarbase API with fetch() + token.
  *
- * IMPORTANT: The Pillarbase API key is read from the environment variable
- * SANITY_STUDIO_PILLARBASE_API_KEY (Sanity Studio exposes only variables
- * prefixed with SANITY_STUDIO_ to the browser bundle).
- * SANITY_STUDIO_PILLARBASE_API_URL similarly.
+ * ── Endpoint Configuration ───────────────────────────────────────────────────
+ *
+ * The exact Pillarbase API endpoint paths are not publicly documented.
+ * This tool includes a configuration panel where you can set them once
+ * you confirm them with Pillarbase support.
+ *
+ * Required env variables (SANITY_STUDIO_ prefix = exposed to browser):
+ *   SANITY_STUDIO_PILLARBASE_API_URL   — e.g. https://app.pillarbase.ai
+ *   SANITY_STUDIO_PILLARBASE_API_TOKEN — API token from Pillarbase Settings
+ *
+ * ── What the tool does ───────────────────────────────────────────────────────
+ *  1. Connect to Pillarbase using the configured token
+ *  2. List available articles/briefs
+ *  3. Let editors select one or multiple items
+ *  4. Convert content to Sanity Portable Text
+ *  5. Create/update post documents in Sanity (idempotent)
+ *  6. Show per-item progress + success/error feedback
  */
 
-import React, {useState, useCallback} from 'react'
+import React, {useState, useCallback, useRef} from 'react'
 import {
+  Badge,
   Box,
   Button,
   Card,
@@ -39,69 +45,33 @@ import {
   Spinner,
   Stack,
   Text,
-  Badge,
+  TextInput,
+  Select,
   useToast,
 } from '@sanity/ui'
 import {useClient} from 'sanity'
+import type {PillarbaseArticle, PillarbaseConfig} from '../../src/integrations/pillarbaseMcp'
+import {
+  listArticles,
+  getArticle,
+  PillarbaseError,
+  validateToken,
+} from '../../src/integrations/pillarbaseMcp'
+import {mapArticleToPost} from '../../src/mappers/pillarbaseToSanity'
 
-// ── Pillarbase API (browser-safe inline fetch — no Node-only imports) ──────────
+// ── Types ─────────────────────────────────────────────────────────────────────
 
-interface PillarbaseListItem {
-  id: string
-  title: string
-  status?: string
-  published_at?: string
+type ImportStatus = 'idle' | 'pending' | 'importing' | 'done' | 'error'
+
+interface ArticleRow {
+  article: PillarbaseArticle
+  status: ImportStatus
+  error?: string
+  sanityId?: string
   slug?: string
 }
 
-async function fetchPillarbasePosts(
-  apiUrl: string,
-  apiKey: string,
-): Promise<PillarbaseListItem[]> {
-  const url = `${apiUrl.replace(/\/$/, '')}/api/v1/posts?per_page=50&status=all`
-  const res = await fetch(url, {
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      Accept: 'application/json',
-    },
-  })
-  if (!res.ok) throw new Error(`Pillarbase API returned HTTP ${res.status}`)
-  const json = await res.json()
-  // Handle both {data: [...]} and plain array responses
-  return Array.isArray(json) ? json : (json.data ?? [])
-}
-
-interface PillarbaseFullPost {
-  id: string
-  title: string
-  slug?: string
-  excerpt?: string
-  content: string
-  content_format?: 'markdown' | 'html'
-  featured_image_url?: string
-  author?: {id: string; name: string; email?: string}
-  categories?: Array<{id: string; name: string; slug?: string}>
-  published_at?: string
-  created_at?: string
-  featured?: boolean
-  status?: string
-  seo?: {title?: string; description?: string; og_image_url?: string}
-}
-
-async function fetchFullPost(
-  apiUrl: string,
-  apiKey: string,
-  postId: string,
-): Promise<PillarbaseFullPost> {
-  const url = `${apiUrl.replace(/\/$/, '')}/api/v1/posts/${encodeURIComponent(postId)}`
-  const res = await fetch(url, {
-    headers: {Authorization: `Bearer ${apiKey}`, Accept: 'application/json'},
-  })
-  if (!res.ok) throw new Error(`Pillarbase API returned HTTP ${res.status} for post ${postId}`)
-  return res.json()
-}
-
-// ── Simple slug generator ─────────────────────────────────────────────────────
+// ── Slugify (browser-safe) ────────────────────────────────────────────────────
 
 function slugify(text: string): string {
   return text
@@ -115,217 +85,204 @@ function slugify(text: string): string {
     .slice(0, 96)
 }
 
-// ── Minimal Markdown → Portable Text for browser context ─────────────────────
-// (A simplified version — the full converter is in src/utils/markdownToPortableText.ts)
+// ── Minimal Markdown → Portable Text (browser-safe, no Node deps) ─────────────
 
-function simpleMdToBlocks(markdown: string) {
-  const lines = markdown.split(/\n+/)
-  const blocks = []
+function mdToBlocks(md: string) {
+  const lines = (md || '').split(/\n+/)
   let key = 0
-
-  for (const line of lines) {
-    const trimmed = line.trim()
-    if (!trimmed) continue
-
-    let style: string = 'normal'
-    let text = trimmed
-
-    if (trimmed.startsWith('### ')) { style = 'h3'; text = trimmed.slice(4) }
-    else if (trimmed.startsWith('## ')) { style = 'h2'; text = trimmed.slice(3) }
-    else if (trimmed.startsWith('# ')) { style = 'h1'; text = trimmed.slice(2) }
-    else if (trimmed.startsWith('> ')) { style = 'blockquote'; text = trimmed.slice(2) }
-
-    // Strip inline markdown markers for simplicity
+  const blocks = []
+  for (const raw of lines) {
+    const line = raw.trim()
+    if (!line) continue
+    let style = 'normal'
+    let text = line
+    if (/^### /.test(line)) { style = 'h3'; text = line.slice(4) }
+    else if (/^## /.test(line)) { style = 'h2'; text = line.slice(3) }
+    else if (/^# /.test(line)) { style = 'h1'; text = line.slice(2) }
+    else if (/^> /.test(line)) { style = 'blockquote'; text = line.slice(2) }
     text = text.replace(/\*\*(.+?)\*\*/g, '$1').replace(/\*(.+?)\*/g, '$1')
-
     blocks.push({
-      _type: 'block',
-      _key: `b${key++}`,
-      style,
-      markDefs: [],
+      _type: 'block', _key: `b${key++}`, style, markDefs: [],
       children: [{_type: 'span', _key: `s${key++}`, text, marks: []}],
     })
   }
   return blocks
 }
 
-// ── Importer component ────────────────────────────────────────────────────────
-
-type ImportStatus = {
-  id: string
-  status: 'pending' | 'importing' | 'done' | 'error'
-  message?: string
-  sanityId?: string
-  slug?: string
+function htmlToBlocks(html: string) {
+  const text = html
+    .replace(/<br\s*\/?>/gi, '\n')
+    .replace(/<\/p>/gi, '\n\n')
+    .replace(/<\/h[1-6]>/gi, '\n')
+    .replace(/<[^>]+>/g, '')
+    .replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&nbsp;/g, ' ')
+    .trim()
+  return mdToBlocks(text)
 }
+
+// ── Importer component ────────────────────────────────────────────────────────
 
 export function PillarbaseImporter() {
   const toast = useToast()
-  const client = useClient({apiVersion: '2024-01-01'})
+  const sanityClient = useClient({apiVersion: '2024-01-01'})
 
-  // Config from env (SANITY_STUDIO_ prefix required for browser exposure)
-  const apiUrl = (typeof process !== 'undefined' && process.env.SANITY_STUDIO_PILLARBASE_API_URL) || ''
-  const apiKey = (typeof process !== 'undefined' && process.env.SANITY_STUDIO_PILLARBASE_API_KEY) || ''
+  // ── Config from env ──────────────────────────────────────────────────────────
+  // Sanity Studio exposes SANITY_STUDIO_* vars in import.meta.env
+  const envApiUrl = (
+    // @ts-expect-error — Vite/Sanity env type not declared in this scope
+    typeof import.meta !== 'undefined' ? import.meta.env?.SANITY_STUDIO_PILLARBASE_API_URL : ''
+  ) ?? ''
+  const envToken = (
+    // @ts-expect-error
+    typeof import.meta !== 'undefined' ? import.meta.env?.SANITY_STUDIO_PILLARBASE_API_TOKEN : ''
+  ) ?? ''
 
-  const [posts, setPosts] = useState<PillarbaseListItem[]>([])
+  const [apiUrl, setApiUrl] = useState<string>(envApiUrl || 'https://app.pillarbase.ai')
+  const [apiToken, setApiToken] = useState<string>(envToken || '')
+  const [showConfig, setShowConfig] = useState(!envToken)
+
+  // ── State ────────────────────────────────────────────────────────────────────
+  const [rows, setRows] = useState<ArticleRow[]>([])
   const [loading, setLoading] = useState(false)
   const [selected, setSelected] = useState<Set<string>>(new Set())
-  const [publishImmediately, setPublishImmediately] = useState(false)
-  const [importStatuses, setImportStatuses] = useState<ImportStatus[]>([])
+  const [publishMode, setPublishMode] = useState<'draft' | 'publish'>('draft')
+  const [createCategories, setCreateCategories] = useState(true)
   const [fetched, setFetched] = useState(false)
 
-  // ── Load posts from Pillarbase ──────────────────────────────────────────────
+  const abortRef = useRef<AbortController | null>(null)
 
-  const loadPosts = useCallback(async () => {
-    if (!apiUrl || !apiKey) {
-      toast.push({
-        status: 'error',
-        title: 'Configuration missing',
-        description:
-          'Set SANITY_STUDIO_PILLARBASE_API_URL and SANITY_STUDIO_PILLARBASE_API_KEY in your .env file.',
-      })
+  const pillarbaseConfig: PillarbaseConfig = {apiUrl, apiToken}
+
+  // ── Load articles ────────────────────────────────────────────────────────────
+
+  const loadArticles = useCallback(async () => {
+    if (!apiToken.trim()) {
+      toast.push({status: 'error', title: 'API token required', description: 'Enter your Pillarbase API token in the configuration panel.'})
+      setShowConfig(true)
       return
     }
 
     setLoading(true)
+    setRows([])
     try {
-      const data = await fetchPillarbasePosts(apiUrl, apiKey)
-      setPosts(data)
+      // First validate the token
+      await validateToken(pillarbaseConfig)
+      const articles = await listArticles(pillarbaseConfig)
+      setRows(articles.map(a => ({article: a, status: 'idle'})))
       setFetched(true)
+      toast.push({status: 'success', title: `Loaded ${articles.length} article${articles.length === 1 ? '' : 's'}`})
     } catch (err) {
-      toast.push({
-        status: 'error',
-        title: 'Failed to load posts',
-        description: String(err),
-      })
+      const msg = err instanceof PillarbaseError && err.isAuthError
+        ? 'Invalid API token. Check your Pillarbase Settings → API.'
+        : err instanceof PillarbaseError && err.statusCode === 404
+          ? 'Articles endpoint not found. The API path may need updating — see configuration.'
+          : String(err)
+      toast.push({status: 'error', title: 'Failed to load articles', description: msg})
     } finally {
       setLoading(false)
     }
-  }, [apiUrl, apiKey, toast])
+  }, [apiUrl, apiToken, toast]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  // ── Selection ───────────────────────────────────────────────────────────────
+  // ── Selection ────────────────────────────────────────────────────────────────
 
-  const toggleSelect = (id: string) => {
-    setSelected(prev => {
-      const next = new Set(prev)
-      next.has(id) ? next.delete(id) : next.add(id)
-      return next
-    })
+  const toggleRow = (id: string) => setSelected(prev => {
+    const next = new Set(prev)
+    next.has(id) ? next.delete(id) : next.add(id)
+    return next
+  })
+
+  const toggleAll = () => setSelected(
+    selected.size === rows.length ? new Set() : new Set(rows.map(r => r.article.id))
+  )
+
+  const updateRow = (id: string, update: Partial<ArticleRow>) => {
+    setRows(prev => prev.map(r => r.article.id === id ? {...r, ...update} : r))
   }
 
-  const toggleAll = () => {
-    if (selected.size === posts.length) {
-      setSelected(new Set())
-    } else {
-      setSelected(new Set(posts.map(p => p.id)))
-    }
-  }
-
-  // ── Import ──────────────────────────────────────────────────────────────────
-
-  const updateStatus = (id: string, update: Partial<ImportStatus>) => {
-    setImportStatuses(prev => prev.map(s => (s.id === id ? {...s, ...update} : s)))
-  }
+  // ── Import ───────────────────────────────────────────────────────────────────
 
   const runImport = useCallback(async () => {
-    if (selected.size === 0) {
-      toast.push({status: 'warning', title: 'No posts selected'})
-      return
-    }
+    if (selected.size === 0) { toast.push({status: 'warning', title: 'No articles selected'}); return }
 
+    abortRef.current = new AbortController()
     const ids = Array.from(selected)
-    setImportStatuses(ids.map(id => ({id, status: 'pending'})))
 
-    let successCount = 0
-    let errorCount = 0
+    // Mark all selected as pending
+    ids.forEach(id => updateRow(id, {status: 'pending', error: undefined}))
+
+    let successCount = 0, errorCount = 0
 
     for (const id of ids) {
-      updateStatus(id, {status: 'importing'})
+      if (abortRef.current.signal.aborted) break
+      updateRow(id, {status: 'importing'})
 
       try {
-        // Fetch full post
-        const post = await fetchFullPost(apiUrl, apiKey, id)
+        // Fetch the full article content
+        const article = await getArticle(pillarbaseConfig, id)
 
-        // Resolve author
-        let authorRef: {_type: 'reference'; _ref: string} | undefined
-        if (post.author?.name) {
-          const authors = await client.fetch<Array<{_id: string}>>(
+        // ── Resolve author ──────────────────────────────────────────────────
+        let authorId: string | undefined
+        if (article.author?.name) {
+          const found = await sanityClient.fetch<{_id: string} | null>(
             `*[_type == "author" && name == $name][0]{_id}`,
-            {name: post.author.name},
+            {name: article.author.name},
           )
-          if (authors?._id) authorRef = {_type: 'reference', _ref: authors._id}
+          if (found) authorId = found._id
         }
 
-        // Resolve / create categories
-        const catRefs: Array<{_type: 'reference'; _ref: string} & {_key: string}> = []
-        for (const cat of (post.categories ?? [])) {
+        // ── Resolve/create categories ───────────────────────────────────────
+        const categoryIds: Record<string, string> = {}
+        for (const cat of (article.categories ?? [])) {
           if (!cat.name?.trim()) continue
-          let existing = await client.fetch<{_id: string} | null>(
+          let existing = await sanityClient.fetch<{_id: string} | null>(
             `*[_type == "category" && title == $title][0]{_id}`,
             {title: cat.name},
           )
-          if (!existing) {
-            existing = await client.create({
+          if (!existing && createCategories) {
+            existing = await sanityClient.create({
               _type: 'category',
               title: cat.name,
               slug: {_type: 'slug', current: slugify(cat.name)},
             })
           }
-          if (existing) {
-            catRefs.push({_type: 'reference', _ref: existing._id, _key: existing._id})
-          }
+          if (existing) categoryIds[cat.name] = existing._id
         }
 
-        // Build document
-        const slugCurrent = post.slug?.trim()
-          ? post.slug.trim().toLowerCase().replace(/\s+/g, '-').slice(0, 96)
-          : slugify(post.title)
+        // ── Convert body ────────────────────────────────────────────────────
+        const body = article.content_format === 'html'
+          ? htmlToBlocks(article.content ?? '')
+          : mdToBlocks(article.content ?? '')
 
-        const body =
-          post.content_format === 'html'
-            ? simpleMdToBlocks(post.content.replace(/<[^>]+>/g, ''))
-            : simpleMdToBlocks(post.content)
-
-        const doc: Record<string, unknown> = {
-          _type: 'post',
-          contentType: 'blog',
-          title: post.title,
-          slug: {_type: 'slug', current: slugCurrent},
-          featured: post.featured ?? false,
-          _pillarbaseId: post.id,
-          publishedAt: post.published_at ?? post.created_at ?? new Date().toISOString(),
-          ...(post.excerpt?.trim() && {excerpt: post.excerpt.trim().slice(0, 300)}),
-          ...(body.length > 0 && {body}),
-          ...(authorRef && {author: authorRef}),
-          ...(catRefs.length > 0 && {categories: catRefs}),
-          ...(post.seo?.title && {seoTitle: post.seo.title.slice(0, 70)}),
-          ...(post.seo?.description && {seoDescription: post.seo.description.slice(0, 160)}),
+        // ── Map ─────────────────────────────────────────────────────────────
+        const mapped = mapArticleToPost(article, {authorId, categoryIds})
+        // Override body with browser-converted version (avoids Node.js dep)
+        if (body.length > 0) {
+          (mapped as Record<string, unknown>)['body'] = body
         }
 
-        // Check for existing
-        const existing = await client.fetch<{_id: string} | null>(
+        // ── Upsert ──────────────────────────────────────────────────────────
+        const existing = await sanityClient.fetch<{_id: string} | null>(
           `*[_type == "post" && _pillarbaseId == $id][0]{_id}`,
-          {id: post.id},
+          {id: article.id},
         )
 
         let sanityId: string
-
         if (existing) {
-          const {_type, _pillarbaseId: _pb, ...patchFields} = doc
-          void _type; void _pb
-          await client.patch(existing._id).set(patchFields).commit()
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          const {_type, _pillarbaseId, ...patch} = mapped
+          await sanityClient.patch(existing._id).set(patch).commit()
           sanityId = existing._id
         } else {
-          const created = await client.create(doc)
+          const created = await sanityClient.create(mapped)
           sanityId = created._id
         }
 
-        // Publish if requested
-        if (publishImmediately && sanityId.startsWith('drafts.')) {
+        // ── Publish ─────────────────────────────────────────────────────────
+        if (publishMode === 'publish' && sanityId.startsWith('drafts.')) {
           const cleanId = sanityId.replace(/^drafts\./, '')
-          const draft = await client.getDocument(sanityId)
+          const draft = await sanityClient.getDocument(sanityId)
           if (draft) {
-            await client.transaction()
+            await sanityClient.transaction()
               .createOrReplace({...draft, _id: cleanId})
               .delete(sanityId)
               .commit()
@@ -333,26 +290,26 @@ export function PillarbaseImporter() {
           }
         }
 
-        updateStatus(id, {status: 'done', sanityId, slug: slugCurrent, message: post.title})
+        updateRow(id, {status: 'done', sanityId, slug: mapped.slug.current})
         successCount++
       } catch (err) {
-        updateStatus(id, {status: 'error', message: String(err)})
+        const errMsg = err instanceof Error ? err.message : String(err)
+        updateRow(id, {status: 'error', error: errMsg})
         errorCount++
       }
     }
 
     toast.push({
-      status: errorCount === 0 ? 'success' : 'warning',
-      title: `Import complete`,
-      description: `${successCount} imported, ${errorCount} failed.`,
+      status: errorCount === 0 ? 'success' : errorCount === ids.length ? 'error' : 'warning',
+      title: 'Import complete',
+      description: `${successCount} imported${errorCount > 0 ? `, ${errorCount} failed` : ''}.`,
     })
-  }, [selected, apiUrl, apiKey, client, publishImmediately, toast])
+  }, [selected, pillarbaseConfig, sanityClient, publishMode, createCategories, toast]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  // ── Render ──────────────────────────────────────────────────────────────────
+  const isImporting = rows.some(r => r.status === 'importing')
+  const allSelected = rows.length > 0 && selected.size === rows.length
 
-  const isConfigured = Boolean(apiUrl && apiKey)
-  const allSelected = posts.length > 0 && selected.size === posts.length
-  const importing = importStatuses.some(s => s.status === 'importing')
+  // ── Render ───────────────────────────────────────────────────────────────────
 
   return (
     <Box padding={4} style={{minHeight: '100vh', overflowY: 'auto'}}>
@@ -363,160 +320,238 @@ export function PillarbaseImporter() {
           <Stack space={2}>
             <Heading as="h1" size={3}>Pillarbase Importer</Heading>
             <Text muted size={1}>
-              Import blog posts from Pillarbase into Sanity as drafts or published documents.
+              Import articles from Pillarbase into Sanity as{' '}
+              <Code size={1}>post</Code> documents.
             </Text>
           </Stack>
 
-          {/* Config warning */}
-          {!isConfigured && (
-            <Card padding={4} radius={2} tone="caution">
-              <Stack space={2}>
-                <Text weight="semibold">Configuration required</Text>
-                <Text size={1} muted>
-                  Add the following to your <Code size={1}>.env</Code> file and restart the Studio:
-                </Text>
-                <Code size={1} language="bash">
-                  {`SANITY_STUDIO_PILLARBASE_API_URL=https://app.pillarbase.ai\nSANITY_STUDIO_PILLARBASE_API_KEY=your_key_here`}
-                </Code>
-              </Stack>
-            </Card>
-          )}
+          {/* Configuration panel */}
+          <Card padding={4} radius={2} shadow={1}>
+            <Stack space={3}>
+              <Flex justify="space-between" align="center">
+                <Text weight="semibold">Configuration</Text>
+                <Button
+                  text={showConfig ? 'Hide' : 'Edit'}
+                  mode="ghost"
+                  fontSize={1}
+                  padding={2}
+                  onClick={() => setShowConfig(v => !v)}
+                />
+              </Flex>
+
+              {showConfig && (
+                <Stack space={3}>
+                  <Stack space={2}>
+                    <Text size={1} weight="semibold">Pillarbase API URL</Text>
+                    <TextInput
+                      value={apiUrl}
+                      onChange={e => setApiUrl((e.target as HTMLInputElement).value)}
+                      placeholder="https://app.pillarbase.ai"
+                      fontSize={1}
+                    />
+                  </Stack>
+
+                  <Stack space={2}>
+                    <Text size={1} weight="semibold">API Token</Text>
+                    <TextInput
+                      value={apiToken}
+                      onChange={e => setApiToken((e.target as HTMLInputElement).value)}
+                      placeholder="your-pillarbase-api-token"
+                      type="password"
+                      fontSize={1}
+                    />
+                    <Text size={0} muted>
+                      Find your token in Pillarbase → Settings → API.
+                      Set <Code size={0}>SANITY_STUDIO_PILLARBASE_API_TOKEN</Code> in{' '}
+                      <Code size={0}>.env</Code> to avoid entering it each time.
+                    </Text>
+                  </Stack>
+
+                  <Card padding={3} radius={2} tone="caution">
+                    <Stack space={2}>
+                      <Text size={1} weight="semibold">About API endpoint paths</Text>
+                      <Text size={0} muted>
+                        Pillarbase does not publish API documentation publicly.
+                        If loading articles fails with a 404 error, the endpoint paths
+                        need to be updated. Contact Pillarbase support to confirm:
+                      </Text>
+                      <Code size={0}>
+                        {`Articles list: ${apiUrl}/api/v1/articles\nSingle article: ${apiUrl}/api/v1/articles/:id`}
+                      </Code>
+                      <Text size={0} muted>
+                        Update <Code size={0}>src/integrations/pillarbaseMcp.ts</Code>{' '}
+                        → <Code size={0}>PILLARBASE_ENDPOINTS</Code> once confirmed.
+                      </Text>
+                    </Stack>
+                  </Card>
+                </Stack>
+              )}
+            </Stack>
+          </Card>
+
+          {/* Import options */}
+          <Card padding={4} radius={2} shadow={1}>
+            <Stack space={3}>
+              <Text weight="semibold">Import options</Text>
+              <Flex gap={4} wrap="wrap">
+                <Stack space={2}>
+                  <Text size={1}>After import</Text>
+                  <Select
+                    value={publishMode}
+                    onChange={e => setPublishMode((e.target as HTMLSelectElement).value as 'draft' | 'publish')}
+                    fontSize={1}
+                  >
+                    <option value="draft">Save as draft</option>
+                    <option value="publish">Publish immediately</option>
+                  </Select>
+                </Stack>
+
+                <Flex align="center" gap={2}>
+                  <Checkbox
+                    id="create-cats"
+                    checked={createCategories}
+                    onChange={e => setCreateCategories((e.target as HTMLInputElement).checked)}
+                  />
+                  <label htmlFor="create-cats">
+                    <Text size={1}>Create missing categories</Text>
+                  </label>
+                </Flex>
+              </Flex>
+            </Stack>
+          </Card>
 
           {/* Actions */}
-          <Flex gap={3} align="center" wrap="wrap">
+          <Flex gap={3} wrap="wrap" align="center">
             <Button
-              text={fetched ? 'Refresh posts' : 'Load posts from Pillarbase'}
+              text={loading ? 'Loading…' : fetched ? 'Refresh articles' : 'Load articles from Pillarbase'}
               tone="primary"
-              onClick={loadPosts}
-              disabled={loading || !isConfigured || importing}
+              onClick={loadArticles}
+              disabled={loading || isImporting || !apiToken.trim()}
               icon={loading ? Spinner : undefined}
             />
 
-            {posts.length > 0 && (
-              <>
-                <Flex align="center" gap={2}>
-                  <Checkbox
-                    id="publish-immediately"
-                    checked={publishImmediately}
-                    onChange={e => setPublishImmediately((e.target as HTMLInputElement).checked)}
-                  />
-                  <label htmlFor="publish-immediately">
-                    <Text size={1}>Publish immediately</Text>
-                  </label>
-                </Flex>
+            {rows.length > 0 && (
+              <Button
+                text={`Import selected (${selected.size})`}
+                tone="positive"
+                onClick={runImport}
+                disabled={selected.size === 0 || isImporting}
+              />
+            )}
 
-                <Button
-                  text={`Import selected (${selected.size})`}
-                  tone="positive"
-                  onClick={runImport}
-                  disabled={selected.size === 0 || importing}
-                />
-              </>
+            {isImporting && (
+              <Button
+                text="Cancel"
+                tone="critical"
+                mode="ghost"
+                onClick={() => abortRef.current?.abort()}
+              />
             )}
           </Flex>
 
-          {/* Post list */}
+          {/* Loading */}
           {loading && (
             <Flex justify="center" padding={6}>
               <Spinner muted />
             </Flex>
           )}
 
-          {fetched && !loading && posts.length === 0 && (
-            <Card padding={4} radius={2} tone="transparent">
-              <Text muted>No posts found in Pillarbase.</Text>
+          {/* Empty state */}
+          {fetched && !loading && rows.length === 0 && (
+            <Card padding={5} radius={2} tone="transparent">
+              <Stack space={2}>
+                <Text weight="semibold">No articles found</Text>
+                <Text muted size={1}>
+                  Either no articles exist in Pillarbase, or the API endpoint path needs
+                  to be updated in <Code size={1}>src/integrations/pillarbaseMcp.ts</Code>.
+                </Text>
+              </Stack>
             </Card>
           )}
 
-          {posts.length > 0 && (
+          {/* Article list */}
+          {rows.length > 0 && (
             <Card radius={2} shadow={1} overflow="hidden">
               {/* Select-all header */}
-              <Box padding={3} style={{borderBottom: '1px solid var(--card-border-color)'}}>
+              <Box
+                padding={3}
+                style={{borderBottom: '1px solid var(--card-border-color)'}}
+              >
                 <Flex align="center" gap={3}>
-                  <Checkbox
-                    id="select-all"
-                    checked={allSelected}
-                    onChange={toggleAll}
-                  />
+                  <Checkbox id="select-all" checked={allSelected} onChange={toggleAll} />
                   <label htmlFor="select-all">
                     <Text size={1} weight="semibold">
-                      {allSelected ? 'Deselect all' : 'Select all'} ({posts.length} posts)
+                      {allSelected ? 'Deselect all' : 'Select all'} ({rows.length})
                     </Text>
                   </label>
                 </Flex>
               </Box>
 
-              {/* Post rows */}
-              {posts.map((post, i) => {
-                const statusEntry = importStatuses.find(s => s.id === post.id)
+              {/* Rows */}
+              {rows.map((row, i) => {
+                const {article, status, error, sanityId, slug} = row
+                const isSelected = selected.has(article.id)
 
                 return (
                   <Box
-                    key={post.id}
+                    key={article.id}
                     padding={3}
                     style={{
-                      borderBottom: i < posts.length - 1 ? '1px solid var(--card-border-color)' : 'none',
-                      background: selected.has(post.id) ? 'var(--card-selected-bg, rgba(0,0,0,.04))' : 'transparent',
+                      borderBottom: i < rows.length - 1 ? '1px solid var(--card-border-color)' : 'none',
+                      background: isSelected ? 'rgba(0,0,0,.04)' : 'transparent',
                     }}
                   >
-                    <Flex align="center" gap={3}>
-                      <Checkbox
-                        id={`post-${post.id}`}
-                        checked={selected.has(post.id)}
-                        onChange={() => toggleSelect(post.id)}
-                        disabled={importing}
-                      />
+                    <Flex align="flex-start" gap={3}>
+                      <Box style={{paddingTop: 2}}>
+                        <Checkbox
+                          id={`row-${article.id}`}
+                          checked={isSelected}
+                          onChange={() => toggleRow(article.id)}
+                          disabled={isImporting}
+                        />
+                      </Box>
 
                       <Box flex={1}>
-                        <label htmlFor={`post-${post.id}`} style={{cursor: 'pointer'}}>
-                          <Text size={1} weight="semibold">{post.title || '(untitled)'}</Text>
+                        <label htmlFor={`row-${article.id}`} style={{cursor: 'pointer', display: 'block'}}>
+                          <Text size={1} weight="semibold">
+                            {article.title || '(untitled)'}
+                          </Text>
                           <Text size={0} muted>
-                            ID: {post.id}
-                            {post.published_at && ` · ${new Date(post.published_at).toLocaleDateString()}`}
+                            ID: {article.id}
+                            {article.target_keyword && ` · 🔑 ${article.target_keyword}`}
+                            {article.published_at && ` · ${new Date(article.published_at).toLocaleDateString()}`}
                           </Text>
                         </label>
                       </Box>
 
-                      <Flex gap={2} align="center">
-                        {post.status && (
+                      <Flex gap={2} align="center" style={{flexShrink: 0}}>
+                        {article.status && (
                           <Badge
-                            tone={post.status === 'published' ? 'positive' : 'caution'}
+                            tone={article.status === 'published' ? 'positive' : article.status === 'approved' ? 'primary' : 'caution'}
                             size={0}
                           >
-                            {post.status}
+                            {article.status}
                           </Badge>
                         )}
-
-                        {statusEntry && (
-                          <>
-                            {statusEntry.status === 'importing' && <Spinner muted />}
-                            {statusEntry.status === 'done' && (
-                              <Badge tone="positive" size={0}>✓ imported</Badge>
-                            )}
-                            {statusEntry.status === 'error' && (
-                              <Badge tone="critical" size={0} title={statusEntry.message}>✗ error</Badge>
-                            )}
-                          </>
-                        )}
+                        {status === 'importing' && <Spinner muted />}
+                        {status === 'done' && <Badge tone="positive" size={0}>✓ imported</Badge>}
+                        {status === 'error' && <Badge tone="critical" size={0}>✗ error</Badge>}
                       </Flex>
                     </Flex>
 
-                    {/* Error detail */}
-                    {statusEntry?.status === 'error' && statusEntry.message && (
-                      <Box marginTop={2}>
-                        <Text size={0} style={{color: 'var(--card-critical-fg-color)'}}>
-                          {statusEntry.message}
+                    {status === 'done' && slug && (
+                      <Box marginTop={1} marginLeft={6}>
+                        <Text size={0} muted>
+                          Slug: <Code size={0}>{slug}</Code>
+                          {' · '}
+                          <Code size={0}>{sanityId}</Code>
                         </Text>
                       </Box>
                     )}
-
-                    {/* Success detail */}
-                    {statusEntry?.status === 'done' && statusEntry.slug && (
-                      <Box marginTop={1}>
-                        <Text size={0} muted>
-                          Slug: <Code size={0}>{statusEntry.slug}</Code>
-                          {' · '}
-                          Sanity ID: <Code size={0}>{statusEntry.sanityId}</Code>
+                    {status === 'error' && error && (
+                      <Box marginTop={1} marginLeft={6}>
+                        <Text size={0} style={{color: 'var(--card-critical-fg-color)'}}>
+                          {error}
                         </Text>
                       </Box>
                     )}
