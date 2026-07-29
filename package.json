@@ -9,13 +9,19 @@
     "deploy": "sanity deploy",
     "deploy-graphql": "sanity graphql deploy",
     "dev": "sanity dev",
-    "start": "sanity start"
+    "start": "sanity start",
+    "import": "ts-node scripts/import-from-pillarbase.ts",
+    "import:list": "ts-node scripts/import-from-pillarbase.ts --list",
+    "import:all": "ts-node scripts/import-from-pillarbase.ts --all",
+    "import:all:publish": "ts-node scripts/import-from-pillarbase.ts --all --publish"
   },
   "keywords": [
     "sanity"
   ],
   "dependencies": {
     "@sanity/vision": "^6.6.0",
+    "dotenv": "^17.4.2",
+    "marked": "^18.0.7",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "sanity": "^6.6.0",
@@ -23,9 +29,11 @@
   },
   "devDependencies": {
     "@sanity/eslint-config-studio": "^6.0.0",
+    "@types/marked": "^5.0.2",
     "@types/react": "^19.2.14",
     "eslint": "^9.28",
     "prettier": "^3.5",
+    "ts-node": "^10.9.2",
     "typescript": "^5.8"
   },
   "prettier": {
