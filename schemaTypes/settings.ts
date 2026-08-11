@@ -520,7 +520,7 @@ export default defineType({
       group: 'contact',
     }),
 
-  ],
+  
 
     // ════════════════════════════════════════════════════════════════
     // EDTECH MARKETING AGENCY — new
@@ -563,7 +563,7 @@ export default defineType({
           description: 'e.g. "Let\'s partner to articulate and unpack meaningful results."'}),
       ],
     }),
-
+],
     preview: {
     select: {title: 'siteTitle'},
     prepare: ({title}) => ({title: title ?? 'Site Settings'}),
