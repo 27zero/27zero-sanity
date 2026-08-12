@@ -19,12 +19,12 @@
     "sanity"
   ],
   "dependencies": {
-    "@sanity/vision": "^6.9.1",
+    "@sanity/vision": "^6.9.2",
     "dotenv": "^17.4.2",
     "marked": "^18.0.7",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
-    "sanity": "^6.9.1",
+    "sanity": "^6.9.2",
     "styled-components": "^6.1.18"
   },
   "devDependencies": {
