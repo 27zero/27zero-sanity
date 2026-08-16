@@ -116,7 +116,7 @@ export default defineType({
       name: 'workProject',
       title: 'Related Work Project (optional)',
       type: 'reference',
-      to: [{type: 'workProject'}],
+      to: [{type: 'work'}],
       description: 'Link to the case study for this client. Enables future cross-referencing.',
       options: {disableNew: false},
     }),

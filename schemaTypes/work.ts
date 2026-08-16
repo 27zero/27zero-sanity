@@ -25,7 +25,7 @@ const SERVICE_CATEGORIES = [
 ]
 
 export default defineType({
-  name: 'workProject',
+  name: 'work',
   title: 'Work',
   type: 'document',
 

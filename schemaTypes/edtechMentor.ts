@@ -7,7 +7,7 @@ const SERIES_OPTIONS = [
 ]
 
 export default defineType({
-  name: 'interview',
+  name: 'edtechMentor',
   title: 'EdTech Mentor Interviews',
   type: 'document',
 
