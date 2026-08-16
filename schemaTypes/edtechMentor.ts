@@ -57,6 +57,31 @@ export default defineType({
       group: 'guest',
     }),
 
+    defineField({
+      name: 'guestPhoto',
+      title: 'Guest Photo',
+      type: 'image',
+      group: 'guest',
+      options: {hotspot: true},
+      fields: [
+        defineField({
+          name: 'alt',
+          title: 'Alt text',
+          type: 'string',
+          validation: (Rule) => Rule.required(),
+        }),
+      ],
+    }),
+
+    defineField({
+      name: 'interviewer',
+      title: 'Entrevistador',
+      type: 'reference',
+      group: 'guest',
+      to: [{type: 'author'}],
+      description: 'Quién condujo la entrevista.',
+    }),
+
     // ─────────────────────────────────────────────────────────────
     // CONTENT
     // ─────────────────────────────────────────────────────────────

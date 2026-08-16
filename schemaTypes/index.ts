@@ -4,13 +4,10 @@
  * Migration note
  * --------------
  * `resource` is retained for backwards compatibility.
- * Once documents are migrated to the unified `post` schema (discriminated
- * by `contentType`), remove that import and update the array.
  */
 
 import author       from './author'
 import category     from './category'
-import post         from './post'
 import resource     from './resource'      // retained for backwards compat
 import edtechMentor from './edtechMentor'
 import blockContent from './blockContent'
@@ -23,7 +20,6 @@ import teamMember   from './teamMember'
 
 export const schemaTypes = [
   // Content
-  post,
   resource,
   edtechMentor,
   work,
