@@ -243,7 +243,7 @@ export default defineType({
     }),
 
     defineField({
-      name: 'featured',
+      name: 'isFeatured',
       title: 'Featured',
       type: 'boolean',
       group: 'meta',
@@ -279,33 +279,11 @@ export default defineType({
     // ─────────────────────────────────────────────────────────────
 
     defineField({
-      name: 'seoTitle',
-      title: 'SEO Title',
-      type: 'string',
+      name: 'seo',
+      title: 'SEO',
+      type: 'seo',
       group: 'seo',
-      description: 'Overrides the page <title>. Leave blank to use the episode title.',
-      validation: (Rule) => Rule.max(70),
-    }),
-
-    defineField({
-      name: 'seoDescription',
-      title: 'SEO Description',
-      type: 'text',
-      group: 'seo',
-      rows: 2,
-      description: '120–160 characters recommended.',
-      validation: (Rule) => Rule.max(160),
-    }),
-
-    defineField({
-      name: 'ogImage',
-      title: 'Open Graph Image',
-      type: 'image',
-      group: 'seo',
-      options: {
-        hotspot: true,
-      },
-      description: '1200×630 px recommended. Falls back to guest photo if empty.',
+      description: 'Falls back to guest photo / episode title if empty.',
     }),
   ],
 
@@ -330,7 +308,7 @@ export default defineType({
       name: 'featuredFirst',
       by: [
         {
-          field: 'featured',
+          field: 'isFeatured',
           direction: 'desc',
         },
         {
@@ -350,15 +328,15 @@ export default defineType({
       title: 'guestName',
       subtitle: 'title',
       series: 'series',
-      featured: 'featured',
+      isFeatured: 'isFeatured',
       media: 'guestPhoto',
     },
 
-    prepare({title, subtitle, series, featured, media}) {
+    prepare({title, subtitle, series, isFeatured, media}) {
       const seriesLabel =
         SERIES_OPTIONS.find((item) => item.value === series)?.title ?? series ?? ''
 
-      const star = featured ? '⭐ ' : ''
+      const star = isFeatured ? '⭐ ' : ''
 
       return {
         title: `${star}${title ?? 'Unnamed guest'}`,

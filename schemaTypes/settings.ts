@@ -1,7 +1,11 @@
 /**
  * settings.ts — Global site settings singleton.
  *
- * One document of this type exists in the dataset.
+ * Singleton via __experimental_actions: create/delete are blocked so the
+ * Studio's default document actions can't spawn duplicates or remove the
+ * one settings document. No document of this type exists in the dataset
+ * yet — create the first one before `create` is needed again.
+ *
  * Organised by editorial sections so content editors find their
  * destination immediately without navigating a flat field list.
  *
@@ -10,11 +14,13 @@
  *   Navbar · Footer
  *   Home · About · Work · Mentor · Resources · Contact
  *
+ * SEO uses the shared `seo` object (see seo.ts) as the site-wide fallback,
+ * replacing the previous loose defaultSeoTitle/defaultSeoDescription/defaultOgImage fields.
+ *
  * Backwards compatibility
  * -----------------------
  * Fields that existed in the previous schema are preserved exactly:
  *   siteTitle, siteDescription, siteUrl, logo (Identity)
- *   defaultSeoTitle, defaultSeoDescription, defaultOgImage (SEO)
  *   gaId, hubspotId (Analytics)
  *   linkedinUrl, twitterUrl (Social)
  *   contactEmail, officeUS, officeCO (Contact — kept as text fields)
@@ -30,6 +36,12 @@ export default defineType({
   name: 'settings',
   title: 'Site Settings',
   type: 'document',
+
+  // Singleton: blocks create/delete from the Studio's default document
+  // actions so editors can only update the one settings document.
+  // Valid Sanity Studio API, not present in this version's type defs.
+  // @ts-expect-error — __experimental_actions is untyped but functional
+  __experimental_actions: ['update', 'publish'],
 
   groups: [
     // ── Technical / global ──────────────────────────────────────────
@@ -89,26 +101,11 @@ export default defineType({
     // ════════════════════════════════════════════════════════════════
 
     defineField({
-      name: 'defaultSeoTitle',
-      title: 'Default SEO Title',
-      type: 'string',
+      name: 'seo',
+      title: 'Default SEO',
+      type: 'seo',
       group: 'seo',
-      validation: Rule => Rule.max(70),
-    }),
-    defineField({
-      name: 'defaultSeoDescription',
-      title: 'Default SEO Description',
-      type: 'text',
-      rows: 2,
-      group: 'seo',
-      validation: Rule => Rule.max(160),
-    }),
-    defineField({
-      name: 'defaultOgImage',
-      title: 'Default OG Image',
-      type: 'image',
-      group: 'seo',
-      options: {hotspot: true},
+      description: 'Site-wide fallback used when a page/document has no seo fields of its own set.',
     }),
 
     // ════════════════════════════════════════════════════════════════

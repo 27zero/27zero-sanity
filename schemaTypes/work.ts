@@ -128,7 +128,7 @@ export default defineType({
     }),
 
     defineField({
-      name: 'featured',
+      name: 'isFeatured',
       title: 'Featured',
       type: 'boolean',
       group: 'meta',
@@ -345,30 +345,11 @@ export default defineType({
       description: 'Flexible content sections (sections 5–8 of the CMS detail page).',
     }),
 
-        defineField({
-      name: 'seoTitle',
-      title: 'SEO Title',
-      type: 'string',
-      group: 'seo',
-      validation: Rule => Rule.max(70),
-    }),
-
     defineField({
-      name: 'seoDescription',
-      title: 'SEO Description',
-      type: 'text',
+      name: 'seo',
+      title: 'SEO',
+      type: 'seo',
       group: 'seo',
-      rows: 2,
-      validation: Rule => Rule.max(160),
-    }),
-
-    defineField({
-      name: 'ogImage',
-      title: 'Open Graph Image',
-      type: 'image',
-      group: 'seo',
-      options: {hotspot: true},
-      description: '1200×630 px recommended.',
     }),
   ],
 
@@ -377,9 +358,9 @@ export default defineType({
       title: 'Featured first, then by order',
       name: 'featuredOrder',
       by: [
-        {field: 'featured', direction: 'desc'},
-        {field: 'order',    direction: 'asc'},
-        {field: 'title',    direction: 'asc'},
+        {field: 'isFeatured', direction: 'desc'},
+        {field: 'order',      direction: 'asc'},
+        {field: 'title',      direction: 'asc'},
       ],
     },
     {
@@ -396,15 +377,15 @@ export default defineType({
 
   preview: {
     select: {
-      title:    'title',
-      client:   'client',
-      category: 'category',
-      featured: 'featured',
-      media:    'thumbnail',
+      title:      'title',
+      client:     'client',
+      category:   'category',
+      isFeatured: 'isFeatured',
+      media:      'thumbnail',
     },
-    prepare({title, client, category, featured, media}) {
+    prepare({title, client, category, isFeatured, media}) {
       const label = SERVICE_CATEGORIES.find(c => c.value === category)?.title ?? category ?? ''
-      const star  = featured ? '⭐ ' : ''
+      const star  = isFeatured ? '⭐ ' : ''
       return {
         title:    `${star}${title ?? 'Untitled'}`,
         subtitle: [client, label].filter(Boolean).join(' · '),

@@ -22,8 +22,8 @@
  *
  * Display controls
  * ----------------
- *   featured  — appears in the home logo strip
- *   logoOrder — position in the home strip (lower = first)
+ *   isFeatured — appears in the home logo strip
+ *   logoOrder  — position in the home strip (lower = first)
  */
 
 import {defineType, defineField} from 'sanity'
@@ -73,7 +73,7 @@ export default defineType({
     // ── Home logo strip controls ────────────────────────────────────────
 
     defineField({
-      name: 'featured',
+      name: 'isFeatured',
       title: 'Show in Home Logo Strip',
       type: 'boolean',
       initialValue: false,
@@ -124,14 +124,14 @@ export default defineType({
 
   preview: {
     select: {
-      title:    'name',
-      subtitle: 'url',
-      media:    'logo',
-      featured: 'featured',
+      title:      'name',
+      subtitle:   'url',
+      media:      'logo',
+      isFeatured: 'isFeatured',
     },
-    prepare({title, subtitle, media, featured}) {
+    prepare({title, subtitle, media, isFeatured}) {
       return {
-        title:    (featured ? '⭐ ' : '') + (title ?? 'Unnamed client'),
+        title:    (isFeatured ? '⭐ ' : '') + (title ?? 'Unnamed client'),
         subtitle: subtitle ?? '',
         media,
       }

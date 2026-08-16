@@ -6,17 +6,19 @@
  * `resource` is retained for backwards compatibility.
  */
 
-import author       from './author'
-import category     from './category'
-import resource     from './resource'      // retained for backwards compat
-import edtechMentor from './edtechMentor'
-import blockContent from './blockContent'
-import settings     from './settings'
-import work         from './work'
-import testimonial  from './testimonial'
-import client       from './client'
-import practice     from './practice'
-import teamMember   from './teamMember'
+import author                 from './author'
+import category               from './category'
+import resource               from './resource'      // retained for backwards compat
+import edtechMentor           from './edtechMentor'
+import edtechMarketingService from './edtechMarketingService'
+import blockContent           from './blockContent'
+import seo                    from './seo'
+import settings               from './settings'
+import work                   from './work'
+import testimonial            from './testimonial'
+import client                 from './client'
+import practice               from './practice'
+import teamMember             from './teamMember'
 
 export const schemaTypes = [
   // Content
@@ -28,12 +30,14 @@ export const schemaTypes = [
   testimonial,
   client,
   practice,
+  edtechMarketingService,
   teamMember,
 
   // Supporting
   author,
   category,
   blockContent,
+  seo,
 
   // Global
   settings,

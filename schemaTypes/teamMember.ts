@@ -49,7 +49,7 @@ export default defineType({
     }),
 
     defineField({
-      name: 'active',
+      name: 'isActive',
       title: 'Active',
       type: 'boolean',
       initialValue: true,
@@ -81,14 +81,14 @@ export default defineType({
 
   preview: {
     select: {
-      title:    'name',
-      subtitle: 'role',
-      media:    'photo',
-      active:   'active',
+      title:     'name',
+      subtitle:  'role',
+      media:     'photo',
+      isActive:  'isActive',
     },
-    prepare({title, subtitle, media, active}) {
+    prepare({title, subtitle, media, isActive}) {
       return {
-        title:    (active === false ? '○ ' : '') + (title ?? 'Unnamed'),
+        title:    (isActive === false ? '○ ' : '') + (title ?? 'Unnamed'),
         subtitle: subtitle ?? '',
         media,
       }

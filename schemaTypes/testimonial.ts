@@ -85,7 +85,7 @@ export default defineType({
     // ── Display controls ───────────────────────────────────────────────
 
     defineField({
-      name: 'featured',
+      name: 'isFeatured',
       title: 'Show on Home',
       type: 'boolean',
       initialValue: true,
@@ -137,11 +137,11 @@ export default defineType({
       authorName:  'authorName',
       clientName:  'client.name',
       media:       'avatarPhoto',
-      featured:    'featured',
+      isFeatured:  'isFeatured',
     },
-    prepare({quote, authorName, clientName, media, featured}) {
+    prepare({quote, authorName, clientName, media, isFeatured}) {
       const name  = clientName || authorName || 'Unnamed'
-      const star  = featured ? '⭐ ' : '○ '
+      const star  = isFeatured ? '⭐ ' : '○ '
       const blurb = quote ? quote.slice(0, 60) + (quote.length > 60 ? '…' : '') : 'No quote'
       return {
         title:    `${star}${name}`,
