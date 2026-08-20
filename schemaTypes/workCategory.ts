@@ -38,6 +38,14 @@ export default defineType({
       type: 'string',
       description: 'Color hexadecimal usado para el pill de categoría en la UI, ej. #4b3df2',
     }),
+
+    defineField({
+      name: 'order',
+      title: 'Order',
+      type: 'number',
+      description: 'Orden de aparición en los pills de Work (menor = primero)',
+      validation: (Rule) => Rule.required().integer().min(0),
+    }),
   ],
 
   preview: {
