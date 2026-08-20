@@ -1,24 +1,20 @@
 /**
  * schemaTypes/index.ts — All document types registered with Sanity Studio.
- *
- * Migration note
- * --------------
- * `resource` is retained for backwards compatibility.
  */
 
-import author                 from './author'
-import category               from './category'
-import resource               from './resource'      // retained for backwards compat
-import edtechMentor           from './edtechMentor'
-import edtechMarketingService from './edtechMarketingService'
-import blockContent           from './blockContent'
-import seo                    from './seo'
-import settings               from './settings'
-import work                   from './work'
-import testimonial            from './testimonial'
-import client                 from './client'
-import practice               from './practice'
-import teamMember             from './teamMember'
+import author                  from './author'
+import workCategory            from './workCategory'
+import resource                from './resource'
+import edtechMentor            from './edtechMentor'
+import edtechMarketingService  from './edtechMarketingService'
+import blockContent            from './blockContent'
+import seo                     from './seo'
+import settings                from './settings'
+import work                    from './work'
+import testimonial             from './testimonial'
+import client                  from './client'
+import edtechMarketingPractice from './edtechMarketingPractice'
+import team                    from './team'
 
 export const schemaTypes = [
   // Content
@@ -29,13 +25,13 @@ export const schemaTypes = [
   // Editorial
   testimonial,
   client,
-  practice,
+  edtechMarketingPractice,
   edtechMarketingService,
-  teamMember,
+  team,
 
   // Supporting
   author,
-  category,
+  workCategory,
   blockContent,
   seo,
 

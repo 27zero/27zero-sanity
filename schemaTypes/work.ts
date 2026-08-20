@@ -14,16 +14,6 @@
 
 import {defineField, defineType} from 'sanity'
 
-// ── Service categories — mirrors the existing static site structure ──────
-const SERVICE_CATEGORIES = [
-  {title: 'Brand Essentials',      value: 'brand-essentials'},
-  {title: 'Marketing Programs',    value: 'marketing-programs'},
-  {title: 'Customer Spotlights',   value: 'customer-spotlights'},
-  {title: 'Events & Experiences',  value: 'events-experiences'},
-  {title: 'Video & Motion',        value: 'video-motion'},
-  {title: 'GTM & Launch',          value: 'gtm-launch'},
-]
-
 export default defineType({
   name: 'work',
   title: 'Work',
@@ -61,10 +51,11 @@ export default defineType({
 
     defineField({
       name: 'client',
-      title: 'Client Name',
-      type: 'string',
+      title: 'Client',
+      type: 'reference',
       group: 'overview',
-      description: 'e.g. "Anthology"',
+      to: [{type: 'client'}],
+      description: 'The client this case study belongs to.',
       validation: Rule => Rule.required(),
     }),
 
@@ -83,11 +74,11 @@ export default defineType({
 
     defineField({
       name: 'category',
-      title: 'Service Category',
-      type: 'string',
+      title: 'Category',
+      type: 'reference',
       group: 'overview',
-      options: {list: SERVICE_CATEGORIES, layout: 'dropdown'},
-      description: 'Primary category for filtering on the Work index.',
+      to: [{type: 'workCategory'}],
+      description: 'Primary category for filtering/grouping on the Work index.',
       validation: Rule => Rule.required(),
     }),
 
@@ -305,23 +296,6 @@ export default defineType({
     }),
 
     defineField({
-      name: 'testimonial',
-      title: 'Testimonial',
-      type: 'object',
-      group: 'case',
-      fields: [
-        defineField({name: 'quote',       title: 'Quote',              type: 'text', rows: 3}),
-        defineField({name: 'authorName',  title: 'Author Name',        type: 'string'}),
-        defineField({name: 'authorRole',  title: 'Author Role & Company', type: 'string'}),
-        defineField({
-          name: 'authorPhoto', title: 'Author Photo', type: 'image',
-          options: {hotspot: true},
-          fields: [defineField({name: 'alt', title: 'Alt text', type: 'string'})],
-        }),
-      ],
-    }),
-
-    defineField({
       name: 'contentSections',
       title: 'Content Sections',
       type: 'array',
@@ -371,24 +345,23 @@ export default defineType({
     {
       title: 'Client A–Z',
       name: 'clientAsc',
-      by: [{field: 'client', direction: 'asc'}],
+      by: [{field: 'client.name', direction: 'asc'}],
     },
   ],
 
   preview: {
     select: {
       title:      'title',
-      client:     'client',
-      category:   'category',
+      client:     'client.name',
+      category:   'category.title',
       isFeatured: 'isFeatured',
       media:      'thumbnail',
     },
     prepare({title, client, category, isFeatured, media}) {
-      const label = SERVICE_CATEGORIES.find(c => c.value === category)?.title ?? category ?? ''
       const star  = isFeatured ? '⭐ ' : ''
       return {
         title:    `${star}${title ?? 'Untitled'}`,
-        subtitle: [client, label].filter(Boolean).join(' · '),
+        subtitle: [client, category].filter(Boolean).join(' · '),
         media,
       }
     },

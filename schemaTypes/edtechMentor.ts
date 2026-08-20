@@ -1,7 +1,7 @@
 import {defineType, defineField, defineArrayMember} from 'sanity'
 
-const SERIES_OPTIONS = [
-  {title: 'Essential Series', value: 'essencial'},
+const INTERVIEW_CATEGORY_OPTIONS = [
+  {title: 'Essential Series', value: 'essential'},
   {title: 'Investor Series', value: 'investor'},
   {title: 'Founders Series', value: 'founders'},
 ]
@@ -231,12 +231,12 @@ export default defineType({
     // ─────────────────────────────────────────────────────────────
 
     defineField({
-      name: 'series',
-      title: 'Series',
+      name: 'interviewCategory',
+      title: 'Interview Category',
       type: 'string',
       group: 'meta',
       options: {
-        list: SERIES_OPTIONS,
+        list: INTERVIEW_CATEGORY_OPTIONS,
         layout: 'radio',
       },
       description: 'Determines which slider this interview appears in on the index page.',
@@ -327,20 +327,22 @@ export default defineType({
     select: {
       title: 'guestName',
       subtitle: 'title',
-      series: 'series',
+      interviewCategory: 'interviewCategory',
       isFeatured: 'isFeatured',
       media: 'guestPhoto',
     },
 
-    prepare({title, subtitle, series, isFeatured, media}) {
-      const seriesLabel =
-        SERIES_OPTIONS.find((item) => item.value === series)?.title ?? series ?? ''
+    prepare({title, subtitle, interviewCategory, isFeatured, media}) {
+      const interviewCategoryLabel =
+        INTERVIEW_CATEGORY_OPTIONS.find((item) => item.value === interviewCategory)?.title ??
+        interviewCategory ??
+        ''
 
       const star = isFeatured ? '⭐ ' : ''
 
       return {
         title: `${star}${title ?? 'Unnamed guest'}`,
-        subtitle: [subtitle, seriesLabel].filter(Boolean).join(' · '),
+        subtitle: [subtitle, interviewCategoryLabel].filter(Boolean).join(' · '),
         media,
       }
     },

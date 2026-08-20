@@ -1,12 +1,12 @@
 /**
- * category.ts — Content category.
+ * workCategory.ts — Work / Case Study category (taxonomy for `work.category`).
  */
 
 import {defineType, defineField} from 'sanity'
 
 export default defineType({
-  name: 'category',
-  title: 'Categories',
+  name: 'workCategory',
+  title: 'Work Categories',
   type: 'document',
 
   fields: [

@@ -1,5 +1,5 @@
 /**
- * teamMember.ts — 27zero team member document.
+ * team.ts — 27zero team member document.
  *
  * Used on the About page team grid.
  * Each document is one person on the team.
@@ -19,7 +19,7 @@
 import {defineType, defineField} from 'sanity'
 
 export default defineType({
-  name: 'teamMember',
+  name: 'team',
   title: 'Team',
   type: 'document',
 

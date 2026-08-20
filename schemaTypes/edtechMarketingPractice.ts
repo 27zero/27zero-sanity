@@ -1,5 +1,5 @@
 /**
- * practice.ts — EdTech Marketing Practice document.
+ * edtechMarketingPractice.ts — EdTech Marketing Practice document.
  *
  * 27zero has exactly three practices:
  *   Customer Marketing       /edtech-marketing-agency/customer-marketing
@@ -19,9 +19,15 @@
 
 import {defineType, defineField, defineArrayMember} from 'sanity'
 
+const ICON_OPTIONS = [
+  {title: 'Waves',         value: 'waves'},
+  {title: 'Spiral',        value: 'spiral'},
+  {title: 'Square Circle', value: 'square-circle'},
+]
+
 export default defineType({
-  name: 'practice',
-  title: 'Practices',
+  name: 'edtechMarketingPractice',
+  title: 'EdTech Marketing Practices',
   type: 'document',
 
   groups: [
@@ -72,6 +78,15 @@ export default defineType({
       group: 'card',
       of: [defineArrayMember({type: 'string'})],
       description: 'Client names shown on the home pcard. e.g. ["Busuu", "D2L", "Anthology", "Instructure"]',
+    }),
+
+    defineField({
+      name: 'iconId',
+      title: 'Icon',
+      type: 'string',
+      group: 'card',
+      options: {list: ICON_OPTIONS, layout: 'dropdown'},
+      description: 'Icon shown on the agency practices-card. Maps to PracticeIcon.astro in the sitio repo.',
     }),
 
     defineField({

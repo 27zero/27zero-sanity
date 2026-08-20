@@ -21,8 +21,8 @@ export default defineType({
     }),
 
     defineField({
-      name: 'heroDescription',
-      title: 'Hero Description',
+      name: 'description',
+      title: 'Description',
       type: 'text',
     }),
 
