@@ -25,92 +25,151 @@ const ICON_OPTIONS = [
   {title: 'Square Circle', value: 'square-circle'},
 ]
 
+// ── Misma taxonomía que edtechMarketingService.category — string + list,
+//    no reference (category en edtechMarketingService tampoco es un documento).
+const RELATED_SERVICE_CATEGORIES = [
+  {title: 'UX/UI & Web Design',            value: 'ux-ui-web-design'},
+  {title: 'Brand & Messaging Strategy',    value: 'brand-messaging-strategy'},
+  {title: 'Project Management',            value: 'project-management'},
+  {title: 'Events',                        value: 'events'},
+  {title: 'Content Development',           value: 'content-development'},
+  {title: 'Marketing Programs',            value: 'marketing-programs'},
+  {title: 'Strategic Services',            value: 'strategic-services'},
+  {title: 'Others',                        value: 'others'},
+]
+
 export default defineType({
   name: 'edtechMarketingPractice',
   title: 'EdTech Marketing Practices',
   type: 'document',
 
   groups: [
-    {name: 'card',         title: 'Card (Home & Agency)',  default: true},
+    {name: 'card',         title: 'Card (Home y Agency)',  default: true},
     {name: 'hero',         title: 'Hero'},
-    {name: 'credibility',  title: 'Credibility'},
-    {name: 'conversation', title: 'Conversation Engine'},
-    {name: 'meta',         title: 'Metadata'},
+    {name: 'credibility',  title: 'Credibilidad'},
+    {name: 'conversation', title: 'Motor de conversación'},
+    {name: 'meta',         title: 'Metadatos'},
+  ],
+
+  fieldsets: [
+    {name: 'intro',           title: 'Intro'},
+    {name: 'clients',         title: 'Clientes'},
+    {name: 'practiceScopes',  title: 'Alcances de la práctica'},
+    {name: 'pageCta',         title: 'CTA de página'},
   ],
 
   fields: [
 
-    // ── Card fields (home pcard + agency practices-card) ───────────────
+    // ── Card (home pcard + agency practices-card) ──────────────────────
 
     defineField({
       name: 'title',
-      title: 'Title',
+      title: 'Título',
       type: 'string',
       group: 'card',
       validation: Rule => Rule.required(),
-      description: 'e.g. "Customer Marketing"',
+      description: 'ej. "Customer Marketing"',
     }),
 
     defineField({
       name: 'slug',
-      title: 'URL Slug',
+      title: 'Slug de URL',
       type: 'slug',
       group: 'meta',
       options: {source: 'title', maxLength: 96},
       validation: Rule => Rule.required(),
-      description: 'e.g. "customer-marketing" → /edtech-marketing-agency/customer-marketing',
+      description: 'ej. "customer-marketing" → /edtech-marketing-agency/customer-marketing',
     }),
 
     defineField({
-      name: 'description',
-      title: 'Description',
+      name: 'shortDescription',
+      title: 'Descripción corta',
       type: 'text',
       rows: 3,
       group: 'card',
       validation: Rule => Rule.required(),
-      description: 'Short description shown on home pcard and agency practices-card.',
+      description: 'Descripción corta mostrada en el pcard de Home y en el practices-card de Agency.',
     }),
 
     defineField({
-      name: 'clientNames',
-      title: 'Featured Clients',
-      type: 'array',
+      name: 'description',
+      title: 'Descripción',
+      type: 'string',
       group: 'card',
-      of: [defineArrayMember({type: 'string'})],
-      description: 'Client names shown on the home pcard. e.g. ["Busuu", "D2L", "Anthology", "Instructure"]',
+      description: 'Descripción general de la práctica',
     }),
 
     defineField({
       name: 'iconId',
-      title: 'Icon',
+      title: 'Ícono',
       type: 'string',
       group: 'card',
       options: {list: ICON_OPTIONS, layout: 'dropdown'},
-      description: 'Icon shown on the agency practices-card. Maps to PracticeIcon.astro in the sitio repo.',
+      description: 'Ícono mostrado en el practices-card de Agency. Mapea a PracticeIcon.astro en el repo sitio.',
     }),
 
     defineField({
       name: 'order',
-      title: 'Display Order',
+      title: 'Orden de visualización',
       type: 'number',
       group: 'meta',
       initialValue: 10,
-      description: 'Position in the practices grid (lower = first).',
+      description: 'Posición en la grilla de prácticas (menor = primero).',
     }),
 
-    // ── Hero (detail page) ─────────────────────────────────────────────
+    defineField({
+      name: 'relatedServiceCategory',
+      title: 'Categoría de servicios relacionados',
+      type: 'string',
+      group: 'meta',
+      options: {list: RELATED_SERVICE_CATEGORIES, layout: 'dropdown'},
+      description: 'Categoría de EdTech Marketing Service a mostrar en esta página.',
+    }),
+
+    // ── Intro ────────────────────────────────────────────────────────
+
+    defineField({
+      name: 'introTitle',
+      title: 'Título de intro',
+      type: 'string',
+      group: 'hero',
+      fieldset: 'intro',
+      description: 'Título de la sección introductoria',
+    }),
+
+    defineField({
+      name: 'introDescription',
+      title: 'Descripción de intro',
+      type: 'text',
+      group: 'hero',
+      fieldset: 'intro',
+      description: 'Texto introductorio de la práctica',
+    }),
+
+    defineField({
+      name: 'capabilities',
+      title: 'Capacidades',
+      type: 'array',
+      group: 'hero',
+      fieldset: 'intro',
+      of: [defineArrayMember({type: 'string'})],
+      options: {layout: 'tags'},
+      description: 'Listado de capacidades, una por línea.',
+    }),
+
+    // ── Hero (página de detalle) ───────────────────────────────────────
 
     defineField({
       name: 'heroHeadline',
-      title: 'Hero Headline',
+      title: 'Título del hero',
       type: 'string',
       group: 'hero',
-      description: 'e.g. "Turning communities into growth engines."',
+      description: 'ej. "Turning communities into growth engines."',
     }),
 
     defineField({
       name: 'heroText',
-      title: 'Hero Text',
+      title: 'Texto del hero',
       type: 'text',
       rows: 3,
       group: 'hero',
@@ -118,25 +177,46 @@ export default defineType({
 
     defineField({
       name: 'heroImage',
-      title: 'Hero Background Image',
+      title: 'Imagen de fondo del hero',
       type: 'image',
       group: 'hero',
       options: {hotspot: true},
     }),
 
-    // ── Credibility section ────────────────────────────────────────────
+    // ── Clientes ────────────────────────────────────────────────────────
+
+    defineField({
+      name: 'clientSectionTitle',
+      title: 'Título de sección',
+      type: 'string',
+      group: 'card',
+      fieldset: 'clients',
+      description: 'Título mostrado sobre el listado de clientes',
+    }),
+
+    defineField({
+      name: 'clientNames',
+      title: 'Clientes destacados',
+      type: 'array',
+      group: 'card',
+      fieldset: 'clients',
+      of: [defineArrayMember({type: 'string'})],
+      description: 'Nombres de clientes mostrados en el pcard de Home. ej. ["Busuu", "D2L", "Anthology", "Instructure"]',
+    }),
+
+    // ── Sección de credibilidad ────────────────────────────────────────
 
     defineField({
       name: 'credibilityHeadline',
-      title: 'Credibility Headline',
+      title: 'Título de credibilidad',
       type: 'string',
       group: 'credibility',
-      description: 'e.g. "We do not just observe the EdTech market, we help shape it."',
+      description: 'ej. "We do not just observe the EdTech market, we help shape it."',
     }),
 
     defineField({
       name: 'credibilityText',
-      title: 'Credibility Text',
+      title: 'Texto de credibilidad',
       type: 'text',
       rows: 4,
       group: 'credibility',
@@ -144,52 +224,111 @@ export default defineType({
 
     defineField({
       name: 'credibilityItems',
-      title: 'Credibility Items',
+      title: 'Ítems de credibilidad',
       type: 'array',
       group: 'credibility',
       of: [defineArrayMember({type: 'string'})],
-      description: 'Dot-separated list items. e.g. ["Case study production", "Customer Spotlights video series"]',
+      description: 'Lista de ítems separados por punto. ej. ["Case study production", "Customer Spotlights video series"]',
     }),
 
-    // ── Conversation engine (accordion dropdowns) ──────────────────────
+    // ── Motor de conversación (acordeón) ────────────────────────────────
 
     defineField({
       name: 'conversationItems',
-      title: 'Conversation Engine Items',
+      title: 'Ítems del motor de conversación',
       type: 'array',
       group: 'conversation',
-      description: 'Accordion items in the "From a single conversation to a content engine" section.',
+      description: 'Ítems del acordeón en la sección "From a single conversation to a content engine".',
       of: [
         defineArrayMember({
           type: 'object',
           name: 'conversationItem',
           fields: [
-            defineField({name: 'title',      title: 'Title',      type: 'string'}),
-            defineField({name: 'body',       title: 'Body',       type: 'text', rows: 3}),
-            defineField({name: 'ctaLabel',   title: 'CTA Label',  type: 'string',
-              description: 'Button label. Leave empty for no button.'}),
-            defineField({name: 'ctaHref',    title: 'CTA URL',    type: 'string'}),
+            defineField({name: 'title',      title: 'Título',      type: 'string'}),
+            defineField({name: 'body',       title: 'Cuerpo',      type: 'text', rows: 3}),
+            defineField({name: 'ctaLabel',   title: 'Texto del CTA',  type: 'string',
+              description: 'Texto del botón. Dejar vacío para no mostrar botón.'}),
+            defineField({name: 'ctaHref',    title: 'URL del CTA',    type: 'string'}),
           ],
           preview: {select: {title: 'title', subtitle: 'body'}},
         }),
       ],
     }),
 
-    // ── Closing CTA ────────────────────────────────────────────────────
+    // ── Alcances de la práctica ──────────────────────────────────────────
+
+    defineField({
+      name: 'practiceScopesTitle',
+      title: 'Título de sección',
+      type: 'string',
+      group: 'conversation',
+      fieldset: 'practiceScopes',
+      description: 'Título mostrado sobre los alcances de la práctica',
+    }),
+
+    defineField({
+      name: 'practiceScopes',
+      title: 'Alcances',
+      type: 'array',
+      group: 'conversation',
+      fieldset: 'practiceScopes',
+      description: 'Listado de alcances de la práctica, cada uno con su propio CTA.',
+      of: [
+        defineArrayMember({
+          type: 'object',
+          name: 'practiceScope',
+          fields: [
+            defineField({name: 'title',      title: 'Título',        type: 'string'}),
+            defineField({name: 'description', title: 'Descripción',  type: 'text', rows: 3}),
+            defineField({name: 'ctaLabel',   title: 'Texto del CTA', type: 'string'}),
+            defineField({name: 'ctaHref',    title: 'URL del CTA',   type: 'string'}),
+          ],
+          preview: {select: {title: 'title', subtitle: 'description'}},
+        }),
+      ],
+    }),
+
+    // ── CTA de cierre ────────────────────────────────────────────────────
 
     defineField({
       name: 'closingCtaHeadline',
-      title: 'Closing CTA Headline',
+      title: 'Título del CTA de cierre',
       type: 'string',
       group: 'hero',
-      description: 'e.g. "Turn your customers into your growth engine."',
+      description: 'ej. "Turn your customers into your growth engine."',
+    }),
+
+    // ── CTA de página ──────────────────────────────────────────────────
+
+    defineField({
+      name: 'ctaTitle',
+      title: 'Título del CTA',
+      type: 'string',
+      group: 'hero',
+      fieldset: 'pageCta',
+    }),
+
+    defineField({
+      name: 'ctaLabel',
+      title: 'Texto del botón',
+      type: 'string',
+      group: 'hero',
+      fieldset: 'pageCta',
+    }),
+
+    defineField({
+      name: 'ctaHref',
+      title: 'Link del CTA',
+      type: 'url',
+      group: 'hero',
+      fieldset: 'pageCta',
     }),
 
   ],
 
   orderings: [
     {
-      title: 'Display order',
+      title: 'Orden de visualización',
       name: 'orderAsc',
       by: [{field: 'order', direction: 'asc'}],
     },
@@ -198,7 +337,7 @@ export default defineType({
   preview: {
     select: {
       title:    'title',
-      subtitle: 'description',
+      subtitle: 'shortDescription',
       media:    'heroImage',
     },
     prepare({title, subtitle, media}) {

@@ -13,11 +13,11 @@ export default defineType({
   name: 'author',
   title: 'Authors',
   type: 'document',
-  
+
   fields: [
     defineField({
       name: 'name',
-      title: 'Full Name',
+      title: 'Nombre completo',
       type: 'string',
       validation: Rule => Rule.required(),
     }),
@@ -32,20 +32,20 @@ export default defineType({
 
     defineField({
       name: 'role',
-      title: 'Role / Title',
+      title: 'Rol / Cargo',
       type: 'string',
-      description: 'e.g. "Chief Strategy Officer"',
+      description: 'ej. "Chief Strategy Officer"',
     }),
 
     defineField({
       name: 'company',
-      title: 'Company',
+      title: 'Empresa',
       type: 'string',
     }),
 
     defineField({
       name: 'photo',
-      title: 'Photo',
+      title: 'Foto',
       type: 'image',
       options: {hotspot: true},
     }),
@@ -59,15 +59,15 @@ export default defineType({
 
     defineField({
       name: 'linkedin',
-      title: 'LinkedIn URL',
+      title: 'URL de LinkedIn',
       type: 'url',
     }),
 
     defineField({
       name: 'email',
-      title: 'Email (optional)',
+      title: 'Email (opcional)',
       type: 'string',
-      description: 'Not displayed publicly — used for internal contact only.',
+      description: 'No se muestra públicamente — solo para contacto interno.',
     }),
   ],
 

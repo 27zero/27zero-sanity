@@ -27,53 +27,53 @@ export default defineType({
 
     defineField({
       name: 'name',
-      title: 'Full Name',
+      title: 'Nombre completo',
       type: 'string',
       validation: Rule => Rule.required(),
     }),
 
     defineField({
       name: 'role',
-      title: 'Role / Title',
+      title: 'Rol / Cargo',
       type: 'string',
       validation: Rule => Rule.required(),
-      description: 'e.g. "Chief Strategy Officer — Industry & Growth"',
+      description: 'ej. "Chief Strategy Officer — Industry & Growth"',
     }),
 
     defineField({
       name: 'photo',
-      title: 'Photo',
+      title: 'Foto',
       type: 'image',
       options: {hotspot: true},
-      description: 'Professional headshot. Shown in the About page team grid.',
+      description: 'Foto profesional. Se muestra en la grilla de team de la página About.',
     }),
 
     defineField({
       name: 'isActive',
-      title: 'Active',
+      title: 'Activo',
       type: 'boolean',
       initialValue: true,
-      description: 'Uncheck to hide from the About page without deleting the record.',
+      description: 'Desmarcar para ocultar de la página About sin eliminar el registro.',
     }),
 
     defineField({
       name: 'order',
-      title: 'Display Order',
+      title: 'Orden de visualización',
       type: 'number',
       initialValue: 10,
-      description: 'Lower numbers appear first in the grid.',
+      description: 'Los números más bajos aparecen primero en la grilla.',
     }),
 
   ],
 
   orderings: [
     {
-      title: 'Display order',
+      title: 'Orden de visualización',
       name: 'orderAsc',
       by: [{field: 'order', direction: 'asc'}],
     },
     {
-      title: 'Name A–Z',
+      title: 'Nombre A–Z',
       name: 'nameAsc',
       by: [{field: 'name', direction: 'asc'}],
     },

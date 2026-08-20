@@ -14,16 +14,16 @@ export default defineType({
   groups: [
     {
       name: 'guest',
-      title: 'Guest',
+      title: 'Invitado',
       default: true,
     },
     {
       name: 'content',
-      title: 'Content',
+      title: 'Contenido',
     },
     {
       name: 'meta',
-      title: 'Metadata',
+      title: 'Metadatos',
     },
     {
       name: 'seo',
@@ -31,59 +31,57 @@ export default defineType({
     },
   ],
 
+  fieldsets: [
+    {
+      name: 'interviewIntro',
+      title: 'Intro de la entrevista',
+    },
+  ],
+
   fields: [
     // ─────────────────────────────────────────────────────────────
-    // GUEST
+    // INVITADO
     // ─────────────────────────────────────────────────────────────
 
     defineField({
       name: 'guestName',
-      title: 'Guest Name',
+      title: 'Nombre del invitado',
       type: 'string',
       group: 'guest',
     }),
 
     defineField({
       name: 'guestCompany',
-      title: 'Company',
+      title: 'Empresa',
       type: 'string',
       group: 'guest',
     }),
 
     defineField({
       name: 'guestRole',
-      title: 'Role',
+      title: 'Rol',
       type: 'string',
       group: 'guest',
     }),
 
     defineField({
       name: 'guestPhoto',
-      title: 'Guest Photo',
+      title: 'Foto del invitado',
       type: 'image',
       group: 'guest',
       options: {hotspot: true},
       fields: [
         defineField({
           name: 'alt',
-          title: 'Alt text',
+          title: 'Texto alternativo',
           type: 'string',
           validation: (Rule) => Rule.required(),
         }),
       ],
     }),
 
-    defineField({
-      name: 'interviewer',
-      title: 'Entrevistador',
-      type: 'reference',
-      group: 'guest',
-      to: [{type: 'author'}],
-      description: 'Quién condujo la entrevista.',
-    }),
-
     // ─────────────────────────────────────────────────────────────
-    // CONTENT
+    // CONTENIDO
     // ─────────────────────────────────────────────────────────────
 
     defineField({
@@ -98,51 +96,50 @@ export default defineType({
       fields: [
         defineField({
           name: 'alt',
-          title: 'Alt text',
+          title: 'Texto alternativo',
           type: 'string',
         }),
       ],
     }),
+
+    defineField({
+      name: 'highlightTitle',
+      title: 'Título destacado',
+      type: 'string',
+      group: 'content',
+      description: 'Titular corto mostrado en la sección destacada de la entrevista',
+    }),
+
+    defineField({
+      name: 'introText',
+      title: 'Párrafo introductorio',
+      type: 'text',
+      group: 'content',
+      fieldset: 'interviewIntro',
+      description: 'Texto introductorio que acompaña la imagen principal de la entrevista',
+    }),
+
     defineField({
       name: 'mainImage',
-      title: 'Featured Image',
+      title: 'Imagen destacada',
       type: 'image',
       group: 'content',
+      fieldset: 'interviewIntro',
       options: {hotspot: true},
       fields: [
-        defineField({name: 'alt', title: 'Alt text', type: 'string'}),
-        defineField({name: 'caption', title: 'Caption', type: 'string'}),
+        defineField({name: 'alt', title: 'Texto alternativo', type: 'string'}),
+        defineField({name: 'caption', title: 'Leyenda', type: 'string'}),
       ],
     }),
 
     defineField({
-      name: 'imageHighlight',
-      title: 'Image Highlight 1920x1080',
-      type: 'image',
-      group: 'content',
-      options: {hotspot: true},
-      description: 'Imagen horizontal destacada. Proporción recomendada: 1920 × 1080 px.',
-      fields: [defineField({name: 'alt', title: 'Alt text', type: 'string'})],
-    }),
-
-    defineField({
-      name: 'imageSquare',
-      title: 'Image Square 1080x1080',
-      type: 'image',
-      group: 'content',
-      options: {hotspot: true},
-      description: 'Imagen cuadrada. Proporción recomendada: 1080 × 1080 px.',
-      fields: [defineField({name: 'alt', title: 'Alt text', type: 'string'})],
-    }),
-
-    defineField({
       name: 'bannerPost',
-      title: 'Banner Post',
+      title: 'Banner del post',
       type: 'image',
       group: 'content',
       options: {hotspot: true},
       description: 'Banner del post para uso en cabeceras y destacados.',
-      fields: [defineField({name: 'alt', title: 'Alt text', type: 'string'})],
+      fields: [defineField({name: 'alt', title: 'Texto alternativo', type: 'string'})],
     }),
     defineField({
       name: 'slug',
@@ -156,28 +153,40 @@ export default defineType({
 
     defineField({
       name: 'body',
-      title: 'Interview Body',
+      title: 'Cuerpo de la entrevista',
       type: 'array',
       group: 'content',
-      of: [{type: 'block'}],
+      description: "Contenido de la entrevista; insertar bloques de 'Pearl of Wisdom' donde corresponda en el flujo del texto",
+      of: [
+        {type: 'block'},
+        defineArrayMember({
+          type: 'object',
+          name: 'pearlOfWisdom',
+          title: 'Pearl of Wisdom',
+          fields: [
+            defineField({name: 'quote', title: 'Cita', type: 'text'}),
+          ],
+          preview: {select: {title: 'quote'}},
+        }),
+      ],
     }),
 
     defineField({
       name: 'title',
-      title: 'Episode Title',
+      title: 'Título del episodio',
       type: 'string',
       group: 'content',
-      description: 'Headline shown on cards and the detail page header.',
+      description: 'Titular mostrado en cards y en la cabecera de la página de detalle.',
       validation: (Rule) => Rule.max(120),
     }),
 
     defineField({
-      name: 'excerpt',
-      title: 'Excerpt',
+      name: 'shortDescription',
+      title: 'Descripción corta',
       type: 'text',
       group: 'content',
       rows: 2,
-      description: 'Short description shown on index cards (1–2 sentences).',
+      description: 'Resumen breve mostrado en cards y listados',
       validation: (Rule) => Rule.max(280),
     }),
 
@@ -187,91 +196,116 @@ export default defineType({
       type: 'text',
       group: 'content',
       rows: 3,
-      description: 'Key pull-quote highlighted in the article layout.',
+      description: 'Frase destacada del invitado, resaltada en el layout del artículo.',
     }),
 
     defineField({
       name: 'rapidFire',
-      title: 'Rapid Fire Questions',
-      type: 'array',
+      title: 'Rapid Fire',
+      type: 'object',
       group: 'content',
-      of: [
-        defineArrayMember({
-          type: 'object',
-          name: 'rapidFireItem',
-          title: 'Q&A Pair',
-
+      description: 'Sección de preguntas rápidas de la entrevista',
+      fields: [
+        defineField({
+          name: 'description',
+          title: 'Descripción',
+          type: 'string',
+          description: 'Texto introductorio de la sección Rapid Fire',
+        }),
+        defineField({
+          name: 'image',
+          title: 'Imagen',
+          type: 'image',
+          description: 'Imagen de la sección Rapid Fire',
+          options: {hotspot: true},
           fields: [
-            defineField({
-              name: 'question',
-              title: 'Question',
-              type: 'string',
-            }),
+            defineField({name: 'alt', title: 'Texto alternativo', type: 'string', validation: (Rule) => Rule.required()}),
+          ],
+        }),
+        defineField({
+          name: 'questions',
+          title: 'Preguntas',
+          type: 'array',
+          description: 'Preguntas y respuestas de la sección Rapid Fire',
+          of: [
+            defineArrayMember({
+              type: 'object',
+              name: 'rapidFireItem',
+              title: 'Par pregunta y respuesta',
 
-            defineField({
-              name: 'answer',
-              title: 'Answer',
-              type: 'text',
-              rows: 2,
+              fields: [
+                defineField({
+                  name: 'question',
+                  title: 'Pregunta',
+                  type: 'string',
+                }),
+
+                defineField({
+                  name: 'answer',
+                  title: 'Respuesta',
+                  type: 'text',
+                  rows: 2,
+                }),
+              ],
+
+              preview: {
+                select: {
+                  title: 'question',
+                  subtitle: 'answer',
+                },
+              },
             }),
           ],
-
-          preview: {
-            select: {
-              title: 'question',
-              subtitle: 'answer',
-            },
-          },
         }),
       ],
     }),
 
     // ─────────────────────────────────────────────────────────────
-    // METADATA
+    // METADATOS
     // ─────────────────────────────────────────────────────────────
 
     defineField({
       name: 'interviewCategory',
-      title: 'Interview Category',
+      title: 'Categoría de la entrevista',
       type: 'string',
       group: 'meta',
       options: {
         list: INTERVIEW_CATEGORY_OPTIONS,
         layout: 'radio',
       },
-      description: 'Determines which slider this interview appears in on the index page.',
+      description: 'Determina en qué slider aparece esta entrevista en la página de índice.',
     }),
 
     defineField({
       name: 'isFeatured',
-      title: 'Featured',
+      title: 'Destacado',
       type: 'boolean',
       group: 'meta',
       initialValue: false,
-      description: 'Mark as featured to show in the prominent featured card on the index page.',
+      description: 'Marcar como destacado para mostrar en la card destacada de la página de índice.',
     }),
 
     defineField({
       name: 'publishedAt',
-      title: 'Published At',
+      title: 'Fecha de publicación',
       type: 'datetime',
       group: 'meta',
     }),
 
     defineField({
       name: 'linkedinUrl',
-      title: 'LinkedIn Post URL',
+      title: 'URL del post de LinkedIn',
       type: 'url',
       group: 'meta',
-      description: 'URL of the LinkedIn post for this episode.',
+      description: 'URL del post de LinkedIn para este episodio.',
     }),
 
     defineField({
       name: 'mediumUrl',
-      title: 'Medium Article URL',
+      title: 'URL del artículo de Medium',
       type: 'url',
       group: 'meta',
-      description: 'URL of the Medium article for this episode.',
+      description: 'URL del artículo de Medium para este episodio.',
     }),
 
     // ─────────────────────────────────────────────────────────────
@@ -283,17 +317,17 @@ export default defineType({
       title: 'SEO',
       type: 'seo',
       group: 'seo',
-      description: 'Falls back to guest photo / episode title if empty.',
+      description: 'Si se deja vacío, usa la foto del invitado / título del episodio como resguardo.',
     }),
   ],
 
   // ─────────────────────────────────────────────────────────────
-  // ORDERING
+  // ORDEN
   // ─────────────────────────────────────────────────────────────
 
   orderings: [
     {
-      title: 'Published (newest first)',
+      title: 'Publicación (más reciente primero)',
       name: 'publishedAtDesc',
       by: [
         {
@@ -304,7 +338,7 @@ export default defineType({
     },
 
     {
-      title: 'Featured first',
+      title: 'Destacados primero',
       name: 'featuredFirst',
       by: [
         {

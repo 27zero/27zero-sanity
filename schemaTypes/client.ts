@@ -35,88 +35,88 @@ export default defineType({
 
   fields: [
 
-    // ── Identity ────────────────────────────────────────────────────────
+    // ── Identidad ──────────────────────────────────────────────────────
 
     defineField({
       name: 'name',
-      title: 'Client Name',
+      title: 'Nombre del cliente',
       type: 'string',
       validation: Rule => Rule.required(),
-      description: 'e.g. "Anthology", "Doctums", "D2L"',
+      description: 'ej. "Anthology", "Doctums", "D2L"',
     }),
 
     defineField({
       name: 'url',
-      title: 'Website URL',
+      title: 'URL del sitio web',
       type: 'url',
-      description: 'Client\'s public website.',
+      description: 'Sitio web público del cliente.',
     }),
 
     // ── Logos ───────────────────────────────────────────────────────────
 
     defineField({
       name: 'logo',
-      title: 'Logo (dark)',
+      title: 'Logo (oscuro)',
       type: 'image',
       options: {hotspot: true},
-      description: 'Dark version — used on white or light backgrounds. SVG preferred.',
+      description: 'Versión oscura — usada sobre fondos blancos o claros. Se prefiere SVG.',
     }),
 
     defineField({
       name: 'logoLight',
-      title: 'Logo (light)',
+      title: 'Logo (claro)',
       type: 'image',
       options: {hotspot: true},
-      description: 'Light/white version — used on dark or indigo backgrounds.',
+      description: 'Versión clara/blanca — usada sobre fondos oscuros o índigo.',
     }),
 
-    // ── Home logo strip controls ────────────────────────────────────────
+    // ── Controles del logo strip de Home ────────────────────────────────
 
     defineField({
       name: 'isFeatured',
-      title: 'Show in Home Logo Strip',
+      title: 'Mostrar en el logo strip de Home',
       type: 'boolean',
       initialValue: false,
-      description: 'When enabled, this client appears in the scrolling logo strip on the home page.',
+      description: 'Cuando está activo, este cliente aparece en el logo strip animado de la página de inicio.',
     }),
 
     defineField({
       name: 'logoHeight',
-      title: 'Logo Display Height (px)',
+      title: 'Alto del logo en el strip (px)',
       type: 'number',
       initialValue: 24,
-      description: 'Height in pixels for the home logo strip. Each logo has its own height to maintain visual balance. e.g. 28 for Scholarship Magic, 22 for Anthology.',
+      description: 'Alto en píxeles para el logo strip de Home. Cada logo tiene su propio alto para mantener el balance visual. ej. 28 para Scholarship Magic, 22 para Anthology.',
       validation: Rule => Rule.min(10).max(80).integer(),
     }),
 
     defineField({
       name: 'logoOrder',
-      title: 'Logo Strip Order',
+      title: 'Orden en el logo strip',
       type: 'number',
       initialValue: 100,
-      description: 'Position in the home logo strip. Lower numbers appear first.',
+      description: 'Posición en el logo strip de Home. Los números más bajos aparecen primero.',
     }),
 
-    // ── Practice page description ───────────────────────────────────────
+    // ── Descripción en página de Practice ───────────────────────────────
 
     defineField({
       name: 'description',
-      title: 'Description',
+      title: 'Descripción',
       type: 'text',
       rows: 3,
-      description: 'Short description used on the practice page brand logos section. e.g. "Language learning platform. We produced a series of filmed customer spotlights..."',
+      description: 'Descripción corta usada en la sección de logos de marca de la página de Practice. ej. "Language learning platform. We produced a series of filmed customer spotlights..."',
     }),
 
   ],
 
   orderings: [
     {
-      title: 'Logo strip order',
+      title: 'Orden en el logo strip',
       name: 'logoOrderAsc',
       by: [{field: 'logoOrder', direction: 'asc'}],
     },
     {
-      title: 'Name A–Z',
+      title: 'Nombre A–Z',
       name: 'nameAsc',
       by: [{field: 'name', direction: 'asc'}],
     },
