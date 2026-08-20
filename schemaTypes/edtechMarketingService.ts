@@ -78,17 +78,6 @@ export default defineType({
       description: 'Descripción general del servicio',
     }),
 
-    defineField({
-      name: 'cardImage',
-      title: 'Card Image',
-      type: 'image',
-      options: {hotspot: true},
-      description: 'Imagen de la card del servicio en el índice de EdTech Marketing. Recomendado: 800×600 px.',
-      fields: [
-        defineField({name: 'alt', title: 'Alt text', type: 'string', validation: Rule => Rule.required()}),
-      ],
-    }),
-
     // ── Intro ────────────────────────────────────────────────────────
 
     defineField({

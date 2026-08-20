@@ -109,6 +109,18 @@ export default defineType({
     }),
 
     defineField({
+      name: 'cardImage',
+      title: 'Card Image',
+      type: 'image',
+      group: 'card',
+      options: {hotspot: true},
+      description: 'Imagen de la card de la práctica en el índice de EdTech Marketing. Recomendado: 800×600 px.',
+      fields: [
+        defineField({name: 'alt', title: 'Alt text', type: 'string', validation: Rule => Rule.required()}),
+      ],
+    }),
+
+    defineField({
       name: 'order',
       title: 'Display Order',
       type: 'number',
