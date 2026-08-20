@@ -30,3 +30,6 @@
 .env
 .env.*
 !.env.example
+
+# Dataset backups (exports)
+/backups

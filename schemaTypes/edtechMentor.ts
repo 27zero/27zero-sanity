@@ -191,15 +191,6 @@ export default defineType({
     }),
 
     defineField({
-      name: 'pearlOfWisdom',
-      title: 'Pearl of Wisdom',
-      type: 'text',
-      group: 'content',
-      rows: 3,
-      description: 'Frase destacada del invitado, resaltada en el layout del artículo.',
-    }),
-
-    defineField({
       name: 'rapidFire',
       title: 'Rapid Fire',
       type: 'object',
