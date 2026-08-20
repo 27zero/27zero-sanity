@@ -27,14 +27,14 @@ export default defineType({
 
     defineField({
       name: 'name',
-      title: 'Nombre completo',
+      title: 'Full Name',
       type: 'string',
       validation: Rule => Rule.required(),
     }),
 
     defineField({
       name: 'role',
-      title: 'Rol / Cargo',
+      title: 'Role / Title',
       type: 'string',
       validation: Rule => Rule.required(),
       description: 'ej. "Chief Strategy Officer — Industry & Growth"',
@@ -42,7 +42,7 @@ export default defineType({
 
     defineField({
       name: 'photo',
-      title: 'Foto',
+      title: 'Photo',
       type: 'image',
       options: {hotspot: true},
       description: 'Foto profesional. Se muestra en la grilla de team de la página About.',
@@ -50,7 +50,7 @@ export default defineType({
 
     defineField({
       name: 'isActive',
-      title: 'Activo',
+      title: 'Active',
       type: 'boolean',
       initialValue: true,
       description: 'Desmarcar para ocultar de la página About sin eliminar el registro.',
@@ -58,7 +58,7 @@ export default defineType({
 
     defineField({
       name: 'order',
-      title: 'Orden de visualización',
+      title: 'Display Order',
       type: 'number',
       initialValue: 10,
       description: 'Los números más bajos aparecen primero en la grilla.',
@@ -68,12 +68,12 @@ export default defineType({
 
   orderings: [
     {
-      title: 'Orden de visualización',
+      title: 'Display order',
       name: 'orderAsc',
       by: [{field: 'order', direction: 'asc'}],
     },
     {
-      title: 'Nombre A–Z',
+      title: 'Name A–Z',
       name: 'nameAsc',
       by: [{field: 'name', direction: 'asc'}],
     },

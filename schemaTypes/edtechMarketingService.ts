@@ -35,13 +35,13 @@ export default defineType({
     {name: 'intro',      title: 'Intro'},
     {name: 'features',   title: 'Features'},
     {name: 'proofPoint',  title: 'Proof Point'},
-    {name: 'pageCta',     title: 'CTA de página'},
+    {name: 'pageCta',     title: 'Page CTA'},
   ],
 
   fields: [
     defineField({
       name: 'title',
-      title: 'Título',
+      title: 'Title',
       type: 'string',
       validation: Rule => Rule.required(),
     }),
@@ -56,7 +56,7 @@ export default defineType({
 
     defineField({
       name: 'category',
-      title: 'Categoría',
+      title: 'Category',
       type: 'string',
       options: {list: SERVICE_CATEGORIES, layout: 'dropdown'},
       description: 'Agrupación en el menú del índice de EdTech Marketing. Taxonomía distinta a la de Work.',
@@ -65,7 +65,7 @@ export default defineType({
 
     defineField({
       name: 'iconId',
-      title: 'Ícono',
+      title: 'Icon',
       type: 'string',
       options: {list: ICON_OPTIONS, layout: 'dropdown'},
       description: 'Marco de marca decorativo — rota 1→2→3 entre las cards de servicio, no representa al servicio en sí. Mapea a ServiceIcon.astro en el repo sitio.',
@@ -73,7 +73,7 @@ export default defineType({
 
     defineField({
       name: 'description',
-      title: 'Descripción',
+      title: 'Description',
       type: 'string',
       description: 'Descripción general del servicio',
     }),
@@ -82,7 +82,7 @@ export default defineType({
 
     defineField({
       name: 'introTitle',
-      title: 'Título de intro',
+      title: 'Intro Title',
       type: 'string',
       fieldset: 'intro',
       description: 'Título de la sección introductoria',
@@ -90,7 +90,7 @@ export default defineType({
 
     defineField({
       name: 'introDescription',
-      title: 'Descripción de intro',
+      title: 'Intro Description',
       type: 'text',
       fieldset: 'intro',
       description: 'Texto introductorio del servicio',
@@ -100,7 +100,7 @@ export default defineType({
 
     defineField({
       name: 'featuresTitle',
-      title: 'Título de sección',
+      title: 'Section Title',
       type: 'string',
       fieldset: 'features',
       description: 'Título mostrado sobre el listado de features',
@@ -117,8 +117,8 @@ export default defineType({
           type: 'object',
           name: 'feature',
           fields: [
-            defineField({name: 'title',       title: 'Título',       type: 'string'}),
-            defineField({name: 'description', title: 'Descripción',  type: 'text', rows: 3}),
+            defineField({name: 'title',       title: 'Title',       type: 'string'}),
+            defineField({name: 'description', title: 'Description',  type: 'text', rows: 3}),
           ],
           preview: {select: {title: 'title', subtitle: 'description'}},
         }),
@@ -129,7 +129,7 @@ export default defineType({
 
     defineField({
       name: 'proofPointTitle',
-      title: 'Título',
+      title: 'Title',
       type: 'string',
       fieldset: 'proofPoint',
       initialValue: 'Proof Point',
@@ -138,7 +138,7 @@ export default defineType({
 
     defineField({
       name: 'proofPointDescription',
-      title: 'Descripción',
+      title: 'Description',
       type: 'text',
       fieldset: 'proofPoint',
       description: 'Texto de la sección Proof Point',
@@ -146,13 +146,13 @@ export default defineType({
 
     defineField({
       name: 'proofPointImage',
-      title: 'Imagen',
+      title: 'Image',
       type: 'image',
       fieldset: 'proofPoint',
       options: {hotspot: true},
       description: 'Imagen de la sección Proof Point',
       fields: [
-        defineField({name: 'alt', title: 'Texto alternativo', type: 'string', validation: Rule => Rule.required()}),
+        defineField({name: 'alt', title: 'Alt text', type: 'string', validation: Rule => Rule.required()}),
       ],
     }),
 
@@ -160,21 +160,21 @@ export default defineType({
 
     defineField({
       name: 'ctaTitle',
-      title: 'Título del CTA',
+      title: 'CTA Title',
       type: 'string',
       fieldset: 'pageCta',
     }),
 
     defineField({
       name: 'ctaLabel',
-      title: 'Texto del botón',
+      title: 'Button Text',
       type: 'string',
       fieldset: 'pageCta',
     }),
 
     defineField({
       name: 'ctaHref',
-      title: 'Link del CTA',
+      title: 'CTA Link',
       type: 'url',
       fieldset: 'pageCta',
     }),

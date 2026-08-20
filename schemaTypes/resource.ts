@@ -7,7 +7,7 @@ export default defineType({
   fields: [
     defineField({
       name: 'title',
-      title: 'Título',
+      title: 'Title',
       type: 'string',
     }),
 
@@ -22,33 +22,33 @@ export default defineType({
 
     defineField({
       name: 'shortDescription',
-      title: 'Descripción corta',
+      title: 'Short Description',
       type: 'string',
       description: 'Resumen breve mostrado en el card del listado.',
     }),
 
     defineField({
       name: 'description',
-      title: 'Descripción',
+      title: 'Description',
       type: 'text',
     }),
 
     defineField({
       name: 'publishedAt',
-      title: 'Fecha de publicación',
+      title: 'Published At',
       type: 'datetime',
     }),
 
     defineField({
       name: 'cardThumbnail',
-      title: 'Thumbnail',
+      title: 'Card Thumbnail',
       type: 'image',
       options: {hotspot: true},
       description: 'Imagen mostrada en el card del listado de Resources.',
       fields: [
         defineField({
           name: 'alt',
-          title: 'Texto alternativo',
+          title: 'Alt text',
           type: 'string',
           validation: Rule => Rule.required(),
         }),
@@ -57,14 +57,14 @@ export default defineType({
 
     defineField({
       name: 'heroBanner',
-      title: 'Banner principal',
+      title: 'Hero Banner',
       type: 'image',
       options: {hotspot: true},
       description: 'Imagen de cabecera en la página interna del recurso.',
       fields: [
         defineField({
           name: 'alt',
-          title: 'Texto alternativo',
+          title: 'Alt text',
           type: 'string',
           validation: Rule => Rule.required(),
         }),
@@ -73,7 +73,7 @@ export default defineType({
 
     defineField({
       name: 'body',
-      title: 'Contenido',
+      title: 'Content',
       type: 'array',
       of: [{type: 'block'}],
     }),

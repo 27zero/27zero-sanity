@@ -14,16 +14,16 @@ export default defineType({
   groups: [
     {
       name: 'guest',
-      title: 'Invitado',
+      title: 'Guest',
       default: true,
     },
     {
       name: 'content',
-      title: 'Contenido',
+      title: 'Content',
     },
     {
       name: 'meta',
-      title: 'Metadatos',
+      title: 'Metadata',
     },
     {
       name: 'seo',
@@ -34,46 +34,46 @@ export default defineType({
   fieldsets: [
     {
       name: 'interviewIntro',
-      title: 'Intro de la entrevista',
+      title: 'Interview Intro',
     },
   ],
 
   fields: [
     // ─────────────────────────────────────────────────────────────
-    // INVITADO
+    // GUEST
     // ─────────────────────────────────────────────────────────────
 
     defineField({
       name: 'guestName',
-      title: 'Nombre del invitado',
+      title: 'Guest Name',
       type: 'string',
       group: 'guest',
     }),
 
     defineField({
       name: 'guestCompany',
-      title: 'Empresa',
+      title: 'Company',
       type: 'string',
       group: 'guest',
     }),
 
     defineField({
       name: 'guestRole',
-      title: 'Rol',
+      title: 'Role',
       type: 'string',
       group: 'guest',
     }),
 
     defineField({
       name: 'guestPhoto',
-      title: 'Foto del invitado',
+      title: 'Guest Photo',
       type: 'image',
       group: 'guest',
       options: {hotspot: true},
       fields: [
         defineField({
           name: 'alt',
-          title: 'Texto alternativo',
+          title: 'Alt text',
           type: 'string',
           validation: (Rule) => Rule.required(),
         }),
@@ -81,12 +81,12 @@ export default defineType({
     }),
 
     // ─────────────────────────────────────────────────────────────
-    // CONTENIDO
+    // CONTENT
     // ─────────────────────────────────────────────────────────────
 
     defineField({
       name: 'thumbnail',
-      title: 'Miniatura',
+      title: 'Thumbnail',
       type: 'image',
       group: 'content',
       options: {
@@ -96,7 +96,7 @@ export default defineType({
       fields: [
         defineField({
           name: 'alt',
-          title: 'Texto alternativo',
+          title: 'Alt text',
           type: 'string',
         }),
       ],
@@ -104,7 +104,7 @@ export default defineType({
 
     defineField({
       name: 'highlightTitle',
-      title: 'Título destacado',
+      title: 'Highlight Title',
       type: 'string',
       group: 'content',
       description: 'Titular corto mostrado en la sección destacada de la entrevista',
@@ -112,7 +112,7 @@ export default defineType({
 
     defineField({
       name: 'introText',
-      title: 'Párrafo introductorio',
+      title: 'Intro Paragraph',
       type: 'text',
       group: 'content',
       fieldset: 'interviewIntro',
@@ -121,25 +121,25 @@ export default defineType({
 
     defineField({
       name: 'mainImage',
-      title: 'Imagen destacada',
+      title: 'Featured Image',
       type: 'image',
       group: 'content',
       fieldset: 'interviewIntro',
       options: {hotspot: true},
       fields: [
-        defineField({name: 'alt', title: 'Texto alternativo', type: 'string'}),
-        defineField({name: 'caption', title: 'Leyenda', type: 'string'}),
+        defineField({name: 'alt', title: 'Alt text', type: 'string'}),
+        defineField({name: 'caption', title: 'Caption', type: 'string'}),
       ],
     }),
 
     defineField({
       name: 'bannerPost',
-      title: 'Banner del post',
+      title: 'Banner Post',
       type: 'image',
       group: 'content',
       options: {hotspot: true},
       description: 'Banner del post para uso en cabeceras y destacados.',
-      fields: [defineField({name: 'alt', title: 'Texto alternativo', type: 'string'})],
+      fields: [defineField({name: 'alt', title: 'Alt text', type: 'string'})],
     }),
     defineField({
       name: 'slug',
@@ -153,7 +153,7 @@ export default defineType({
 
     defineField({
       name: 'body',
-      title: 'Cuerpo de la entrevista',
+      title: 'Interview Body',
       type: 'array',
       group: 'content',
       description: "Contenido de la entrevista; insertar bloques de 'Pearl of Wisdom' donde corresponda en el flujo del texto",
@@ -164,7 +164,7 @@ export default defineType({
           name: 'pearlOfWisdom',
           title: 'Pearl of Wisdom',
           fields: [
-            defineField({name: 'quote', title: 'Cita', type: 'text'}),
+            defineField({name: 'quote', title: 'Quote', type: 'text'}),
           ],
           preview: {select: {title: 'quote'}},
         }),
@@ -173,7 +173,7 @@ export default defineType({
 
     defineField({
       name: 'title',
-      title: 'Título del episodio',
+      title: 'Episode Title',
       type: 'string',
       group: 'content',
       description: 'Titular mostrado en cards y en la cabecera de la página de detalle.',
@@ -182,7 +182,7 @@ export default defineType({
 
     defineField({
       name: 'shortDescription',
-      title: 'Descripción corta',
+      title: 'Short Description',
       type: 'text',
       group: 'content',
       rows: 2,
@@ -208,41 +208,41 @@ export default defineType({
       fields: [
         defineField({
           name: 'description',
-          title: 'Descripción',
+          title: 'Description',
           type: 'string',
           description: 'Texto introductorio de la sección Rapid Fire',
         }),
         defineField({
           name: 'image',
-          title: 'Imagen',
+          title: 'Image',
           type: 'image',
           description: 'Imagen de la sección Rapid Fire',
           options: {hotspot: true},
           fields: [
-            defineField({name: 'alt', title: 'Texto alternativo', type: 'string', validation: (Rule) => Rule.required()}),
+            defineField({name: 'alt', title: 'Alt text', type: 'string', validation: (Rule) => Rule.required()}),
           ],
         }),
         defineField({
           name: 'questions',
-          title: 'Preguntas',
+          title: 'Questions',
           type: 'array',
           description: 'Preguntas y respuestas de la sección Rapid Fire',
           of: [
             defineArrayMember({
               type: 'object',
               name: 'rapidFireItem',
-              title: 'Par pregunta y respuesta',
+              title: 'Q&A Pair',
 
               fields: [
                 defineField({
                   name: 'question',
-                  title: 'Pregunta',
+                  title: 'Question',
                   type: 'string',
                 }),
 
                 defineField({
                   name: 'answer',
-                  title: 'Respuesta',
+                  title: 'Answer',
                   type: 'text',
                   rows: 2,
                 }),
@@ -261,12 +261,12 @@ export default defineType({
     }),
 
     // ─────────────────────────────────────────────────────────────
-    // METADATOS
+    // METADATA
     // ─────────────────────────────────────────────────────────────
 
     defineField({
       name: 'interviewCategory',
-      title: 'Categoría de la entrevista',
+      title: 'Interview Category',
       type: 'string',
       group: 'meta',
       options: {
@@ -278,7 +278,7 @@ export default defineType({
 
     defineField({
       name: 'isFeatured',
-      title: 'Destacado',
+      title: 'Featured',
       type: 'boolean',
       group: 'meta',
       initialValue: false,
@@ -287,14 +287,14 @@ export default defineType({
 
     defineField({
       name: 'publishedAt',
-      title: 'Fecha de publicación',
+      title: 'Published At',
       type: 'datetime',
       group: 'meta',
     }),
 
     defineField({
       name: 'linkedinUrl',
-      title: 'URL del post de LinkedIn',
+      title: 'LinkedIn Post URL',
       type: 'url',
       group: 'meta',
       description: 'URL del post de LinkedIn para este episodio.',
@@ -302,7 +302,7 @@ export default defineType({
 
     defineField({
       name: 'mediumUrl',
-      title: 'URL del artículo de Medium',
+      title: 'Medium Article URL',
       type: 'url',
       group: 'meta',
       description: 'URL del artículo de Medium para este episodio.',
@@ -322,12 +322,12 @@ export default defineType({
   ],
 
   // ─────────────────────────────────────────────────────────────
-  // ORDEN
+  // ORDERING
   // ─────────────────────────────────────────────────────────────
 
   orderings: [
     {
-      title: 'Publicación (más reciente primero)',
+      title: 'Published (newest first)',
       name: 'publishedAtDesc',
       by: [
         {
@@ -338,7 +338,7 @@ export default defineType({
     },
 
     {
-      title: 'Destacados primero',
+      title: 'Featured first',
       name: 'featuredFirst',
       by: [
         {

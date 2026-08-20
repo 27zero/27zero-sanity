@@ -44,7 +44,7 @@ export default defineType({
 
   groups: [
     // ── Técnico / global ────────────────────────────────────────────
-    {name: 'identity',  title: 'Identidad',  default: true},
+    {name: 'identity',  title: 'Identity',  default: true},
     {name: 'seo',       title: 'SEO'},
     {name: 'analytics', title: 'Analytics'},
     {name: 'social',    title: 'Social'},
@@ -73,20 +73,20 @@ export default defineType({
 
     defineField({
       name: 'siteTitle',
-      title: 'Título del sitio',
+      title: 'Site Title',
       type: 'string',
       group: 'identity',
     }),
     defineField({
       name: 'siteDescription',
-      title: 'Descripción del sitio',
+      title: 'Site Description',
       type: 'text',
       rows: 2,
       group: 'identity',
     }),
     defineField({
       name: 'siteUrl',
-      title: 'URL del sitio',
+      title: 'Site URL',
       type: 'url',
       group: 'identity',
       description: 'URL de producción, ej. https://www.27zero.agency',
@@ -105,7 +105,7 @@ export default defineType({
 
     defineField({
       name: 'seo',
-      title: 'SEO por defecto',
+      title: 'Default SEO',
       type: 'seo',
       group: 'seo',
       description: 'Resguardo a nivel de sitio, usado cuando una página/documento no tiene sus propios campos de SEO configurados.',
@@ -117,14 +117,14 @@ export default defineType({
 
     defineField({
       name: 'gaId',
-      title: 'ID de Google Analytics 4',
+      title: 'Google Analytics 4 ID',
       type: 'string',
       group: 'analytics',
       description: 'ej. G-XXXXXXXXXX',
     }),
     defineField({
       name: 'hubspotId',
-      title: 'ID de portal de HubSpot',
+      title: 'HubSpot Portal ID',
       type: 'string',
       group: 'analytics',
     }),
@@ -135,13 +135,13 @@ export default defineType({
 
     defineField({
       name: 'linkedinUrl',
-      title: 'URL de LinkedIn',
+      title: 'LinkedIn URL',
       type: 'url',
       group: 'social',
     }),
     defineField({
       name: 'twitterUrl',
-      title: 'URL de Twitter / X',
+      title: 'Twitter / X URL',
       type: 'url',
       group: 'social',
     }),
@@ -152,23 +152,23 @@ export default defineType({
 
     defineField({
       name: 'navbarCta',
-      title: 'Botón CTA',
+      title: 'CTA Button',
       type: 'object',
       group: 'navbar',
       description: 'El botón principal de llamado a la acción en la esquina superior derecha del navbar.',
       fields: [
-        defineField({name: 'text',  title: 'Texto del botón', type: 'string',
+        defineField({name: 'text',  title: 'Button Text', type: 'string',
           description: 'ej. "Let\'s Talk!"'}),
-        defineField({name: 'url',   title: 'URL del botón',  type: 'string',
+        defineField({name: 'url',   title: 'Button URL',  type: 'string',
           description: 'ej. "/lets-talk"'}),
-        defineField({name: 'micro', title: 'Texto pequeño',  type: 'string',
+        defineField({name: 'micro', title: 'Micro Copy',  type: 'string',
           description: 'Texto pequeño mostrado debajo del CTA en secciones hero. ej. "Free. 30 min. No sales pitch."'}),
       ],
     }),
 
     defineField({
       name: 'navbarWorkDropdown',
-      title: 'Dropdown de Work',
+      title: 'Work Dropdown',
       type: 'object',
       group: 'navbar',
       description: 'Links mostrados en el menú desplegable "Work".',
@@ -182,8 +182,8 @@ export default defineType({
               type: 'object',
               name: 'linkItem',
               fields: [
-                defineField({name: 'label', title: 'Etiqueta', type: 'string'}),
-                defineField({name: 'href',  title: 'URL',      type: 'string'}),
+                defineField({name: 'label', title: 'Label', type: 'string'}),
+                defineField({name: 'href',  title: 'URL',   type: 'string'}),
               ],
               preview: {select: {title: 'label', subtitle: 'href'}},
             }),
@@ -198,25 +198,25 @@ export default defineType({
 
     defineField({
       name: 'footerCta',
-      title: 'Sección CTA',
+      title: 'CTA Section',
       type: 'object',
       group: 'footer',
       description: 'La sección de llamado a la acción al final de cada página.',
       fields: [
         defineField({name: 'eyebrow',    title: 'Eyebrow',      type: 'string',
           description: 'ej. "Begin your journey to growth"'}),
-        defineField({name: 'headline',   title: 'Título',     type: 'string',
+        defineField({name: 'headline',   title: 'Headline',     type: 'string',
           description: 'Título principal del bloque CTA.'}),
-        defineField({name: 'text',       title: 'Texto',    type: 'text', rows: 2,
+        defineField({name: 'text',       title: 'Body Text',    type: 'text', rows: 2,
           description: 'Texto de apoyo opcional debajo del título.'}),
-        defineField({name: 'buttonText', title: 'Texto del botón',  type: 'string',
+        defineField({name: 'buttonText', title: 'Button Text',  type: 'string',
           description: 'ej. "Book a strategy session"'}),
       ],
     }),
 
     defineField({
       name: 'footerNavigation',
-      title: 'Navegación',
+      title: 'Navigation',
       type: 'object',
       group: 'footer',
       description: 'Links mostrados en las columnas del footer.',
@@ -230,8 +230,8 @@ export default defineType({
               type: 'object',
               name: 'footerLink',
               fields: [
-                defineField({name: 'label', title: 'Etiqueta', type: 'string'}),
-                defineField({name: 'href',  title: 'URL',      type: 'string'}),
+                defineField({name: 'label', title: 'Label', type: 'string'}),
+                defineField({name: 'href',  title: 'URL',   type: 'string'}),
               ],
               preview: {select: {title: 'label', subtitle: 'href'}},
             }),
@@ -246,7 +246,7 @@ export default defineType({
       type: 'object',
       group: 'footer',
       fields: [
-        defineField({name: 'year', title: 'Año', type: 'string',
+        defineField({name: 'year', title: 'Year', type: 'string',
           description: 'ej. "2026"'}),
       ],
     }),
@@ -261,12 +261,12 @@ export default defineType({
       type: 'object',
       group: 'home',
       fields: [
-        defineField({name: 'headline', title: 'Título', type: 'string',
+        defineField({name: 'headline', title: 'Headline', type: 'string',
           description: 'ej. "Turn EdTech purpose into brand power."'}),
-        defineField({name: 'subtitle', title: 'Subtítulo', type: 'string'}),
-        defineField({name: 'video',    title: 'URL de video de fondo', type: 'url',
+        defineField({name: 'subtitle', title: 'Subtitle', type: 'string'}),
+        defineField({name: 'video',    title: 'Background Video URL', type: 'url',
           description: 'URL directa al archivo .mp4 (servido desde assets/).'}),
-        defineField({name: 'poster',   title: 'Imagen poster del video', type: 'image',
+        defineField({name: 'poster',   title: 'Video Poster Image', type: 'image',
           options: {hotspot: true},
           description: 'Se muestra mientras carga el video.'}),
       ],
@@ -274,37 +274,37 @@ export default defineType({
 
     defineField({
       name: 'homeWork',
-      title: 'Sección Work',
+      title: 'Work Section',
       type: 'object',
       group: 'home',
       fields: [
-        defineField({name: 'headline',    title: 'Título',     type: 'string'}),
-        defineField({name: 'subtitle',    title: 'Subtítulo',     type: 'string',
+        defineField({name: 'headline',    title: 'Headline',     type: 'string'}),
+        defineField({name: 'subtitle',    title: 'Subtitle',     type: 'string',
           description: 'Texto corto debajo del título. ej. "First-hand expertise, innovative conceptual thinking & design, client-first approach."'}),
-        defineField({name: 'showreelUrl', title: 'URL del showreel', type: 'url',
+        defineField({name: 'showreelUrl', title: 'Showreel URL', type: 'url',
           description: 'URL de YouTube o Vimeo para el botón del showreel.'}),
       ],
     }),
 
     defineField({
       name: 'homeMentor',
-      title: 'Sección EdTech Mentor',
+      title: 'EdTech Mentor Section',
       type: 'object',
       group: 'home',
       fields: [
-        defineField({name: 'headline', title: 'Título', type: 'string'}),
-        defineField({name: 'subtitle', title: 'Subtítulo', type: 'string'}),
+        defineField({name: 'headline', title: 'Headline', type: 'string'}),
+        defineField({name: 'subtitle', title: 'Subtitle', type: 'string'}),
       ],
     }),
 
     defineField({
       name: 'homeApart',
-      title: 'Sección "What Sets 27zero Apart"',
+      title: '"What Sets 27zero Apart" Section',
       type: 'object',
       group: 'home',
       fields: [
-        defineField({name: 'headline',    title: 'Título',    type: 'string'}),
-        defineField({name: 'description', title: 'Descripción', type: 'text', rows: 2}),
+        defineField({name: 'headline',    title: 'Headline',    type: 'string'}),
+        defineField({name: 'description', title: 'Description', type: 'text', rows: 2}),
         defineField({
           name: 'slides',
           title: 'Slides',
@@ -314,8 +314,8 @@ export default defineType({
               type: 'object',
               name: 'apartSlide',
               fields: [
-                defineField({name: 'title', title: 'Título', type: 'string'}),
-                defineField({name: 'text',  title: 'Texto',  type: 'text', rows: 2}),
+                defineField({name: 'title', title: 'Title', type: 'string'}),
+                defineField({name: 'text',  title: 'Text',  type: 'text', rows: 2}),
               ],
               preview: {select: {title: 'title', subtitle: 'text'}},
             }),
@@ -326,12 +326,12 @@ export default defineType({
 
     defineField({
       name: 'homeNewsletter',
-      title: 'Sección Newsletter',
+      title: 'Newsletter Section',
       type: 'object',
       group: 'home',
       fields: [
-        defineField({name: 'headline',    title: 'Título',         type: 'string'}),
-        defineField({name: 'placeholder', title: 'Placeholder del input', type: 'string',
+        defineField({name: 'headline',    title: 'Headline',         type: 'string'}),
+        defineField({name: 'placeholder', title: 'Input Placeholder', type: 'string',
           description: 'ej. "you@institution.edu"'}),
       ],
     }),
@@ -346,22 +346,22 @@ export default defineType({
       type: 'object',
       group: 'about',
       fields: [
-        defineField({name: 'headline', title: 'Título', type: 'string'}),
-        defineField({name: 'text',     title: 'Texto',     type: 'text', rows: 3}),
-        defineField({name: 'image',    title: 'Imagen de fondo', type: 'image',
+        defineField({name: 'headline', title: 'Headline', type: 'string'}),
+        defineField({name: 'text',     title: 'Text',     type: 'text', rows: 3}),
+        defineField({name: 'image',    title: 'Background Image', type: 'image',
           options: {hotspot: true}}),
       ],
     }),
 
     defineField({
       name: 'aboutDna',
-      title: 'Sección DNA',
+      title: 'DNA Section',
       type: 'object',
       group: 'about',
       description: 'Sección "Creativity is our DNA".',
       fields: [
-        defineField({name: 'headline', title: 'Título', type: 'string'}),
-        defineField({name: 'text',     title: 'Texto',     type: 'text', rows: 3}),
+        defineField({name: 'headline', title: 'Headline', type: 'string'}),
+        defineField({name: 'text',     title: 'Text',     type: 'text', rows: 3}),
       ],
     }),
 
@@ -371,23 +371,23 @@ export default defineType({
       type: 'object',
       group: 'about',
       fields: [
-        defineField({name: 'title', title: 'Título', type: 'string'}),
-        defineField({name: 'text',  title: 'Texto',  type: 'text', rows: 3}),
-        defineField({name: 'image', title: 'Imagen', type: 'image',
+        defineField({name: 'title', title: 'Title', type: 'string'}),
+        defineField({name: 'text',  title: 'Text',  type: 'text', rows: 3}),
+        defineField({name: 'image', title: 'Image', type: 'image',
           options: {hotspot: true}}),
       ],
     }),
 
     defineField({
       name: 'aboutTeam',
-      title: 'Sección Team',
+      title: 'Team Section',
       type: 'object',
       group: 'about',
       description: 'La sección "The people behind the work" en la página About.',
       fields: [
-        defineField({name: 'headline', title: 'Título', type: 'string',
+        defineField({name: 'headline', title: 'Headline', type: 'string',
           description: 'ej. "The people behind the work."'}),
-        defineField({name: 'text',     title: 'Texto',     type: 'text', rows: 2,
+        defineField({name: 'text',     title: 'Text',     type: 'text', rows: 2,
           description: 'Párrafo de apoyo debajo del título.'}),
       ],
     }),
@@ -404,8 +404,8 @@ export default defineType({
       fields: [
         defineField({name: 'eyebrow',  title: 'Eyebrow',  type: 'string',
           description: 'ej. "Work: Behind the fastest-growing EdTech brands"'}),
-        defineField({name: 'headline', title: 'Título', type: 'string'}),
-        defineField({name: 'subtitle', title: 'Subtítulo', type: 'string'}),
+        defineField({name: 'headline', title: 'Headline', type: 'string'}),
+        defineField({name: 'subtitle', title: 'Subtitle', type: 'string'}),
       ],
     }),
 
@@ -419,20 +419,20 @@ export default defineType({
       type: 'object',
       group: 'mentor',
       fields: [
-        defineField({name: 'headline', title: 'Título', type: 'string'}),
-        defineField({name: 'text',     title: 'Texto',     type: 'text', rows: 2}),
+        defineField({name: 'headline', title: 'Headline', type: 'string'}),
+        defineField({name: 'text',     title: 'Text',     type: 'text', rows: 2}),
       ],
     }),
 
     defineField({
       name: 'mentorCta',
-      title: 'Sección CTA',
+      title: 'CTA Section',
       type: 'object',
       group: 'mentor',
       description: 'El CTA "Begin your journey" al final de la página de índice de Mentor.',
       fields: [
-        defineField({name: 'headline', title: 'Título', type: 'string'}),
-        defineField({name: 'text',     title: 'Texto',     type: 'text', rows: 2}),
+        defineField({name: 'headline', title: 'Headline', type: 'string'}),
+        defineField({name: 'text',     title: 'Text',     type: 'text', rows: 2}),
       ],
     }),
 
@@ -446,8 +446,8 @@ export default defineType({
       type: 'object',
       group: 'resources',
       fields: [
-        defineField({name: 'headline', title: 'Título', type: 'string'}),
-        defineField({name: 'subtitle', title: 'Subtítulo', type: 'string'}),
+        defineField({name: 'headline', title: 'Headline', type: 'string'}),
+        defineField({name: 'subtitle', title: 'Subtitle', type: 'string'}),
       ],
     }),
 
@@ -461,15 +461,15 @@ export default defineType({
       type: 'object',
       group: 'contact',
       fields: [
-        defineField({name: 'headline', title: 'Título', type: 'string'}),
-        defineField({name: 'text',     title: 'Texto',     type: 'text', rows: 2}),
+        defineField({name: 'headline', title: 'Headline', type: 'string'}),
+        defineField({name: 'text',     title: 'Text',     type: 'text', rows: 2}),
       ],
     }),
 
     // Campo existente — preservado
     defineField({
       name: 'contactEmail',
-      title: 'Email de contacto',
+      title: 'Contact Email',
       type: 'string',
       group: 'contact',
     }),
@@ -477,13 +477,13 @@ export default defineType({
     // Objeto estructurado nuevo (junto al campo de texto legado)
     defineField({
       name: 'officeUSNew',
-      title: 'Oficina US',
+      title: 'Office US',
       type: 'object',
       group: 'contact',
       description: 'Reemplaza el campo de texto legado "US Office Address" una vez migrado el contenido.',
       fields: [
-        defineField({name: 'address', title: 'Dirección', type: 'text', rows: 2}),
-        defineField({name: 'phone',   title: 'Teléfono',   type: 'string'}),
+        defineField({name: 'address', title: 'Address', type: 'text', rows: 2}),
+        defineField({name: 'phone',   title: 'Phone',   type: 'string'}),
         defineField({name: 'email',   title: 'Email',   type: 'string'}),
       ],
     }),
@@ -491,7 +491,7 @@ export default defineType({
     // Campo existente — preservado durante la migración
     defineField({
       name: 'officeUS',
-      title: 'Dirección oficina US (legado — migrar a Office US arriba)',
+      title: 'US Office Address (legacy — migrate to Office US above)',
       type: 'text',
       rows: 3,
       group: 'contact',
@@ -500,13 +500,13 @@ export default defineType({
     // Objeto estructurado nuevo (junto al campo de texto legado)
     defineField({
       name: 'officeCONew',
-      title: 'Oficina CO',
+      title: 'Office CO',
       type: 'object',
       group: 'contact',
       description: 'Reemplaza el campo de texto legado "Colombia Office Address" una vez migrado el contenido.',
       fields: [
-        defineField({name: 'address', title: 'Dirección', type: 'text', rows: 2}),
-        defineField({name: 'phone',   title: 'Teléfono',   type: 'string'}),
+        defineField({name: 'address', title: 'Address', type: 'text', rows: 2}),
+        defineField({name: 'phone',   title: 'Phone',   type: 'string'}),
         defineField({name: 'email',   title: 'Email',   type: 'string'}),
       ],
     }),
@@ -514,7 +514,7 @@ export default defineType({
     // Campo existente — preservado durante la migración
     defineField({
       name: 'officeCO',
-      title: 'Dirección oficina Colombia (legado — migrar a Office CO arriba)',
+      title: 'Colombia Office Address (legacy — migrate to Office CO above)',
       type: 'text',
       rows: 3,
       group: 'contact',
@@ -530,34 +530,34 @@ export default defineType({
       type: 'object',
       group: 'agency',
       fields: [
-        defineField({name: 'headline', title: 'Título', type: 'string',
+        defineField({name: 'headline', title: 'Headline', type: 'string',
           description: 'ej. "The first and only agency built for EdTech."'}),
-        defineField({name: 'text',     title: 'Subtítulo', type: 'string',
+        defineField({name: 'text',     title: 'Subtitle', type: 'string',
           description: 'ej. "Three practices. One goal: helping EdTech brands..."'}),
       ],
     }),
 
     defineField({
       name: 'agencyPracticesSection',
-      title: 'Sección de prácticas',
+      title: 'Practices Section',
       type: 'object',
       group: 'agency',
       description: 'El encabezado de la sección "Three practices. One goal."',
       fields: [
-        defineField({name: 'headline', title: 'Título', type: 'string',
+        defineField({name: 'headline', title: 'Headline', type: 'string',
           description: 'ej. "Three practices. One goal."'}),
-        defineField({name: 'text',     title: 'Texto',     type: 'text', rows: 2}),
+        defineField({name: 'text',     title: 'Text',     type: 'text', rows: 2}),
       ],
     }),
 
     defineField({
       name: 'agencyClosingCta',
-      title: 'CTA de cierre',
+      title: 'Closing CTA',
       type: 'object',
       group: 'agency',
       description: 'La sección CTA al final de la página EdTech Marketing Agency.',
       fields: [
-        defineField({name: 'headline', title: 'Título', type: 'string',
+        defineField({name: 'headline', title: 'Headline', type: 'string',
           description: 'ej. "Let\'s partner to articulate and unpack meaningful results."'}),
       ],
     }),
@@ -566,7 +566,7 @@ export default defineType({
 
     defineField({
       name: 'servicesTitle',
-      title: 'Título',
+      title: 'Title',
       type: 'string',
       group: 'agency',
       fieldset: 'services',
@@ -575,7 +575,7 @@ export default defineType({
 
     defineField({
       name: 'servicesDescription',
-      title: 'Descripción',
+      title: 'Description',
       type: 'text',
       group: 'agency',
       fieldset: 'services',

@@ -39,7 +39,7 @@ export default defineType({
 
     defineField({
       name: 'name',
-      title: 'Nombre del cliente',
+      title: 'Client Name',
       type: 'string',
       validation: Rule => Rule.required(),
       description: 'ej. "Anthology", "Doctums", "D2L"',
@@ -47,7 +47,7 @@ export default defineType({
 
     defineField({
       name: 'url',
-      title: 'URL del sitio web',
+      title: 'Website URL',
       type: 'url',
       description: 'Sitio web público del cliente.',
     }),
@@ -56,7 +56,7 @@ export default defineType({
 
     defineField({
       name: 'logo',
-      title: 'Logo (oscuro)',
+      title: 'Logo (dark)',
       type: 'image',
       options: {hotspot: true},
       description: 'Versión oscura — usada sobre fondos blancos o claros. Se prefiere SVG.',
@@ -64,7 +64,7 @@ export default defineType({
 
     defineField({
       name: 'logoLight',
-      title: 'Logo (claro)',
+      title: 'Logo (light)',
       type: 'image',
       options: {hotspot: true},
       description: 'Versión clara/blanca — usada sobre fondos oscuros o índigo.',
@@ -74,7 +74,7 @@ export default defineType({
 
     defineField({
       name: 'isFeatured',
-      title: 'Mostrar en el logo strip de Home',
+      title: 'Show in Home Logo Strip',
       type: 'boolean',
       initialValue: false,
       description: 'Cuando está activo, este cliente aparece en el logo strip animado de la página de inicio.',
@@ -82,7 +82,7 @@ export default defineType({
 
     defineField({
       name: 'logoHeight',
-      title: 'Alto del logo en el strip (px)',
+      title: 'Logo Display Height (px)',
       type: 'number',
       initialValue: 24,
       description: 'Alto en píxeles para el logo strip de Home. Cada logo tiene su propio alto para mantener el balance visual. ej. 28 para Scholarship Magic, 22 para Anthology.',
@@ -91,7 +91,7 @@ export default defineType({
 
     defineField({
       name: 'logoOrder',
-      title: 'Orden en el logo strip',
+      title: 'Logo Strip Order',
       type: 'number',
       initialValue: 100,
       description: 'Posición en el logo strip de Home. Los números más bajos aparecen primero.',
@@ -101,7 +101,7 @@ export default defineType({
 
     defineField({
       name: 'description',
-      title: 'Descripción',
+      title: 'Description',
       type: 'text',
       rows: 3,
       description: 'Descripción corta usada en la sección de logos de marca de la página de Practice. ej. "Language learning platform. We produced a series of filmed customer spotlights..."',
@@ -111,12 +111,12 @@ export default defineType({
 
   orderings: [
     {
-      title: 'Orden en el logo strip',
+      title: 'Logo strip order',
       name: 'logoOrderAsc',
       by: [{field: 'logoOrder', direction: 'asc'}],
     },
     {
-      title: 'Nombre A–Z',
+      title: 'Name A–Z',
       name: 'nameAsc',
       by: [{field: 'name', direction: 'asc'}],
     },

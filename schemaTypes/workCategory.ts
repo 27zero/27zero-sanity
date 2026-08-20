@@ -12,7 +12,7 @@ export default defineType({
   fields: [
     defineField({
       name: 'title',
-      title: 'Título',
+      title: 'Title',
       type: 'string',
       validation: Rule => Rule.required(),
     }),
@@ -27,14 +27,14 @@ export default defineType({
 
     defineField({
       name: 'description',
-      title: 'Descripción',
+      title: 'Description',
       type: 'text',
       rows: 2,
     }),
 
     defineField({
       name: 'color',
-      title: 'Color de acento',
+      title: 'Accent Color',
       type: 'string',
       description: 'Color hexadecimal usado para el pill de categoría en la UI, ej. #4b3df2',
     }),

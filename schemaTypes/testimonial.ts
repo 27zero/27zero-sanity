@@ -39,7 +39,7 @@ export default defineType({
 
     defineField({
       name: 'quote',
-      title: 'Cita',
+      title: 'Quote',
       type: 'text',
       rows: 4,
       validation: Rule => Rule.required(),
@@ -52,21 +52,21 @@ export default defineType({
 
     defineField({
       name: 'authorName',
-      title: 'Nombre del autor',
+      title: 'Author Name',
       type: 'string',
       description: 'Se usa cuando no hay un documento Client vinculado. ej. "Wesley Matthews"',
     }),
 
     defineField({
       name: 'authorRole',
-      title: 'Rol del autor',
+      title: 'Author Role',
       type: 'string',
       description: 'Rol y empresa de la persona. ej. "Founder and CEO at Doctums"',
     }),
 
     defineField({
       name: 'avatarPhoto',
-      title: 'Foto del autor',
+      title: 'Author Photo',
       type: 'image',
       options: {hotspot: true},
       description: 'Foto de la persona. Se muestra como avatar circular pequeño en el slide.',
@@ -76,7 +76,7 @@ export default defineType({
 
     defineField({
       name: 'backgroundPhoto',
-      title: 'Foto de fondo',
+      title: 'Background Photo',
       type: 'image',
       options: {hotspot: true},
       description: 'Imagen atmosférica grande que llena el lado izquierdo del slide.',
@@ -86,7 +86,7 @@ export default defineType({
 
     defineField({
       name: 'isFeatured',
-      title: 'Mostrar en Home',
+      title: 'Show on Home',
       type: 'boolean',
       initialValue: true,
       description: 'Cuando está activo, este testimonio aparece en el slider de la página de inicio.',
@@ -94,7 +94,7 @@ export default defineType({
 
     defineField({
       name: 'order',
-      title: 'Orden',
+      title: 'Order',
       type: 'number',
       initialValue: 10,
       description: 'Los números más bajos aparecen primero. Usar incrementos de 10 para dejar espacio a reordenar.',
@@ -104,7 +104,7 @@ export default defineType({
 
     defineField({
       name: 'client',
-      title: 'Cliente (opcional)',
+      title: 'Client (optional)',
       type: 'reference',
       to: [{type: 'client'}],
       description: 'Link al documento Client. Cuando está vinculado, el nombre del cliente pasa a ser la fuente de verdad.',
@@ -114,7 +114,7 @@ export default defineType({
 
     defineField({
       name: 'workProject',
-      title: 'Proyecto de Work relacionado (opcional)',
+      title: 'Related Work Project (optional)',
       type: 'reference',
       to: [{type: 'work'}],
       description: 'Link al caso de estudio de este cliente. Habilita referencias cruzadas a futuro.',
@@ -125,7 +125,7 @@ export default defineType({
 
   orderings: [
     {
-      title: 'Orden de visualización',
+      title: 'Display order',
       name: 'orderAsc',
       by: [{field: 'order', direction: 'asc'}],
     },

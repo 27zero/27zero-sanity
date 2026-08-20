@@ -20,11 +20,11 @@ export default defineType({
   type: 'document',
 
   groups: [
-    {name: 'overview',  title: 'Resumen',        default: true},
-    {name: 'case',      title: 'Caso de estudio'},
+    {name: 'overview',  title: 'Overview',     default: true},
+    {name: 'case',      title: 'Case Study'},
     {name: 'media',     title: 'Media'},
-    {name: 'seo',       title: 'SEO y Social'},
-    {name: 'meta',      title: 'Metadatos'},
+    {name: 'seo',       title: 'SEO & Social'},
+    {name: 'meta',      title: 'Metadata'},
   ],
 
   fields: [
@@ -33,7 +33,7 @@ export default defineType({
 
     defineField({
       name: 'title',
-      title: 'Título del proyecto',
+      title: 'Project Title',
       type: 'string',
       group: 'overview',
       description: 'ej. "Anthology — Legacy Conversations"',
@@ -42,7 +42,7 @@ export default defineType({
 
     defineField({
       name: 'slug',
-      title: 'Slug de URL',
+      title: 'URL Slug',
       type: 'slug',
       group: 'overview',
       options: {source: 'title', maxLength: 96},
@@ -51,7 +51,7 @@ export default defineType({
 
     defineField({
       name: 'client',
-      title: 'Cliente',
+      title: 'Client',
       type: 'reference',
       group: 'overview',
       to: [{type: 'client'}],
@@ -61,12 +61,12 @@ export default defineType({
 
     defineField({
       name: 'clientLogo',
-      title: 'Logo del cliente',
+      title: 'Client Logo',
       type: 'image',
       group: 'overview',
       options: {hotspot: true},
       fields: [
-        defineField({name: 'alt', title: 'Texto alternativo', type: 'string'}),
+        defineField({name: 'alt', title: 'Alt text', type: 'string'}),
       ],
     }),
 
@@ -74,7 +74,7 @@ export default defineType({
 
     defineField({
       name: 'category',
-      title: 'Categoría',
+      title: 'Category',
       type: 'reference',
       group: 'overview',
       to: [{type: 'workCategory'}],
@@ -84,7 +84,7 @@ export default defineType({
 
     defineField({
       name: 'services',
-      title: 'Servicios entregados',
+      title: 'Services Delivered',
       type: 'array',
       group: 'overview',
       of: [{type: 'string'}],
@@ -94,7 +94,7 @@ export default defineType({
 
     defineField({
       name: 'projectType',
-      title: 'Tipo de proyecto',
+      title: 'Project Type',
       type: 'string',
       group: 'overview',
       description: 'Tipo de proyecto (ej. campaña, rediseño de sitio, video)',
@@ -102,7 +102,7 @@ export default defineType({
 
     defineField({
       name: 'agencyRole',
-      title: 'Rol de 27zero',
+      title: '27zero Role',
       type: 'string',
       group: 'overview',
       description: 'Rol de 27zero en este proyecto',
@@ -110,7 +110,7 @@ export default defineType({
 
     defineField({
       name: 'year',
-      title: 'Año',
+      title: 'Year',
       type: 'number',
       group: 'overview',
       validation: Rule => Rule.integer().min(2000).max(2099),
@@ -118,7 +118,7 @@ export default defineType({
 
     defineField({
       name: 'excerpt',
-      title: 'Descripción corta',
+      title: 'Short Description',
       type: 'text',
       group: 'overview',
       rows: 2,
@@ -128,7 +128,7 @@ export default defineType({
 
     defineField({
       name: 'clientTagline',
-      title: 'Tagline del cliente',
+      title: 'Client Tagline',
       type: 'string',
       group: 'overview',
       description: 'Tagline corto mostrado debajo del nombre del cliente en la página de detalle.',
@@ -136,7 +136,7 @@ export default defineType({
 
     defineField({
       name: 'isFeatured',
-      title: 'Destacado',
+      title: 'Featured',
       type: 'boolean',
       group: 'meta',
       initialValue: false,
@@ -145,7 +145,7 @@ export default defineType({
 
     defineField({
       name: 'order',
-      title: 'Orden de visualización',
+      title: 'Display Order',
       type: 'number',
       group: 'meta',
       description: 'Los números más bajos aparecen primero dentro de su categoría. Default: 100.',
@@ -156,31 +156,31 @@ export default defineType({
 
     defineField({
       name: 'thumbnail',
-      title: 'Miniatura del índice',
+      title: 'Index Thumbnail',
       type: 'image',
       group: 'media',
       options: {hotspot: true},
       fields: [
-        defineField({name: 'alt', title: 'Texto alternativo', type: 'string'}),
+        defineField({name: 'alt', title: 'Alt text', type: 'string'}),
       ],
       description: 'Se muestra en la card del índice de Work. Recomendado: 800×600 px.',
     }),
 
     defineField({
       name: 'heroImage',
-      title: 'Imagen principal',
+      title: 'Hero Image',
       type: 'image',
       group: 'media',
       options: {hotspot: true},
       fields: [
-        defineField({name: 'alt', title: 'Texto alternativo', type: 'string'}),
+        defineField({name: 'alt', title: 'Alt text', type: 'string'}),
       ],
       description: 'Imagen a todo el ancho en la parte superior de la página de detalle. Recomendado: 1600×900 px.',
     }),
 
     defineField({
       name: 'heroVideo',
-      title: 'URL de video principal',
+      title: 'Hero Video URL',
       type: 'url',
       group: 'media',
       description: 'URL opcional de YouTube o Vimeo. Se muestra en lugar de la imagen principal cuando está presente.',
@@ -188,7 +188,7 @@ export default defineType({
 
     defineField({
       name: 'gallery',
-      title: 'Galería',
+      title: 'Gallery',
       type: 'array',
       group: 'media',
       of: [
@@ -196,8 +196,8 @@ export default defineType({
           type: 'image',
           options: {hotspot: true},
           fields: [
-            {name: 'alt',     title: 'Texto alternativo', type: 'string'},
-            {name: 'caption', title: 'Leyenda',           type: 'string'},
+            {name: 'alt',     title: 'Alt text', type: 'string'},
+            {name: 'caption', title: 'Caption',  type: 'string'},
           ],
         },
       ],
@@ -208,7 +208,7 @@ export default defineType({
 
     defineField({
       name: 'brief',
-      title: 'El brief',
+      title: 'The Brief',
       type: 'text',
       group: 'case',
       rows: 3,
@@ -217,27 +217,27 @@ export default defineType({
 
     defineField({
       name: 'challenge',
-      title: 'El desafío',
+      title: 'Challenge',
       type: 'object',
       group: 'case',
       description: 'Sección del desafío del proyecto',
       fields: [
         defineField({
           name: 'challengeTitle',
-          title: 'Título de sección',
+          title: 'Section Title',
           type: 'string',
           initialValue: 'The Challenge',
           description: 'Título mostrado sobre el desafío',
         }),
         defineField({
           name: 'challengeContent',
-          title: 'Contenido del desafío',
+          title: 'Challenge Content',
           type: 'blockContent',
           description: '¿Qué problema estábamos resolviendo?',
         }),
         defineField({
           name: 'challengeImages',
-          title: 'Imágenes del desafío',
+          title: 'Challenge Images',
           type: 'array',
           description: 'Imágenes de la sección del desafío',
           of: [
@@ -245,8 +245,8 @@ export default defineType({
               type: 'image',
               options: {hotspot: true},
               fields: [
-                defineField({name: 'alt', title: 'Texto alternativo', type: 'string', validation: Rule => Rule.required()}),
-                defineField({name: 'caption', title: 'Leyenda', type: 'string'}),
+                defineField({name: 'alt', title: 'Alt text', type: 'string', validation: Rule => Rule.required()}),
+                defineField({name: 'caption', title: 'Caption', type: 'string'}),
               ],
             },
           ],
@@ -256,16 +256,16 @@ export default defineType({
 
     defineField({
       name: 'solution',
-      title: 'Solución',
+      title: 'Solution',
       type: 'object',
       group: 'case',
       fields: [
-        defineField({name: 'headline', title: 'Título de la solución', type: 'string',
+        defineField({name: 'headline', title: 'Solution Headline', type: 'string',
           description: 'ej. "Changing the nature of the traditional B2B event."'}),
-        defineField({name: 'body', title: 'Cuerpo de la solución', type: 'blockContent'}),
+        defineField({name: 'body', title: 'Solution Body', type: 'blockContent'}),
         defineField({
           name: 'solutionImages',
-          title: 'Imágenes de la solución',
+          title: 'Solution Images',
           type: 'array',
           description: 'Imágenes de la sección de solución',
           of: [
@@ -273,8 +273,8 @@ export default defineType({
               type: 'image',
               options: {hotspot: true},
               fields: [
-                defineField({name: 'alt', title: 'Texto alternativo', type: 'string', validation: Rule => Rule.required()}),
-                defineField({name: 'caption', title: 'Leyenda', type: 'string'}),
+                defineField({name: 'alt', title: 'Alt text', type: 'string', validation: Rule => Rule.required()}),
+                defineField({name: 'caption', title: 'Caption', type: 'string'}),
               ],
             },
           ],
@@ -284,15 +284,15 @@ export default defineType({
 
     defineField({
       name: 'impact',
-      title: 'El impacto',
+      title: 'The Impact',
       type: 'array',
       group: 'case',
       of: [
         {
           type: 'object',
           fields: [
-            {name: 'verb',   title: 'Verbo',     type: 'string', description: 'ej. "Fueled"'},
-            {name: 'result', title: 'Resultado', type: 'text',   description: 'ej. "El ciclo de ventas con más de 50 cuentas clave."'},
+            {name: 'verb',   title: 'Verb',   type: 'string', description: 'ej. "Fueled"'},
+            {name: 'result', title: 'Result', type: 'text',   description: 'ej. "El ciclo de ventas con más de 50 cuentas clave."'},
           ],
           preview: {
             select: {title: 'verb', subtitle: 'result'},
@@ -307,7 +307,7 @@ export default defineType({
 
     defineField({
       name: 'contributions',
-      title: 'Contribuciones',
+      title: 'Contributions',
       type: 'array',
       group: 'case',
       of: [{type: 'string'}],
@@ -317,7 +317,7 @@ export default defineType({
 
     defineField({
       name: 'location',
-      title: 'Ubicación',
+      title: 'Location',
       type: 'string',
       group: 'case',
       description: 'ej. "New York, USA"',
@@ -325,27 +325,27 @@ export default defineType({
 
     defineField({
       name: 'description',
-      title: 'Descripción del proyecto',
+      title: 'Project Description',
       type: 'object',
       group: 'case',
       description: 'Sección de contenido/descripción del proyecto',
       fields: [
         defineField({
           name: 'projectTitle',
-          title: 'Título de sección',
+          title: 'Section Title',
           type: 'string',
           initialValue: 'Project Content',
           description: 'Título mostrado sobre el contenido del proyecto',
         }),
         defineField({
           name: 'projectContent',
-          title: 'Contenido del proyecto',
+          title: 'Project Content',
           type: 'blockContent',
           description: 'Descripción completa del proyecto mostrada en la sección de información del cliente.',
         }),
         defineField({
           name: 'projectImages',
-          title: 'Imágenes del proyecto',
+          title: 'Project Images',
           type: 'array',
           description: 'Imágenes de la sección de contenido del proyecto',
           of: [
@@ -353,8 +353,8 @@ export default defineType({
               type: 'image',
               options: {hotspot: true},
               fields: [
-                defineField({name: 'alt', title: 'Texto alternativo', type: 'string', validation: Rule => Rule.required()}),
-                defineField({name: 'caption', title: 'Leyenda', type: 'string'}),
+                defineField({name: 'alt', title: 'Alt text', type: 'string', validation: Rule => Rule.required()}),
+                defineField({name: 'caption', title: 'Caption', type: 'string'}),
               ],
             },
           ],
@@ -364,15 +364,15 @@ export default defineType({
 
     defineField({
       name: 'results',
-      title: 'Resultados',
+      title: 'Results',
       type: 'array',
       group: 'case',
       of: [{
         type: 'object',
         fields: [
-          defineField({name: 'number',      title: 'Estadística / Número', type: 'string',
+          defineField({name: 'number',      title: 'Stat / Number', type: 'string',
             description: 'ej. "20%", "1K", "95%"'}),
-          defineField({name: 'description', title: 'Descripción',   type: 'text', rows: 2}),
+          defineField({name: 'description', title: 'Description',   type: 'text', rows: 2}),
         ],
         preview: {select: {title: 'number', subtitle: 'description'}},
       }],
@@ -381,20 +381,20 @@ export default defineType({
 
     defineField({
       name: 'contentSections',
-      title: 'Secciones de contenido',
+      title: 'Content Sections',
       type: 'array',
       group: 'case',
       of: [{
         type: 'object',
         fields: [
-          defineField({name: 'title',  title: 'Título de sección', type: 'string'}),
-          defineField({name: 'body',   title: 'Texto del cuerpo',  type: 'text', rows: 4}),
+          defineField({name: 'title',  title: 'Section Title', type: 'string'}),
+          defineField({name: 'body',   title: 'Body Text',     type: 'text', rows: 4}),
           defineField({
-            name: 'images', title: 'Imágenes', type: 'array',
+            name: 'images', title: 'Images', type: 'array',
             of: [{
               type: 'image',
               options: {hotspot: true},
-              fields: [defineField({name: 'alt', title: 'Texto alternativo', type: 'string'})],
+              fields: [defineField({name: 'alt', title: 'Alt text', type: 'string'})],
             }],
           }),
         ],
@@ -413,7 +413,7 @@ export default defineType({
 
   orderings: [
     {
-      title: 'Destacados primero, luego por orden',
+      title: 'Featured first, then by order',
       name: 'featuredOrder',
       by: [
         {field: 'isFeatured', direction: 'desc'},
@@ -422,12 +422,12 @@ export default defineType({
       ],
     },
     {
-      title: 'Año (más reciente primero)',
+      title: 'Year (newest first)',
       name: 'yearDesc',
       by: [{field: 'year', direction: 'desc'}],
     },
     {
-      title: 'Cliente A–Z',
+      title: 'Client A–Z',
       name: 'clientAsc',
       by: [{field: 'client.name', direction: 'asc'}],
     },

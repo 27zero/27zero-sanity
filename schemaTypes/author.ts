@@ -17,7 +17,7 @@ export default defineType({
   fields: [
     defineField({
       name: 'name',
-      title: 'Nombre completo',
+      title: 'Full Name',
       type: 'string',
       validation: Rule => Rule.required(),
     }),
@@ -32,20 +32,20 @@ export default defineType({
 
     defineField({
       name: 'role',
-      title: 'Rol / Cargo',
+      title: 'Role / Title',
       type: 'string',
       description: 'ej. "Chief Strategy Officer"',
     }),
 
     defineField({
       name: 'company',
-      title: 'Empresa',
+      title: 'Company',
       type: 'string',
     }),
 
     defineField({
       name: 'photo',
-      title: 'Foto',
+      title: 'Photo',
       type: 'image',
       options: {hotspot: true},
     }),
@@ -59,13 +59,13 @@ export default defineType({
 
     defineField({
       name: 'linkedin',
-      title: 'URL de LinkedIn',
+      title: 'LinkedIn URL',
       type: 'url',
     }),
 
     defineField({
       name: 'email',
-      title: 'Email (opcional)',
+      title: 'Email (optional)',
       type: 'string',
       description: 'No se muestra públicamente — solo para contacto interno.',
     }),

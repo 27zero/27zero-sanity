@@ -44,18 +44,18 @@ export default defineType({
   type: 'document',
 
   groups: [
-    {name: 'card',         title: 'Card (Home y Agency)',  default: true},
+    {name: 'card',         title: 'Card (Home & Agency)',  default: true},
     {name: 'hero',         title: 'Hero'},
-    {name: 'credibility',  title: 'Credibilidad'},
-    {name: 'conversation', title: 'Motor de conversación'},
-    {name: 'meta',         title: 'Metadatos'},
+    {name: 'credibility',  title: 'Credibility'},
+    {name: 'conversation', title: 'Conversation Engine'},
+    {name: 'meta',         title: 'Metadata'},
   ],
 
   fieldsets: [
     {name: 'intro',           title: 'Intro'},
-    {name: 'clients',         title: 'Clientes'},
-    {name: 'practiceScopes',  title: 'Alcances de la práctica'},
-    {name: 'pageCta',         title: 'CTA de página'},
+    {name: 'clients',         title: 'Clients'},
+    {name: 'practiceScopes',  title: 'Practice Scopes'},
+    {name: 'pageCta',         title: 'Page CTA'},
   ],
 
   fields: [
@@ -64,7 +64,7 @@ export default defineType({
 
     defineField({
       name: 'title',
-      title: 'Título',
+      title: 'Title',
       type: 'string',
       group: 'card',
       validation: Rule => Rule.required(),
@@ -73,7 +73,7 @@ export default defineType({
 
     defineField({
       name: 'slug',
-      title: 'Slug de URL',
+      title: 'URL Slug',
       type: 'slug',
       group: 'meta',
       options: {source: 'title', maxLength: 96},
@@ -83,7 +83,7 @@ export default defineType({
 
     defineField({
       name: 'shortDescription',
-      title: 'Descripción corta',
+      title: 'Short Description',
       type: 'text',
       rows: 3,
       group: 'card',
@@ -93,7 +93,7 @@ export default defineType({
 
     defineField({
       name: 'description',
-      title: 'Descripción',
+      title: 'Description',
       type: 'string',
       group: 'card',
       description: 'Descripción general de la práctica',
@@ -101,7 +101,7 @@ export default defineType({
 
     defineField({
       name: 'iconId',
-      title: 'Ícono',
+      title: 'Icon',
       type: 'string',
       group: 'card',
       options: {list: ICON_OPTIONS, layout: 'dropdown'},
@@ -110,7 +110,7 @@ export default defineType({
 
     defineField({
       name: 'order',
-      title: 'Orden de visualización',
+      title: 'Display Order',
       type: 'number',
       group: 'meta',
       initialValue: 10,
@@ -119,7 +119,7 @@ export default defineType({
 
     defineField({
       name: 'relatedServiceCategory',
-      title: 'Categoría de servicios relacionados',
+      title: 'Related Service Category',
       type: 'string',
       group: 'meta',
       options: {list: RELATED_SERVICE_CATEGORIES, layout: 'dropdown'},
@@ -130,7 +130,7 @@ export default defineType({
 
     defineField({
       name: 'introTitle',
-      title: 'Título de intro',
+      title: 'Intro Title',
       type: 'string',
       group: 'hero',
       fieldset: 'intro',
@@ -139,7 +139,7 @@ export default defineType({
 
     defineField({
       name: 'introDescription',
-      title: 'Descripción de intro',
+      title: 'Intro Description',
       type: 'text',
       group: 'hero',
       fieldset: 'intro',
@@ -148,7 +148,7 @@ export default defineType({
 
     defineField({
       name: 'capabilities',
-      title: 'Capacidades',
+      title: 'Capabilities',
       type: 'array',
       group: 'hero',
       fieldset: 'intro',
@@ -161,7 +161,7 @@ export default defineType({
 
     defineField({
       name: 'heroHeadline',
-      title: 'Título del hero',
+      title: 'Hero Headline',
       type: 'string',
       group: 'hero',
       description: 'ej. "Turning communities into growth engines."',
@@ -169,7 +169,7 @@ export default defineType({
 
     defineField({
       name: 'heroText',
-      title: 'Texto del hero',
+      title: 'Hero Text',
       type: 'text',
       rows: 3,
       group: 'hero',
@@ -177,7 +177,7 @@ export default defineType({
 
     defineField({
       name: 'heroImage',
-      title: 'Imagen de fondo del hero',
+      title: 'Hero Background Image',
       type: 'image',
       group: 'hero',
       options: {hotspot: true},
@@ -187,7 +187,7 @@ export default defineType({
 
     defineField({
       name: 'clientSectionTitle',
-      title: 'Título de sección',
+      title: 'Section Title',
       type: 'string',
       group: 'card',
       fieldset: 'clients',
@@ -196,7 +196,7 @@ export default defineType({
 
     defineField({
       name: 'clientNames',
-      title: 'Clientes destacados',
+      title: 'Featured Clients',
       type: 'array',
       group: 'card',
       fieldset: 'clients',
@@ -208,7 +208,7 @@ export default defineType({
 
     defineField({
       name: 'credibilityHeadline',
-      title: 'Título de credibilidad',
+      title: 'Credibility Headline',
       type: 'string',
       group: 'credibility',
       description: 'ej. "We do not just observe the EdTech market, we help shape it."',
@@ -216,7 +216,7 @@ export default defineType({
 
     defineField({
       name: 'credibilityText',
-      title: 'Texto de credibilidad',
+      title: 'Credibility Text',
       type: 'text',
       rows: 4,
       group: 'credibility',
@@ -224,7 +224,7 @@ export default defineType({
 
     defineField({
       name: 'credibilityItems',
-      title: 'Ítems de credibilidad',
+      title: 'Credibility Items',
       type: 'array',
       group: 'credibility',
       of: [defineArrayMember({type: 'string'})],
@@ -235,7 +235,7 @@ export default defineType({
 
     defineField({
       name: 'conversationItems',
-      title: 'Ítems del motor de conversación',
+      title: 'Conversation Engine Items',
       type: 'array',
       group: 'conversation',
       description: 'Ítems del acordeón en la sección "From a single conversation to a content engine".',
@@ -244,11 +244,11 @@ export default defineType({
           type: 'object',
           name: 'conversationItem',
           fields: [
-            defineField({name: 'title',      title: 'Título',      type: 'string'}),
-            defineField({name: 'body',       title: 'Cuerpo',      type: 'text', rows: 3}),
-            defineField({name: 'ctaLabel',   title: 'Texto del CTA',  type: 'string',
+            defineField({name: 'title',      title: 'Title',      type: 'string'}),
+            defineField({name: 'body',       title: 'Body',       type: 'text', rows: 3}),
+            defineField({name: 'ctaLabel',   title: 'CTA Label',  type: 'string',
               description: 'Texto del botón. Dejar vacío para no mostrar botón.'}),
-            defineField({name: 'ctaHref',    title: 'URL del CTA',    type: 'string'}),
+            defineField({name: 'ctaHref',    title: 'CTA URL',    type: 'string'}),
           ],
           preview: {select: {title: 'title', subtitle: 'body'}},
         }),
@@ -259,7 +259,7 @@ export default defineType({
 
     defineField({
       name: 'practiceScopesTitle',
-      title: 'Título de sección',
+      title: 'Section Title',
       type: 'string',
       group: 'conversation',
       fieldset: 'practiceScopes',
@@ -268,7 +268,7 @@ export default defineType({
 
     defineField({
       name: 'practiceScopes',
-      title: 'Alcances',
+      title: 'Scopes',
       type: 'array',
       group: 'conversation',
       fieldset: 'practiceScopes',
@@ -278,10 +278,10 @@ export default defineType({
           type: 'object',
           name: 'practiceScope',
           fields: [
-            defineField({name: 'title',      title: 'Título',        type: 'string'}),
-            defineField({name: 'description', title: 'Descripción',  type: 'text', rows: 3}),
-            defineField({name: 'ctaLabel',   title: 'Texto del CTA', type: 'string'}),
-            defineField({name: 'ctaHref',    title: 'URL del CTA',   type: 'string'}),
+            defineField({name: 'title',      title: 'Title',        type: 'string'}),
+            defineField({name: 'description', title: 'Description',  type: 'text', rows: 3}),
+            defineField({name: 'ctaLabel',   title: 'CTA Label', type: 'string'}),
+            defineField({name: 'ctaHref',    title: 'CTA URL',   type: 'string'}),
           ],
           preview: {select: {title: 'title', subtitle: 'description'}},
         }),
@@ -292,7 +292,7 @@ export default defineType({
 
     defineField({
       name: 'closingCtaHeadline',
-      title: 'Título del CTA de cierre',
+      title: 'Closing CTA Headline',
       type: 'string',
       group: 'hero',
       description: 'ej. "Turn your customers into your growth engine."',
@@ -302,7 +302,7 @@ export default defineType({
 
     defineField({
       name: 'ctaTitle',
-      title: 'Título del CTA',
+      title: 'CTA Title',
       type: 'string',
       group: 'hero',
       fieldset: 'pageCta',
@@ -310,7 +310,7 @@ export default defineType({
 
     defineField({
       name: 'ctaLabel',
-      title: 'Texto del botón',
+      title: 'Button Text',
       type: 'string',
       group: 'hero',
       fieldset: 'pageCta',
@@ -318,7 +318,7 @@ export default defineType({
 
     defineField({
       name: 'ctaHref',
-      title: 'Link del CTA',
+      title: 'CTA Link',
       type: 'url',
       group: 'hero',
       fieldset: 'pageCta',
@@ -328,7 +328,7 @@ export default defineType({
 
   orderings: [
     {
-      title: 'Orden de visualización',
+      title: 'Display order',
       name: 'orderAsc',
       by: [{field: 'order', direction: 'asc'}],
     },
