@@ -2,7 +2,7 @@ import {defineConfig} from 'sanity'
 import {structureTool} from 'sanity/structure'
 import {visionTool} from '@sanity/vision'
 import {schemaTypes} from './schemaTypes'
-import {pillarbaseImporterPlugin} from './plugins/pillarbase-importer'
+// import {pillarbaseImporterPlugin} from './plugins/pillarbase-importer'
 
 export default defineConfig({
   name: 'default',
@@ -16,7 +16,12 @@ export default defineConfig({
     visionTool(),
     // Pillarbase Importer — adds "Pillarbase Importer" tab to the Studio nav bar
     // Requires SANITY_STUDIO_PILLARBASE_API_URL and SANITY_STUDIO_PILLARBASE_API_KEY in .env
-    pillarbaseImporterPlugin(),
+    //
+    // Desactivado — integración con Pillarbase nunca confirmó endpoints reales
+    // (ver commits db89be2, 0f978d1) y su mapper apunta a _type: 'post',
+    // eliminado del schema. Reactivar solo tras confirmar con el cliente si
+    // esta integración es requerida.
+    // pillarbaseImporterPlugin(),
   ],
 
   schema: {

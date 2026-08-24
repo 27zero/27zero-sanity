@@ -35,7 +35,7 @@ export default defineType({
 
   fields: [
 
-    // ── The testimonial itself ─────────────────────────────────────────
+    // ── El testimonio en sí ──────────────────────────────────────────
 
     defineField({
       name: 'quote',
@@ -43,25 +43,25 @@ export default defineType({
       type: 'text',
       rows: 4,
       validation: Rule => Rule.required(),
-      description: 'The client\'s testimonial text.',
+      description: 'El texto del testimonio del cliente.',
     }),
 
-    // ── Author information ─────────────────────────────────────────────
-    // authorName is a fallback for when no client reference is set.
-    // When client is linked, GROQ uses coalesce(client->name, authorName).
+    // ── Información del autor ────────────────────────────────────────
+    // authorName es un resguardo para cuando no hay client vinculado.
+    // Cuando client está vinculado, GROQ usa coalesce(client->name, authorName).
 
     defineField({
       name: 'authorName',
       title: 'Author Name',
       type: 'string',
-      description: 'Used when no Client document is linked. e.g. "Wesley Matthews"',
+      description: 'Se usa cuando no hay un documento Client vinculado. ej. "Wesley Matthews"',
     }),
 
     defineField({
       name: 'authorRole',
       title: 'Author Role',
       type: 'string',
-      description: 'Person\'s role and company. e.g. "Founder and CEO at Doctums"',
+      description: 'Rol y empresa de la persona. ej. "Founder and CEO at Doctums"',
     }),
 
     defineField({
@@ -69,27 +69,27 @@ export default defineType({
       title: 'Author Photo',
       type: 'image',
       options: {hotspot: true},
-      description: 'Headshot of the person. Shown as a small circular avatar in the slide.',
+      description: 'Foto de la persona. Se muestra como avatar circular pequeño en el slide.',
     }),
 
-    // ── Slide imagery ──────────────────────────────────────────────────
+    // ── Imágenes del slide ──────────────────────────────────────────────
 
     defineField({
       name: 'backgroundPhoto',
       title: 'Background Photo',
       type: 'image',
       options: {hotspot: true},
-      description: 'Large atmospheric image filling the left side of the slide.',
+      description: 'Imagen atmosférica grande que llena el lado izquierdo del slide.',
     }),
 
-    // ── Display controls ───────────────────────────────────────────────
+    // ── Controles de visualización ───────────────────────────────────────
 
     defineField({
-      name: 'featured',
+      name: 'isFeatured',
       title: 'Show on Home',
       type: 'boolean',
       initialValue: true,
-      description: 'When enabled, this testimonial appears in the home page slider.',
+      description: 'Cuando está activo, este testimonio aparece en el slider de la página de inicio.',
     }),
 
     defineField({
@@ -97,17 +97,17 @@ export default defineType({
       title: 'Order',
       type: 'number',
       initialValue: 10,
-      description: 'Lower numbers appear first. Use increments of 10 to leave room for reordering.',
+      description: 'Los números más bajos aparecen primero. Usar incrementos de 10 para dejar espacio a reordenar.',
     }),
 
-    // ── Optional references ────────────────────────────────────────────
+    // ── Referencias opcionales ────────────────────────────────────────
 
     defineField({
       name: 'client',
       title: 'Client (optional)',
       type: 'reference',
       to: [{type: 'client'}],
-      description: 'Link to the Client document. When linked, the client name becomes the source of truth.',
+      description: 'Link al documento Client. Cuando está vinculado, el nombre del cliente pasa a ser la fuente de verdad.',
       // weak reference: deleting a client won't break the testimonial
       options: {disableNew: false},
     }),
@@ -116,8 +116,8 @@ export default defineType({
       name: 'workProject',
       title: 'Related Work Project (optional)',
       type: 'reference',
-      to: [{type: 'workProject'}],
-      description: 'Link to the case study for this client. Enables future cross-referencing.',
+      to: [{type: 'work'}],
+      description: 'Link al caso de estudio de este cliente. Habilita referencias cruzadas a futuro.',
       options: {disableNew: false},
     }),
 
@@ -137,11 +137,11 @@ export default defineType({
       authorName:  'authorName',
       clientName:  'client.name',
       media:       'avatarPhoto',
-      featured:    'featured',
+      isFeatured:  'isFeatured',
     },
-    prepare({quote, authorName, clientName, media, featured}) {
+    prepare({quote, authorName, clientName, media, isFeatured}) {
       const name  = clientName || authorName || 'Unnamed'
-      const star  = featured ? '⭐ ' : '○ '
+      const star  = isFeatured ? '⭐ ' : '○ '
       const blurb = quote ? quote.slice(0, 60) + (quote.length > 60 ? '…' : '') : 'No quote'
       return {
         title:    `${star}${name}`,

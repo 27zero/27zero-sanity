@@ -14,18 +14,8 @@
 
 import {defineField, defineType} from 'sanity'
 
-// ── Service categories — mirrors the existing static site structure ──────
-const SERVICE_CATEGORIES = [
-  {title: 'Brand Essentials',      value: 'brand-essentials'},
-  {title: 'Marketing Programs',    value: 'marketing-programs'},
-  {title: 'Customer Spotlights',   value: 'customer-spotlights'},
-  {title: 'Events & Experiences',  value: 'events-experiences'},
-  {title: 'Video & Motion',        value: 'video-motion'},
-  {title: 'GTM & Launch',          value: 'gtm-launch'},
-]
-
 export default defineType({
-  name: 'workProject',
+  name: 'work',
   title: 'Work',
   type: 'document',
 
@@ -39,14 +29,14 @@ export default defineType({
 
   fields: [
 
-    // ── Identity ───────────────────────────────────────────────────────
+    // ── Identidad ──────────────────────────────────────────────────────
 
     defineField({
       name: 'title',
       title: 'Project Title',
       type: 'string',
       group: 'overview',
-      description: 'e.g. "Anthology — Legacy Conversations"',
+      description: 'ej. "Anthology — Legacy Conversations"',
       validation: Rule => Rule.required().max(120),
     }),
 
@@ -61,10 +51,11 @@ export default defineType({
 
     defineField({
       name: 'client',
-      title: 'Client Name',
-      type: 'string',
+      title: 'Client',
+      type: 'reference',
       group: 'overview',
-      description: 'e.g. "Anthology"',
+      to: [{type: 'client'}],
+      description: 'El cliente al que pertenece este caso de estudio.',
       validation: Rule => Rule.required(),
     }),
 
@@ -79,15 +70,15 @@ export default defineType({
       ],
     }),
 
-    // ── Overview fields (used on index page and detail hero) ──────────
+    // ── Campos de resumen (usados en el índice y el hero de detalle) ────
 
     defineField({
       name: 'category',
-      title: 'Service Category',
-      type: 'string',
+      title: 'Category',
+      type: 'reference',
       group: 'overview',
-      options: {list: SERVICE_CATEGORIES, layout: 'dropdown'},
-      description: 'Primary category for filtering on the Work index.',
+      to: [{type: 'workCategory'}],
+      description: 'Categoría principal para filtrar/agrupar en el índice de Work.',
       validation: Rule => Rule.required(),
     }),
 
@@ -98,15 +89,23 @@ export default defineType({
       group: 'overview',
       of: [{type: 'string'}],
       options: {layout: 'tags'},
-      description: 'All services involved, used for "Related projects" matching.',
+      description: 'Todos los servicios involucrados; se usa para relacionar proyectos similares.',
     }),
 
     defineField({
-      name: 'industry',
-      title: 'Industry',
+      name: 'projectType',
+      title: 'Project Type',
       type: 'string',
       group: 'overview',
-      description: 'e.g. "Higher Education", "Corporate Learning", "K-12"',
+      description: 'Tipo de proyecto (ej. campaña, rediseño de sitio, video)',
+    }),
+
+    defineField({
+      name: 'agencyRole',
+      title: '27zero Role',
+      type: 'string',
+      group: 'overview',
+      description: 'Rol de 27zero en este proyecto',
     }),
 
     defineField({
@@ -123,17 +122,25 @@ export default defineType({
       type: 'text',
       group: 'overview',
       rows: 2,
-      description: 'One-sentence summary shown on the Work index card.',
+      description: 'Resumen de una oración mostrado en la card del índice de Work.',
       validation: Rule => Rule.required().max(220),
     }),
 
     defineField({
-      name: 'featured',
+      name: 'clientTagline',
+      title: 'Client Tagline',
+      type: 'string',
+      group: 'overview',
+      description: 'Tagline corto mostrado debajo del nombre del cliente en la página de detalle.',
+    }),
+
+    defineField({
+      name: 'isFeatured',
       title: 'Featured',
       type: 'boolean',
       group: 'meta',
       initialValue: false,
-      description: 'Featured projects appear first and larger on the index page.',
+      description: 'Los proyectos destacados aparecen primero y más grandes en la página de índice.',
     }),
 
     defineField({
@@ -141,7 +148,7 @@ export default defineType({
       title: 'Display Order',
       type: 'number',
       group: 'meta',
-      description: 'Lower numbers appear first within their category. Default: 100.',
+      description: 'Los números más bajos aparecen primero dentro de su categoría. Default: 100.',
       initialValue: 100,
     }),
 
@@ -156,7 +163,7 @@ export default defineType({
       fields: [
         defineField({name: 'alt', title: 'Alt text', type: 'string'}),
       ],
-      description: 'Displayed on the Work index card. Recommended: 800×600 px.',
+      description: 'Se muestra en la card del índice de Work. Recomendado: 800×600 px.',
     }),
 
     defineField({
@@ -168,7 +175,7 @@ export default defineType({
       fields: [
         defineField({name: 'alt', title: 'Alt text', type: 'string'}),
       ],
-      description: 'Full-width image at the top of the detail page. Recommended: 1600×900 px.',
+      description: 'Imagen a todo el ancho en la parte superior de la página de detalle. Recomendado: 1600×900 px.',
     }),
 
     defineField({
@@ -176,7 +183,7 @@ export default defineType({
       title: 'Hero Video URL',
       type: 'url',
       group: 'media',
-      description: 'Optional YouTube or Vimeo URL. Shown instead of hero image when present.',
+      description: 'URL opcional de YouTube o Vimeo. Se muestra en lugar de la imagen principal cuando está presente.',
     }),
 
     defineField({
@@ -194,10 +201,10 @@ export default defineType({
           ],
         },
       ],
-      description: 'Additional images shown in the detail page gallery.',
+      description: 'Imágenes adicionales mostradas en la galería de la página de detalle.',
     }),
 
-    // ── Case study narrative ──────────────────────────────────────────
+    // ── Narrativa del caso de estudio ────────────────────────────────────
 
     defineField({
       name: 'brief',
@@ -205,15 +212,46 @@ export default defineType({
       type: 'text',
       group: 'case',
       rows: 3,
-      description: 'One-paragraph client brief / context.',
+      description: 'Brief del cliente / contexto, en un párrafo.',
     }),
 
     defineField({
       name: 'challenge',
       title: 'Challenge',
-      type: 'blockContent',
+      type: 'object',
       group: 'case',
-      description: 'What problem were we solving?',
+      description: 'Sección del desafío del proyecto',
+      fields: [
+        defineField({
+          name: 'challengeTitle',
+          title: 'Section Title',
+          type: 'string',
+          initialValue: 'The Challenge',
+          description: 'Título mostrado sobre el desafío',
+        }),
+        defineField({
+          name: 'challengeContent',
+          title: 'Challenge Content',
+          type: 'blockContent',
+          description: '¿Qué problema estábamos resolviendo?',
+        }),
+        defineField({
+          name: 'challengeImages',
+          title: 'Challenge Images',
+          type: 'array',
+          description: 'Imágenes de la sección del desafío',
+          of: [
+            {
+              type: 'image',
+              options: {hotspot: true},
+              fields: [
+                defineField({name: 'alt', title: 'Alt text', type: 'string', validation: Rule => Rule.required()}),
+                defineField({name: 'caption', title: 'Caption', type: 'string'}),
+              ],
+            },
+          ],
+        }),
+      ],
     }),
 
     defineField({
@@ -223,8 +261,24 @@ export default defineType({
       group: 'case',
       fields: [
         defineField({name: 'headline', title: 'Solution Headline', type: 'string',
-          description: 'e.g. "Changing the nature of the traditional B2B event."'}),
+          description: 'ej. "Changing the nature of the traditional B2B event."'}),
         defineField({name: 'body', title: 'Solution Body', type: 'blockContent'}),
+        defineField({
+          name: 'solutionImages',
+          title: 'Solution Images',
+          type: 'array',
+          description: 'Imágenes de la sección de solución',
+          of: [
+            {
+              type: 'image',
+              options: {hotspot: true},
+              fields: [
+                defineField({name: 'alt', title: 'Alt text', type: 'string', validation: Rule => Rule.required()}),
+                defineField({name: 'caption', title: 'Caption', type: 'string'}),
+              ],
+            },
+          ],
+        }),
       ],
     }),
 
@@ -237,29 +291,19 @@ export default defineType({
         {
           type: 'object',
           fields: [
-            {name: 'verb',   title: 'Verb',   type: 'string', description: 'e.g. "Fueled"'},
-            {name: 'result', title: 'Result', type: 'text',   description: 'e.g. "The sales cycle with more than 50 key accounts."'},
+            {name: 'verb',   title: 'Verb',   type: 'string', description: 'ej. "Fueled"'},
+            {name: 'result', title: 'Result', type: 'text',   description: 'ej. "El ciclo de ventas con más de 50 cuentas clave."'},
           ],
           preview: {
             select: {title: 'verb', subtitle: 'result'},
           },
         },
       ],
-      description: 'Impact bullet points: verb + result pairs (used in look-list layout).',
+      description: 'Puntos de impacto: pares verbo + resultado (usado en el layout de lista destacada).',
     }),
 
-    // ── SEO ───────────────────────────────────────────────────────────
-
-    // ── CMS detail page fields ───────────────────────────────────────
-    // Used by pages/work/work-cms/index.html
-
-    defineField({
-      name: 'clientTagline',
-      title: 'Client Tagline',
-      type: 'string',
-      group: 'overview',
-      description: 'Short tagline shown under the client name on the detail page.',
-    }),
+    // ── Campos de la página de detalle CMS ───────────────────────────
+    // Usados por pages/work/work-cms/index.html
 
     defineField({
       name: 'contributions',
@@ -268,7 +312,7 @@ export default defineType({
       group: 'case',
       of: [{type: 'string'}],
       options: {layout: 'tags'},
-      description: 'List of contributions/services delivered, shown as bullet list.',
+      description: 'Lista de contribuciones/servicios entregados, mostrada como lista de viñetas.',
     }),
 
     defineField({
@@ -276,15 +320,46 @@ export default defineType({
       title: 'Location',
       type: 'string',
       group: 'case',
-      description: 'e.g. "New York, USA"',
+      description: 'ej. "New York, USA"',
     }),
 
     defineField({
       name: 'description',
       title: 'Project Description',
-      type: 'blockContent',
+      type: 'object',
       group: 'case',
-      description: 'Full project description shown in the client info section.',
+      description: 'Sección de contenido/descripción del proyecto',
+      fields: [
+        defineField({
+          name: 'projectTitle',
+          title: 'Section Title',
+          type: 'string',
+          initialValue: 'Project Content',
+          description: 'Título mostrado sobre el contenido del proyecto',
+        }),
+        defineField({
+          name: 'projectContent',
+          title: 'Project Content',
+          type: 'blockContent',
+          description: 'Descripción completa del proyecto mostrada en la sección de información del cliente.',
+        }),
+        defineField({
+          name: 'projectImages',
+          title: 'Project Images',
+          type: 'array',
+          description: 'Imágenes de la sección de contenido del proyecto',
+          of: [
+            {
+              type: 'image',
+              options: {hotspot: true},
+              fields: [
+                defineField({name: 'alt', title: 'Alt text', type: 'string', validation: Rule => Rule.required()}),
+                defineField({name: 'caption', title: 'Caption', type: 'string'}),
+              ],
+            },
+          ],
+        }),
+      ],
     }),
 
     defineField({
@@ -296,29 +371,12 @@ export default defineType({
         type: 'object',
         fields: [
           defineField({name: 'number',      title: 'Stat / Number', type: 'string',
-            description: 'e.g. "20%", "1K", "95%"'}),
+            description: 'ej. "20%", "1K", "95%"'}),
           defineField({name: 'description', title: 'Description',   type: 'text', rows: 2}),
         ],
         preview: {select: {title: 'number', subtitle: 'description'}},
       }],
-      description: 'Up to 4 result stats shown in the Results section.',
-    }),
-
-    defineField({
-      name: 'testimonial',
-      title: 'Testimonial',
-      type: 'object',
-      group: 'case',
-      fields: [
-        defineField({name: 'quote',       title: 'Quote',              type: 'text', rows: 3}),
-        defineField({name: 'authorName',  title: 'Author Name',        type: 'string'}),
-        defineField({name: 'authorRole',  title: 'Author Role & Company', type: 'string'}),
-        defineField({
-          name: 'authorPhoto', title: 'Author Photo', type: 'image',
-          options: {hotspot: true},
-          fields: [defineField({name: 'alt', title: 'Alt text', type: 'string'})],
-        }),
-      ],
+      description: 'Hasta 4 estadísticas de resultado mostradas en la sección de Resultados.',
     }),
 
     defineField({
@@ -342,33 +400,14 @@ export default defineType({
         ],
         preview: {select: {title: 'title'}},
       }],
-      description: 'Flexible content sections (sections 5–8 of the CMS detail page).',
-    }),
-
-        defineField({
-      name: 'seoTitle',
-      title: 'SEO Title',
-      type: 'string',
-      group: 'seo',
-      validation: Rule => Rule.max(70),
+      description: 'Secciones de contenido flexible (secciones 5–8 de la página de detalle CMS).',
     }),
 
     defineField({
-      name: 'seoDescription',
-      title: 'SEO Description',
-      type: 'text',
+      name: 'seo',
+      title: 'SEO',
+      type: 'seo',
       group: 'seo',
-      rows: 2,
-      validation: Rule => Rule.max(160),
-    }),
-
-    defineField({
-      name: 'ogImage',
-      title: 'Open Graph Image',
-      type: 'image',
-      group: 'seo',
-      options: {hotspot: true},
-      description: '1200×630 px recommended.',
     }),
   ],
 
@@ -377,9 +416,9 @@ export default defineType({
       title: 'Featured first, then by order',
       name: 'featuredOrder',
       by: [
-        {field: 'featured', direction: 'desc'},
-        {field: 'order',    direction: 'asc'},
-        {field: 'title',    direction: 'asc'},
+        {field: 'isFeatured', direction: 'desc'},
+        {field: 'order',      direction: 'asc'},
+        {field: 'title',      direction: 'asc'},
       ],
     },
     {
@@ -390,24 +429,23 @@ export default defineType({
     {
       title: 'Client A–Z',
       name: 'clientAsc',
-      by: [{field: 'client', direction: 'asc'}],
+      by: [{field: 'client.name', direction: 'asc'}],
     },
   ],
 
   preview: {
     select: {
-      title:    'title',
-      client:   'client',
-      category: 'category',
-      featured: 'featured',
-      media:    'thumbnail',
+      title:      'title',
+      client:     'client.name',
+      category:   'category.title',
+      isFeatured: 'isFeatured',
+      media:      'thumbnail',
     },
-    prepare({title, client, category, featured, media}) {
-      const label = SERVICE_CATEGORIES.find(c => c.value === category)?.title ?? category ?? ''
-      const star  = featured ? '⭐ ' : ''
+    prepare({title, client, category, isFeatured, media}) {
+      const star  = isFeatured ? '⭐ ' : ''
       return {
         title:    `${star}${title ?? 'Untitled'}`,
-        subtitle: [client, label].filter(Boolean).join(' · '),
+        subtitle: [client, category].filter(Boolean).join(' · '),
         media,
       }
     },

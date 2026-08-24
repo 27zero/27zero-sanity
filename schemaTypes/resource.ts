@@ -21,8 +21,15 @@ export default defineType({
     }),
 
     defineField({
-      name: 'heroDescription',
-      title: 'Hero Description',
+      name: 'shortDescription',
+      title: 'Short Description',
+      type: 'string',
+      description: 'Resumen breve mostrado en el card del listado.',
+    }),
+
+    defineField({
+      name: 'description',
+      title: 'Description',
       type: 'text',
     }),
 
@@ -33,15 +40,33 @@ export default defineType({
     }),
 
     defineField({
-      name: 'featuredImage',
-      title: 'Featured Image',
+      name: 'cardThumbnail',
+      title: 'Card Thumbnail',
       type: 'image',
       options: {hotspot: true},
+      description: 'Imagen mostrada en el card del listado de Resources.',
       fields: [
         defineField({
           name: 'alt',
-          title: 'Alt Text',
+          title: 'Alt text',
           type: 'string',
+          validation: Rule => Rule.required(),
+        }),
+      ],
+    }),
+
+    defineField({
+      name: 'heroBanner',
+      title: 'Hero Banner',
+      type: 'image',
+      options: {hotspot: true},
+      description: 'Imagen de cabecera en la página interna del recurso.',
+      fields: [
+        defineField({
+          name: 'alt',
+          title: 'Alt text',
+          type: 'string',
+          validation: Rule => Rule.required(),
         }),
       ],
     }),
@@ -54,15 +79,9 @@ export default defineType({
     }),
 
     defineField({
-      name: 'seoTitle',
-      title: 'SEO Title',
-      type: 'string',
-    }),
-
-    defineField({
-      name: 'seoDescription',
-      title: 'SEO Description',
-      type: 'text',
+      name: 'seo',
+      title: 'SEO',
+      type: 'seo',
     }),
   ],
 })

@@ -22,8 +22,8 @@
  *
  * Display controls
  * ----------------
- *   featured  — appears in the home logo strip
- *   logoOrder — position in the home strip (lower = first)
+ *   isFeatured — appears in the home logo strip
+ *   logoOrder  — position in the home strip (lower = first)
  */
 
 import {defineType, defineField} from 'sanity'
@@ -35,21 +35,21 @@ export default defineType({
 
   fields: [
 
-    // ── Identity ────────────────────────────────────────────────────────
+    // ── Identidad ──────────────────────────────────────────────────────
 
     defineField({
       name: 'name',
       title: 'Client Name',
       type: 'string',
       validation: Rule => Rule.required(),
-      description: 'e.g. "Anthology", "Doctums", "D2L"',
+      description: 'ej. "Anthology", "Doctums", "D2L"',
     }),
 
     defineField({
       name: 'url',
       title: 'Website URL',
       type: 'url',
-      description: 'Client\'s public website.',
+      description: 'Sitio web público del cliente.',
     }),
 
     // ── Logos ───────────────────────────────────────────────────────────
@@ -59,7 +59,7 @@ export default defineType({
       title: 'Logo (dark)',
       type: 'image',
       options: {hotspot: true},
-      description: 'Dark version — used on white or light backgrounds. SVG preferred.',
+      description: 'Versión oscura — usada sobre fondos blancos o claros. Se prefiere SVG.',
     }),
 
     defineField({
@@ -67,17 +67,17 @@ export default defineType({
       title: 'Logo (light)',
       type: 'image',
       options: {hotspot: true},
-      description: 'Light/white version — used on dark or indigo backgrounds.',
+      description: 'Versión clara/blanca — usada sobre fondos oscuros o índigo.',
     }),
 
-    // ── Home logo strip controls ────────────────────────────────────────
+    // ── Controles del logo strip de Home ────────────────────────────────
 
     defineField({
-      name: 'featured',
+      name: 'isFeatured',
       title: 'Show in Home Logo Strip',
       type: 'boolean',
       initialValue: false,
-      description: 'When enabled, this client appears in the scrolling logo strip on the home page.',
+      description: 'Cuando está activo, este cliente aparece en el logo strip animado de la página de inicio.',
     }),
 
     defineField({
@@ -85,7 +85,7 @@ export default defineType({
       title: 'Logo Display Height (px)',
       type: 'number',
       initialValue: 24,
-      description: 'Height in pixels for the home logo strip. Each logo has its own height to maintain visual balance. e.g. 28 for Scholarship Magic, 22 for Anthology.',
+      description: 'Alto en píxeles para el logo strip de Home. Cada logo tiene su propio alto para mantener el balance visual. ej. 28 para Scholarship Magic, 22 para Anthology.',
       validation: Rule => Rule.min(10).max(80).integer(),
     }),
 
@@ -94,17 +94,17 @@ export default defineType({
       title: 'Logo Strip Order',
       type: 'number',
       initialValue: 100,
-      description: 'Position in the home logo strip. Lower numbers appear first.',
+      description: 'Posición en el logo strip de Home. Los números más bajos aparecen primero.',
     }),
 
-    // ── Practice page description ───────────────────────────────────────
+    // ── Descripción en página de Practice ───────────────────────────────
 
     defineField({
       name: 'description',
       title: 'Description',
       type: 'text',
       rows: 3,
-      description: 'Short description used on the practice page brand logos section. e.g. "Language learning platform. We produced a series of filmed customer spotlights..."',
+      description: 'Descripción corta usada en la sección de logos de marca de la página de Practice. ej. "Language learning platform. We produced a series of filmed customer spotlights..."',
     }),
 
   ],
@@ -124,14 +124,14 @@ export default defineType({
 
   preview: {
     select: {
-      title:    'name',
-      subtitle: 'url',
-      media:    'logo',
-      featured: 'featured',
+      title:      'name',
+      subtitle:   'url',
+      media:      'logo',
+      isFeatured: 'isFeatured',
     },
-    prepare({title, subtitle, media, featured}) {
+    prepare({title, subtitle, media, isFeatured}) {
       return {
-        title:    (featured ? '⭐ ' : '') + (title ?? 'Unnamed client'),
+        title:    (isFeatured ? '⭐ ' : '') + (title ?? 'Unnamed client'),
         subtitle: subtitle ?? '',
         media,
       }

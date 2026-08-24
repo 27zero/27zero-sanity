@@ -1,5 +1,5 @@
 /**
- * teamMember.ts — 27zero team member document.
+ * team.ts — 27zero team member document.
  *
  * Used on the About page team grid.
  * Each document is one person on the team.
@@ -19,7 +19,7 @@
 import {defineType, defineField} from 'sanity'
 
 export default defineType({
-  name: 'teamMember',
+  name: 'team',
   title: 'Team',
   type: 'document',
 
@@ -37,7 +37,7 @@ export default defineType({
       title: 'Role / Title',
       type: 'string',
       validation: Rule => Rule.required(),
-      description: 'e.g. "Chief Strategy Officer — Industry & Growth"',
+      description: 'ej. "Chief Strategy Officer — Industry & Growth"',
     }),
 
     defineField({
@@ -45,15 +45,15 @@ export default defineType({
       title: 'Photo',
       type: 'image',
       options: {hotspot: true},
-      description: 'Professional headshot. Shown in the About page team grid.',
+      description: 'Foto profesional. Se muestra en la grilla de team de la página About.',
     }),
 
     defineField({
-      name: 'active',
+      name: 'isActive',
       title: 'Active',
       type: 'boolean',
       initialValue: true,
-      description: 'Uncheck to hide from the About page without deleting the record.',
+      description: 'Desmarcar para ocultar de la página About sin eliminar el registro.',
     }),
 
     defineField({
@@ -61,7 +61,7 @@ export default defineType({
       title: 'Display Order',
       type: 'number',
       initialValue: 10,
-      description: 'Lower numbers appear first in the grid.',
+      description: 'Los números más bajos aparecen primero en la grilla.',
     }),
 
   ],
@@ -81,14 +81,14 @@ export default defineType({
 
   preview: {
     select: {
-      title:    'name',
-      subtitle: 'role',
-      media:    'photo',
-      active:   'active',
+      title:     'name',
+      subtitle:  'role',
+      media:     'photo',
+      isActive:  'isActive',
     },
-    prepare({title, subtitle, media, active}) {
+    prepare({title, subtitle, media, isActive}) {
       return {
-        title:    (active === false ? '○ ' : '') + (title ?? 'Unnamed'),
+        title:    (isActive === false ? '○ ' : '') + (title ?? 'Unnamed'),
         subtitle: subtitle ?? '',
         media,
       }

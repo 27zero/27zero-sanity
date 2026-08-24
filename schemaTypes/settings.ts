@@ -1,20 +1,25 @@
 /**
  * settings.ts — Global site settings singleton.
  *
- * One document of this type exists in the dataset.
+ * Singleton via __experimental_actions: create/delete are blocked so the
+ * Studio's default document actions can't spawn duplicates or remove the
+ * one settings document.
+ *
  * Organised by editorial sections so content editors find their
  * destination immediately without navigating a flat field list.
  *
  * Tabs (groups):
  *   Identity · SEO · Analytics · Social
  *   Navbar · Footer
- *   Home · About · Work · Mentor · Resources · Contact
+ *   Home · About · Work · Mentor · Resources · Contact · Agency
+ *
+ * SEO uses the shared `seo` object (see seo.ts) as the site-wide fallback,
+ * replacing the previous loose defaultSeoTitle/defaultSeoDescription/defaultOgImage fields.
  *
  * Backwards compatibility
  * -----------------------
  * Fields that existed in the previous schema are preserved exactly:
  *   siteTitle, siteDescription, siteUrl, logo (Identity)
- *   defaultSeoTitle, defaultSeoDescription, defaultOgImage (SEO)
  *   gaId, hubspotId (Analytics)
  *   linkedinUrl, twitterUrl (Social)
  *   contactEmail, officeUS, officeCO (Contact — kept as text fields)
@@ -31,16 +36,22 @@ export default defineType({
   title: 'Site Settings',
   type: 'document',
 
+  // Singleton: blocks create/delete from the Studio's default document
+  // actions so editors can only update the one settings document.
+  // Valid Sanity Studio API, not present in this version's type defs.
+  // @ts-expect-error — __experimental_actions is untyped but functional
+  __experimental_actions: ['update', 'publish'],
+
   groups: [
-    // ── Technical / global ──────────────────────────────────────────
+    // ── Técnico / global ────────────────────────────────────────────
     {name: 'identity',  title: 'Identity',  default: true},
     {name: 'seo',       title: 'SEO'},
     {name: 'analytics', title: 'Analytics'},
     {name: 'social',    title: 'Social'},
-    // ── UI chrome ───────────────────────────────────────────────────
+    // ── Chrome de UI ────────────────────────────────────────────────
     {name: 'navbar',    title: 'Navbar'},
     {name: 'footer',    title: 'Footer'},
-    // ── Page sections ───────────────────────────────────────────────
+    // ── Secciones de página ─────────────────────────────────────────
     {name: 'home',      title: 'Home'},
     {name: 'about',     title: 'About'},
     {name: 'work',      title: 'Work'},
@@ -50,10 +61,14 @@ export default defineType({
     {name: 'agency',    title: 'EdTech Marketing'},
   ],
 
+  fieldsets: [
+    {name: 'services', title: 'Services'},
+  ],
+
   fields: [
 
     // ════════════════════════════════════════════════════════════════
-    // IDENTITY — existing, unchanged
+    // IDENTIDAD — existente, sin cambios
     // ════════════════════════════════════════════════════════════════
 
     defineField({
@@ -74,7 +89,7 @@ export default defineType({
       title: 'Site URL',
       type: 'url',
       group: 'identity',
-      description: 'Production URL, e.g. https://www.27zero.agency',
+      description: 'URL de producción, ej. https://www.27zero.agency',
     }),
     defineField({
       name: 'logo',
@@ -85,34 +100,19 @@ export default defineType({
     }),
 
     // ════════════════════════════════════════════════════════════════
-    // SEO — existing, unchanged
+    // SEO — existente, sin cambios
     // ════════════════════════════════════════════════════════════════
 
     defineField({
-      name: 'defaultSeoTitle',
-      title: 'Default SEO Title',
-      type: 'string',
+      name: 'seo',
+      title: 'Default SEO',
+      type: 'seo',
       group: 'seo',
-      validation: Rule => Rule.max(70),
-    }),
-    defineField({
-      name: 'defaultSeoDescription',
-      title: 'Default SEO Description',
-      type: 'text',
-      rows: 2,
-      group: 'seo',
-      validation: Rule => Rule.max(160),
-    }),
-    defineField({
-      name: 'defaultOgImage',
-      title: 'Default OG Image',
-      type: 'image',
-      group: 'seo',
-      options: {hotspot: true},
+      description: 'Resguardo a nivel de sitio, usado cuando una página/documento no tiene sus propios campos de SEO configurados.',
     }),
 
     // ════════════════════════════════════════════════════════════════
-    // ANALYTICS — existing, unchanged
+    // ANALYTICS — existente, sin cambios
     // ════════════════════════════════════════════════════════════════
 
     defineField({
@@ -120,7 +120,7 @@ export default defineType({
       title: 'Google Analytics 4 ID',
       type: 'string',
       group: 'analytics',
-      description: 'e.g. G-XXXXXXXXXX',
+      description: 'ej. G-XXXXXXXXXX',
     }),
     defineField({
       name: 'hubspotId',
@@ -130,7 +130,7 @@ export default defineType({
     }),
 
     // ════════════════════════════════════════════════════════════════
-    // SOCIAL — existing, unchanged
+    // SOCIAL — existente, sin cambios
     // ════════════════════════════════════════════════════════════════
 
     defineField({
@@ -147,7 +147,7 @@ export default defineType({
     }),
 
     // ════════════════════════════════════════════════════════════════
-    // NAVBAR — new
+    // NAVBAR
     // ════════════════════════════════════════════════════════════════
 
     defineField({
@@ -155,14 +155,14 @@ export default defineType({
       title: 'CTA Button',
       type: 'object',
       group: 'navbar',
-      description: 'The primary call-to-action button that appears in the top-right of the navbar.',
+      description: 'El botón principal de llamado a la acción en la esquina superior derecha del navbar.',
       fields: [
         defineField({name: 'text',  title: 'Button Text', type: 'string',
-          description: 'e.g. "Let\'s Talk!"'}),
+          description: 'ej. "Let\'s Talk!"'}),
         defineField({name: 'url',   title: 'Button URL',  type: 'string',
-          description: 'e.g. "/lets-talk"'}),
+          description: 'ej. "/lets-talk"'}),
         defineField({name: 'micro', title: 'Micro Copy',  type: 'string',
-          description: 'Small text shown below the CTA in hero sections. e.g. "Free. 30 min. No sales pitch."'}),
+          description: 'Texto pequeño mostrado debajo del CTA en secciones hero. ej. "Free. 30 min. No sales pitch."'}),
       ],
     }),
 
@@ -171,7 +171,7 @@ export default defineType({
       title: 'Work Dropdown',
       type: 'object',
       group: 'navbar',
-      description: 'Links shown in the "Work" dropdown menu.',
+      description: 'Links mostrados en el menú desplegable "Work".',
       fields: [
         defineField({
           name: 'items',
@@ -193,7 +193,7 @@ export default defineType({
     }),
 
     // ════════════════════════════════════════════════════════════════
-    // FOOTER — new
+    // FOOTER
     // ════════════════════════════════════════════════════════════════
 
     defineField({
@@ -201,16 +201,16 @@ export default defineType({
       title: 'CTA Section',
       type: 'object',
       group: 'footer',
-      description: 'The call-to-action section at the bottom of every page.',
+      description: 'La sección de llamado a la acción al final de cada página.',
       fields: [
         defineField({name: 'eyebrow',    title: 'Eyebrow',      type: 'string',
-          description: 'e.g. "Begin your journey to growth"'}),
+          description: 'ej. "Begin your journey to growth"'}),
         defineField({name: 'headline',   title: 'Headline',     type: 'string',
-          description: 'Main heading of the CTA block.'}),
+          description: 'Título principal del bloque CTA.'}),
         defineField({name: 'text',       title: 'Body Text',    type: 'text', rows: 2,
-          description: 'Optional supporting text below the headline.'}),
+          description: 'Texto de apoyo opcional debajo del título.'}),
         defineField({name: 'buttonText', title: 'Button Text',  type: 'string',
-          description: 'e.g. "Book a strategy session"'}),
+          description: 'ej. "Book a strategy session"'}),
       ],
     }),
 
@@ -219,7 +219,7 @@ export default defineType({
       title: 'Navigation',
       type: 'object',
       group: 'footer',
-      description: 'Links shown in the footer columns.',
+      description: 'Links mostrados en las columnas del footer.',
       fields: [
         defineField({
           name: 'links',
@@ -247,12 +247,12 @@ export default defineType({
       group: 'footer',
       fields: [
         defineField({name: 'year', title: 'Year', type: 'string',
-          description: 'e.g. "2026"'}),
+          description: 'ej. "2026"'}),
       ],
     }),
 
     // ════════════════════════════════════════════════════════════════
-    // HOME — new
+    // HOME
     // ════════════════════════════════════════════════════════════════
 
     defineField({
@@ -262,13 +262,13 @@ export default defineType({
       group: 'home',
       fields: [
         defineField({name: 'headline', title: 'Headline', type: 'string',
-          description: 'e.g. "Turn EdTech purpose into brand power."'}),
+          description: 'ej. "Turn EdTech purpose into brand power."'}),
         defineField({name: 'subtitle', title: 'Subtitle', type: 'string'}),
         defineField({name: 'video',    title: 'Background Video URL', type: 'url',
-          description: 'Direct URL to the .mp4 file (served from assets/).'}),
+          description: 'URL directa al archivo .mp4 (servido desde assets/).'}),
         defineField({name: 'poster',   title: 'Video Poster Image', type: 'image',
           options: {hotspot: true},
-          description: 'Shown while the video loads.'}),
+          description: 'Se muestra mientras carga el video.'}),
       ],
     }),
 
@@ -280,9 +280,9 @@ export default defineType({
       fields: [
         defineField({name: 'headline',    title: 'Headline',     type: 'string'}),
         defineField({name: 'subtitle',    title: 'Subtitle',     type: 'string',
-          description: 'Short text below the heading. e.g. "First-hand expertise, innovative conceptual thinking & design, client-first approach."'}),
+          description: 'Texto corto debajo del título. ej. "First-hand expertise, innovative conceptual thinking & design, client-first approach."'}),
         defineField({name: 'showreelUrl', title: 'Showreel URL', type: 'url',
-          description: 'YouTube or Vimeo URL for the showreel button.'}),
+          description: 'URL de YouTube o Vimeo para el botón del showreel.'}),
       ],
     }),
 
@@ -332,12 +332,12 @@ export default defineType({
       fields: [
         defineField({name: 'headline',    title: 'Headline',         type: 'string'}),
         defineField({name: 'placeholder', title: 'Input Placeholder', type: 'string',
-          description: 'e.g. "you@institution.edu"'}),
+          description: 'ej. "you@institution.edu"'}),
       ],
     }),
 
     // ════════════════════════════════════════════════════════════════
-    // ABOUT — new
+    // ABOUT
     // ════════════════════════════════════════════════════════════════
 
     defineField({
@@ -358,7 +358,7 @@ export default defineType({
       title: 'DNA Section',
       type: 'object',
       group: 'about',
-      description: '"Creativity is our DNA" section.',
+      description: 'Sección "Creativity is our DNA".',
       fields: [
         defineField({name: 'headline', title: 'Headline', type: 'string'}),
         defineField({name: 'text',     title: 'Text',     type: 'text', rows: 3}),
@@ -383,17 +383,17 @@ export default defineType({
       title: 'Team Section',
       type: 'object',
       group: 'about',
-      description: 'The "The people behind the work" section on the About page.',
+      description: 'La sección "The people behind the work" en la página About.',
       fields: [
         defineField({name: 'headline', title: 'Headline', type: 'string',
-          description: 'e.g. "The people behind the work."'}),
+          description: 'ej. "The people behind the work."'}),
         defineField({name: 'text',     title: 'Text',     type: 'text', rows: 2,
-          description: 'Supporting paragraph below the headline.'}),
+          description: 'Párrafo de apoyo debajo del título.'}),
       ],
     }),
 
     // ════════════════════════════════════════════════════════════════
-    // WORK — new
+    // WORK
     // ════════════════════════════════════════════════════════════════
 
     defineField({
@@ -403,14 +403,14 @@ export default defineType({
       group: 'work',
       fields: [
         defineField({name: 'eyebrow',  title: 'Eyebrow',  type: 'string',
-          description: 'e.g. "Work: Behind the fastest-growing EdTech brands"'}),
+          description: 'ej. "Work: Behind the fastest-growing EdTech brands"'}),
         defineField({name: 'headline', title: 'Headline', type: 'string'}),
         defineField({name: 'subtitle', title: 'Subtitle', type: 'string'}),
       ],
     }),
 
     // ════════════════════════════════════════════════════════════════
-    // MENTOR — new
+    // MENTOR
     // ════════════════════════════════════════════════════════════════
 
     defineField({
@@ -429,7 +429,7 @@ export default defineType({
       title: 'CTA Section',
       type: 'object',
       group: 'mentor',
-      description: 'The "Begin your journey" CTA at the bottom of the Mentor index page.',
+      description: 'El CTA "Begin your journey" al final de la página de índice de Mentor.',
       fields: [
         defineField({name: 'headline', title: 'Headline', type: 'string'}),
         defineField({name: 'text',     title: 'Text',     type: 'text', rows: 2}),
@@ -437,7 +437,7 @@ export default defineType({
     }),
 
     // ════════════════════════════════════════════════════════════════
-    // RESOURCES — new
+    // RESOURCES
     // ════════════════════════════════════════════════════════════════
 
     defineField({
@@ -452,7 +452,7 @@ export default defineType({
     }),
 
     // ════════════════════════════════════════════════════════════════
-    // CONTACT — existing fields preserved + new objects added
+    // CONTACT — campos existentes preservados + objetos nuevos agregados
     // ════════════════════════════════════════════════════════════════
 
     defineField({
@@ -466,7 +466,7 @@ export default defineType({
       ],
     }),
 
-    // Existing field — preserved
+    // Campo existente — preservado
     defineField({
       name: 'contactEmail',
       title: 'Contact Email',
@@ -474,13 +474,13 @@ export default defineType({
       group: 'contact',
     }),
 
-    // New structured object (alongside legacy text field)
+    // Objeto estructurado nuevo (junto al campo de texto legado)
     defineField({
       name: 'officeUSNew',
       title: 'Office US',
       type: 'object',
       group: 'contact',
-      description: 'Replaces the legacy "US Office Address" text field once content is migrated.',
+      description: 'Reemplaza el campo de texto legado "US Office Address" una vez migrado el contenido.',
       fields: [
         defineField({name: 'address', title: 'Address', type: 'text', rows: 2}),
         defineField({name: 'phone',   title: 'Phone',   type: 'string'}),
@@ -488,7 +488,7 @@ export default defineType({
       ],
     }),
 
-    // Existing field — preserved during migration
+    // Campo existente — preservado durante la migración
     defineField({
       name: 'officeUS',
       title: 'US Office Address (legacy — migrate to Office US above)',
@@ -497,13 +497,13 @@ export default defineType({
       group: 'contact',
     }),
 
-    // New structured object (alongside legacy text field)
+    // Objeto estructurado nuevo (junto al campo de texto legado)
     defineField({
       name: 'officeCONew',
       title: 'Office CO',
       type: 'object',
       group: 'contact',
-      description: 'Replaces the legacy "Colombia Office Address" text field once content is migrated.',
+      description: 'Reemplaza el campo de texto legado "Colombia Office Address" una vez migrado el contenido.',
       fields: [
         defineField({name: 'address', title: 'Address', type: 'text', rows: 2}),
         defineField({name: 'phone',   title: 'Phone',   type: 'string'}),
@@ -511,7 +511,7 @@ export default defineType({
       ],
     }),
 
-    // Existing field — preserved during migration
+    // Campo existente — preservado durante la migración
     defineField({
       name: 'officeCO',
       title: 'Colombia Office Address (legacy — migrate to Office CO above)',
@@ -520,10 +520,8 @@ export default defineType({
       group: 'contact',
     }),
 
-  
-
     // ════════════════════════════════════════════════════════════════
-    // EDTECH MARKETING AGENCY — new
+    // EDTECH MARKETING AGENCY
     // ════════════════════════════════════════════════════════════════
 
     defineField({
@@ -533,9 +531,9 @@ export default defineType({
       group: 'agency',
       fields: [
         defineField({name: 'headline', title: 'Headline', type: 'string',
-          description: 'e.g. "The first and only agency built for EdTech."'}),
+          description: 'ej. "The first and only agency built for EdTech."'}),
         defineField({name: 'text',     title: 'Subtitle', type: 'string',
-          description: 'e.g. "Three practices. One goal: helping EdTech brands..."'}),
+          description: 'ej. "Three practices. One goal: helping EdTech brands..."'}),
       ],
     }),
 
@@ -544,10 +542,10 @@ export default defineType({
       title: 'Practices Section',
       type: 'object',
       group: 'agency',
-      description: 'The "Three practices. One goal." section header.',
+      description: 'El encabezado de la sección "Three practices. One goal."',
       fields: [
         defineField({name: 'headline', title: 'Headline', type: 'string',
-          description: 'e.g. "Three practices. One goal."'}),
+          description: 'ej. "Three practices. One goal."'}),
         defineField({name: 'text',     title: 'Text',     type: 'text', rows: 2}),
       ],
     }),
@@ -557,14 +555,35 @@ export default defineType({
       title: 'Closing CTA',
       type: 'object',
       group: 'agency',
-      description: 'The bottom CTA section of the EdTech Marketing Agency page.',
+      description: 'La sección CTA al final de la página EdTech Marketing Agency.',
       fields: [
         defineField({name: 'headline', title: 'Headline', type: 'string',
-          description: 'e.g. "Let\'s partner to articulate and unpack meaningful results."'}),
+          description: 'ej. "Let\'s partner to articulate and unpack meaningful results."'}),
       ],
     }),
-],
-    preview: {
+
+    // ── Services (nuevo) ─────────────────────────────────────────────
+
+    defineField({
+      name: 'servicesTitle',
+      title: 'Title',
+      type: 'string',
+      group: 'agency',
+      fieldset: 'services',
+      description: 'Título de la sección de Services en la página EdTech Marketing',
+    }),
+
+    defineField({
+      name: 'servicesDescription',
+      title: 'Description',
+      type: 'text',
+      group: 'agency',
+      fieldset: 'services',
+      description: 'Texto introductorio de la sección de Services',
+    }),
+  ],
+
+  preview: {
     select: {title: 'siteTitle'},
     prepare: ({title}) => ({title: title ?? 'Site Settings'}),
   },

@@ -1,12 +1,12 @@
 /**
- * category.ts — Content category.
+ * workCategory.ts — Work / Case Study category (taxonomy for `work.category`).
  */
 
 import {defineType, defineField} from 'sanity'
 
 export default defineType({
-  name: 'category',
-  title: 'Categories',
+  name: 'workCategory',
+  title: 'Work Categories',
   type: 'document',
 
   fields: [
@@ -36,7 +36,15 @@ export default defineType({
       name: 'color',
       title: 'Accent Color',
       type: 'string',
-      description: 'Hex color used for category pill UI, e.g. #4b3df2',
+      description: 'Color hexadecimal usado para el pill de categoría en la UI, ej. #4b3df2',
+    }),
+
+    defineField({
+      name: 'order',
+      title: 'Order',
+      type: 'number',
+      description: 'Orden de aparición en los pills de Work (menor = primero)',
+      validation: (Rule) => Rule.required().integer().min(0),
     }),
   ],
 

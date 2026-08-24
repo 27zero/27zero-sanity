@@ -13,7 +13,7 @@ export default defineType({
   name: 'author',
   title: 'Authors',
   type: 'document',
-  
+
   fields: [
     defineField({
       name: 'name',
@@ -34,7 +34,7 @@ export default defineType({
       name: 'role',
       title: 'Role / Title',
       type: 'string',
-      description: 'e.g. "Chief Strategy Officer"',
+      description: 'ej. "Chief Strategy Officer"',
     }),
 
     defineField({
@@ -67,7 +67,7 @@ export default defineType({
       name: 'email',
       title: 'Email (optional)',
       type: 'string',
-      description: 'Not displayed publicly — used for internal contact only.',
+      description: 'No se muestra públicamente — solo para contacto interno.',
     }),
   ],
 
