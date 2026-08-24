@@ -268,21 +268,17 @@ export default defineType({
     }),
 
     defineField({
-<<<<<<< HEAD:schemaTypes/interview.ts
       name: 'categories',
       title: 'Categories',
       type: 'array',
       group: 'meta',
-      of: [defineArrayMember({type: 'reference', to: [{type: 'category'}]})],
+      of: [defineArrayMember({type: 'reference', to: [{type: 'mentorCategory'}]})],
       description:
-        'Ej. CEOs, Founders, Investors. Para crear, editar o eliminar categorías, usa la opción "Create new" al elegir una aquí, o entra a "Categories" en el menú lateral del Studio.',
+        'Ej. CEOs, Founders, Investors. Para crear, editar o eliminar categorías, usa la opción "Create new" al elegir una aquí, o entra a "Mentor Categories" en el menú lateral del Studio.',
     }),
 
     defineField({
-      name: 'featured',
-=======
       name: 'isFeatured',
->>>>>>> 612215b4a6347ad658886c5b8b04c714e83afbc6:schemaTypes/edtechMentor.ts
       title: 'Featured',
       type: 'boolean',
       group: 'meta',

@@ -4,6 +4,7 @@
 
 import author                  from './author'
 import workCategory            from './workCategory'
+import mentorCategory          from './mentorCategory'
 import resource                from './resource'
 import edtechMentor            from './edtechMentor'
 import edtechMarketingService  from './edtechMarketingService'
@@ -32,6 +33,7 @@ export const schemaTypes = [
   // Supporting
   author,
   workCategory,
+  mentorCategory,
   blockContent,
   seo,
 
