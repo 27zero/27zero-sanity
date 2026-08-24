@@ -218,6 +218,16 @@ export default defineType({
     }),
 
     defineField({
+      name: 'categories',
+      title: 'Categories',
+      type: 'array',
+      group: 'meta',
+      of: [defineArrayMember({type: 'reference', to: [{type: 'category'}]})],
+      description:
+        'Ej. CEOs, Founders, Investors. Para crear, editar o eliminar categorías, usa la opción "Create new" al elegir una aquí, o entra a "Categories" en el menú lateral del Studio.',
+    }),
+
+    defineField({
       name: 'featured',
       title: 'Featured',
       type: 'boolean',
