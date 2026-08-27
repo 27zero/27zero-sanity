@@ -108,15 +108,6 @@ export default defineType({
       description: 'Posición en la grilla de prácticas (menor = primero).',
     }),
 
-    defineField({
-      name: 'relatedServiceCategory',
-      title: 'Related Service Category',
-      type: 'string',
-      group: 'meta',
-      options: {list: RELATED_SERVICE_CATEGORIES, layout: 'dropdown'},
-      description: 'Categoría de EdTech Marketing Service a mostrar en esta página.',
-    }),
-
     // ── Hero (página de detalle) ───────────────────────────────────────
 
     defineField({
@@ -179,16 +170,16 @@ export default defineType({
 
     // ── Servicios relacionados ──────────────────────────────────────────
 
+    // Vive en 'pageContent' y no en 'meta' porque es contenido de la página, no
+    // metadato: decide qué bloque de servicios ("What's on the menu?") se renderiza
+    // en la interna. Estaba en 'meta' y ahí nadie lo encontraba.
     defineField({
-      name: 'relatedServices',
-      title: 'Related Services',
-      type: 'array',
+      name: 'relatedServiceCategory',
+      title: 'Related Service Category',
+      type: 'string',
       group: 'pageContent',
-      of: [defineArrayMember({type: 'reference', to: [{type: 'edtechMarketingService'}]})],
-      description:
-        'Servicios de EdTech Marketing a mostrar en esta práctica, elegidos uno por uno. ' +
-        'TODAVÍA NO SE RENDERIZA: hoy el menú de la interna sigue saliendo de "Related Service Category" ' +
-        '(el join por categoría). Cargarlo acá no cambia nada en el sitio por ahora.',
+      options: {list: RELATED_SERVICE_CATEGORIES, layout: 'dropdown'},
+      description: 'Categoría de EdTech Marketing Service a mostrar en esta página.',
     }),
 
     // ── Clientes ────────────────────────────────────────────────────────
