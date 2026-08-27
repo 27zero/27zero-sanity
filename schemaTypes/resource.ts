@@ -40,6 +40,16 @@ export default defineType({
     }),
 
     defineField({
+      name: 'author',
+      title: 'Author',
+      type: 'reference',
+      to: [{type: 'author'}],
+      validation: (Rule) => Rule.required(),
+      description:
+        'Requerido para el structured data (JSON-LD) de Google. Identifica quién escribió el artículo.',
+    }),
+
+    defineField({
       name: 'cardThumbnail',
       title: 'Card Thumbnail',
       type: 'image',

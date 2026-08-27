@@ -294,6 +294,17 @@ export default defineType({
     }),
 
     defineField({
+      name: 'author',
+      title: 'Author',
+      type: 'reference',
+      to: [{type: 'author'}],
+      group: 'meta',
+      validation: (Rule) => Rule.required(),
+      description:
+        'Requerido para el structured data (JSON-LD) de Google. En las entrevistas el author es 27zero (quien produce la entrevista) — la persona entrevistada va en Guest Name, no acá.',
+    }),
+
+    defineField({
       name: 'linkedinUrl',
       title: 'LinkedIn Post URL',
       type: 'url',
