@@ -11,7 +11,7 @@
  * Tabs (groups):
  *   Identity · SEO · Analytics · Social
  *   Navbar · Footer
- *   Home · About · Work · Mentor · Resources · Contact · Agency
+ *   Home · About · Work · Clientes · Mentor · Resources · Contact · Agency
  *
  * SEO uses the shared `seo` object (see seo.ts) as the site-wide fallback,
  * replacing the previous loose defaultSeoTitle/defaultSeoDescription/defaultOgImage fields.
@@ -55,6 +55,7 @@ export default defineType({
     {name: 'home',      title: 'Home'},
     {name: 'about',     title: 'About'},
     {name: 'work',      title: 'Work'},
+    {name: 'clients',   title: 'Clientes'},
     {name: 'mentor',    title: 'Mentor'},
     {name: 'resources', title: 'Resources'},
     {name: 'contact',   title: 'Contact'},
@@ -336,6 +337,16 @@ export default defineType({
       ],
     }),
 
+    // ── SEO de la página ───────────────────────────────────────────
+
+    defineField({
+      name: 'homeSeo',
+      title: 'SEO',
+      type: 'seo',
+      group: 'home',
+      description: 'Meta tags de la página Home. Cada campo vacío hereda de Default SEO (tab SEO).',
+    }),
+
     // ════════════════════════════════════════════════════════════════
     // ABOUT
     // ════════════════════════════════════════════════════════════════
@@ -392,6 +403,16 @@ export default defineType({
       ],
     }),
 
+    // ── SEO de la página ───────────────────────────────────────────
+
+    defineField({
+      name: 'aboutSeo',
+      title: 'SEO',
+      type: 'seo',
+      group: 'about',
+      description: 'Meta tags de la página About. Cada campo vacío hereda de Default SEO (tab SEO).',
+    }),
+
     // ════════════════════════════════════════════════════════════════
     // WORK
     // ════════════════════════════════════════════════════════════════
@@ -407,6 +428,31 @@ export default defineType({
         defineField({name: 'headline', title: 'Headline', type: 'string'}),
         defineField({name: 'subtitle', title: 'Subtitle', type: 'string'}),
       ],
+    }),
+
+    // ── SEO de la página ───────────────────────────────────────────
+
+    defineField({
+      name: 'workSeo',
+      title: 'SEO',
+      type: 'seo',
+      group: 'work',
+      description: 'Meta tags de la página Work (listado). Cada campo vacío hereda de Default SEO (tab SEO).',
+    }),
+
+    // ════════════════════════════════════════════════════════════════
+    // CLIENTES — mismo `work` documentType que Work, distinta vista.
+    // Grupo nuevo: hoy solo SEO, la página no tiene hero editable todavía.
+    // ════════════════════════════════════════════════════════════════
+
+    // ── SEO de la página ───────────────────────────────────────────
+
+    defineField({
+      name: 'clientsSeo',
+      title: 'SEO',
+      type: 'seo',
+      group: 'clients',
+      description: 'Meta tags de la página Clientes (listado). Cada campo vacío hereda de Default SEO (tab SEO).',
     }),
 
     // ════════════════════════════════════════════════════════════════
@@ -436,6 +482,16 @@ export default defineType({
       ],
     }),
 
+    // ── SEO de la página ───────────────────────────────────────────
+
+    defineField({
+      name: 'mentorSeo',
+      title: 'SEO',
+      type: 'seo',
+      group: 'mentor',
+      description: 'Meta tags de la página EdTech Mentor (listado). Cada campo vacío hereda de Default SEO (tab SEO).',
+    }),
+
     // ════════════════════════════════════════════════════════════════
     // RESOURCES
     // ════════════════════════════════════════════════════════════════
@@ -449,6 +505,16 @@ export default defineType({
         defineField({name: 'headline', title: 'Headline', type: 'string'}),
         defineField({name: 'subtitle', title: 'Subtitle', type: 'string'}),
       ],
+    }),
+
+    // ── SEO de la página ───────────────────────────────────────────
+
+    defineField({
+      name: 'resourcesSeo',
+      title: 'SEO',
+      type: 'seo',
+      group: 'resources',
+      description: 'Meta tags de la página Resources (listado). Cada campo vacío hereda de Default SEO (tab SEO).',
     }),
 
     // ════════════════════════════════════════════════════════════════
@@ -520,6 +586,16 @@ export default defineType({
       group: 'contact',
     }),
 
+    // ── SEO de la página ───────────────────────────────────────────
+
+    defineField({
+      name: 'contactSeo',
+      title: 'SEO',
+      type: 'seo',
+      group: 'contact',
+      description: 'Meta tags de la página Let\'s Talk. Cada campo vacío hereda de Default SEO (tab SEO).',
+    }),
+
     // ════════════════════════════════════════════════════════════════
     // EDTECH MARKETING AGENCY
     // ════════════════════════════════════════════════════════════════
@@ -580,6 +656,16 @@ export default defineType({
       group: 'agency',
       fieldset: 'services',
       description: 'Texto introductorio de la sección de Services',
+    }),
+
+    // ── SEO de la página ───────────────────────────────────────────
+
+    defineField({
+      name: 'agencySeo',
+      title: 'SEO',
+      type: 'seo',
+      group: 'agency',
+      description: 'Meta tags de la página EdTech Marketing. Cada campo vacío hereda de Default SEO (tab SEO).',
     }),
   ],
 
