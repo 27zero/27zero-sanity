@@ -45,6 +45,7 @@ export default defineType({
     {name: 'conversation', title: 'Conversation Engine'},
     {name: 'pageCta',      title: 'Page CTA'},
     {name: 'meta',         title: 'Metadata'},
+    {name: 'seo',          title: 'SEO'},
   ],
 
   fieldsets: [
@@ -257,6 +258,15 @@ export default defineType({
       title: 'CTA Link',
       type: 'url',
       group: 'pageCta',
+    }),
+
+    // ── SEO ─────────────────────────────────────────────────────────────
+
+    defineField({
+      name: 'seo',
+      title: 'SEO',
+      type: 'seo',
+      group: 'seo',
     }),
 
   ],
