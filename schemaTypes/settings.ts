@@ -64,6 +64,8 @@ export default defineType({
 
   fieldsets: [
     {name: 'services', title: 'Services'},
+    {name: 'form', title: 'Form'},
+    {name: 'bottomCards', title: 'Bottom Cards'},
   ],
 
   fields: [
@@ -529,6 +531,13 @@ export default defineType({
       fields: [
         defineField({name: 'headline', title: 'Headline', type: 'string'}),
         defineField({name: 'text',     title: 'Text',     type: 'text', rows: 2}),
+        defineField({
+          name: 'ctaLink',
+          title: 'CTA Link',
+          type: 'string',
+          description:
+            'URL del botón "Book a strategy session" del hero. Puede ser ruta interna (ej. "/contact") o externa. Si queda vacío, el botón no se renderiza.',
+        }),
       ],
     }),
 
@@ -584,6 +593,76 @@ export default defineType({
       type: 'text',
       rows: 3,
       group: 'contact',
+    }),
+
+    // ── Form (fieldset nuevo) ───────────────────────────────────────
+
+    defineField({
+      name: 'formTitle',
+      title: 'Form Title',
+      type: 'string',
+      group: 'contact',
+      fieldset: 'form',
+    }),
+
+    defineField({
+      name: 'formSubtitle',
+      title: 'Form Subtitle',
+      type: 'text',
+      rows: 2,
+      group: 'contact',
+      fieldset: 'form',
+    }),
+
+    // ── Bottom Cards (fieldset nuevo) ───────────────────────────────
+
+    defineField({
+      name: 'waysTitle',
+      title: 'Section Title',
+      type: 'string',
+      group: 'contact',
+      fieldset: 'bottomCards',
+      description: 'ej. "Two more ways to start"',
+    }),
+
+    defineField({
+      name: 'bookCard',
+      title: 'Book a Strategy Session Card',
+      type: 'object',
+      group: 'contact',
+      fieldset: 'bottomCards',
+      fields: [
+        defineField({name: 'title', title: 'Title', type: 'string'}),
+        defineField({name: 'subtitle', title: 'Subtitle', type: 'text', rows: 2}),
+        defineField({name: 'link', title: 'Link', type: 'string'}),
+        defineField({
+          name: 'bgImage',
+          title: 'Background Image',
+          type: 'image',
+          options: {hotspot: true},
+          description: 'Si queda vacía, la card cae al fondo gris por default.',
+        }),
+      ],
+    }),
+
+    defineField({
+      name: 'subscribeCard',
+      title: 'Subscribe Card',
+      type: 'object',
+      group: 'contact',
+      fieldset: 'bottomCards',
+      fields: [
+        defineField({name: 'title', title: 'Title', type: 'string'}),
+        defineField({name: 'subtitle', title: 'Subtitle', type: 'text', rows: 2}),
+        defineField({name: 'link', title: 'Link', type: 'string'}),
+        defineField({
+          name: 'bgImage',
+          title: 'Background Image',
+          type: 'image',
+          options: {hotspot: true},
+          description: 'Si queda vacía, la card cae al fondo gris por default.',
+        }),
+      ],
     }),
 
     // ── SEO de la página ───────────────────────────────────────────
