@@ -759,7 +759,9 @@ export default defineType({
           title: 'Background Image',
           type: 'image',
           options: {hotspot: true},
-          description: 'Si queda vacía, la card cae al fondo gris por default.',
+          fields: [defineField({name: 'alt', title: 'Alt text', type: 'string'})],
+          description:
+            'Si queda vacía, la card cae al fondo gris por default. El alt es obligatorio (CLAUDE.md §8.1): sin él la imagen no se renderiza y la card se queda en gris.',
         }),
       ],
     }),
@@ -779,7 +781,9 @@ export default defineType({
           title: 'Background Image',
           type: 'image',
           options: {hotspot: true},
-          description: 'Si queda vacía, la card cae al fondo gris por default.',
+          fields: [defineField({name: 'alt', title: 'Alt text', type: 'string'})],
+          description:
+            'Si queda vacía, la card cae al fondo gris por default. El alt es obligatorio (CLAUDE.md §8.1): sin él la imagen no se renderiza y la card se queda en gris.',
         }),
       ],
     }),
