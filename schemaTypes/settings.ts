@@ -11,6 +11,7 @@
  * Tabs (groups):
  *   Identity · SEO · Analytics · Social
  *   Navbar · Footer
+ *   What Sets 27zero Apart (componente compartido: Home, About, EdTech Marketing)
  *   Home · About · Work · Clientes · Mentor · Resources · Contact · Agency
  *
  * SEO uses the shared `seo` object (see seo.ts) as the site-wide fallback,
@@ -30,6 +31,27 @@
  */
 
 import {defineType, defineField, defineArrayMember} from 'sanity'
+
+/**
+ * Config de bloque para encabezados de una sola línea con "texto de acento":
+ * el editor selecciona un tramo y lo pone en cursiva (Italic) — el frontend lo
+ * renderiza como el acento de color del design system, no como texto en cursiva
+ * real. Un solo decorador disponible a propósito, para que no haya ambigüedad
+ * con qué logra qué.
+ */
+function accentHeadingOf(style: 'h1' | 'h2') {
+  return [
+    defineArrayMember({
+      type: 'block',
+      styles: [{title: style.toUpperCase(), value: style}],
+      lists: [],
+      marks: {
+        decorators: [{title: 'Italic (= texto de acento)', value: 'em'}],
+        annotations: [],
+      },
+    }),
+  ]
+}
 
 export default defineType({
   name: 'settings',
@@ -51,6 +73,8 @@ export default defineType({
     // ── Chrome de UI ────────────────────────────────────────────────
     {name: 'navbar',    title: 'Navbar'},
     {name: 'footer',    title: 'Footer'},
+    // ── Componentes compartidos entre páginas ───────────────────────
+    {name: 'apart',     title: 'What Sets 27zero Apart'},
     // ── Secciones de página ─────────────────────────────────────────
     {name: 'home',      title: 'Home'},
     {name: 'about',     title: 'About'},
@@ -255,6 +279,65 @@ export default defineType({
     }),
 
     // ════════════════════════════════════════════════════════════════
+    // COMPONENTES COMPARTIDOS ENTRE PÁGINAS
+    // ════════════════════════════════════════════════════════════════
+
+    // El slider de shapes no es exclusivo de Home: Home, About y EdTech Marketing
+    // renderizan el mismo componente. Por eso vive en su propio grupo y no dentro
+    // de 'home', donde estaba como 'homeApart' hasta la Etapa 10.
+    defineField({
+      name: 'apartSection',
+      title: 'What Sets 27zero Apart',
+      type: 'object',
+      group: 'apart',
+      fields: [
+        defineField({name: 'headline',    title: 'Headline',    type: 'string'}),
+        defineField({name: 'description', title: 'Description', type: 'text', rows: 2}),
+        // Tres campos fijos y no un array: la diseñadora confirmó que siempre son
+        // exactamente 3 slides. Mismo criterio que bookCard/subscribeCard en Contact.
+        defineField({
+          name: 'slideOne',
+          title: 'Slide 1',
+          type: 'object',
+          fields: [
+            defineField({
+              name: 'image', title: 'Image', type: 'image', options: {hotspot: true},
+              fields: [defineField({name: 'alt', title: 'Alt text', type: 'string'})],
+            }),
+            defineField({name: 'title', title: 'Title', type: 'string'}),
+            defineField({name: 'text',  title: 'Text',  type: 'text', rows: 2}),
+          ],
+        }),
+        defineField({
+          name: 'slideTwo',
+          title: 'Slide 2',
+          type: 'object',
+          fields: [
+            defineField({
+              name: 'image', title: 'Image', type: 'image', options: {hotspot: true},
+              fields: [defineField({name: 'alt', title: 'Alt text', type: 'string'})],
+            }),
+            defineField({name: 'title', title: 'Title', type: 'string'}),
+            defineField({name: 'text',  title: 'Text',  type: 'text', rows: 2}),
+          ],
+        }),
+        defineField({
+          name: 'slideThree',
+          title: 'Slide 3',
+          type: 'object',
+          fields: [
+            defineField({
+              name: 'image', title: 'Image', type: 'image', options: {hotspot: true},
+              fields: [defineField({name: 'alt', title: 'Alt text', type: 'string'})],
+            }),
+            defineField({name: 'title', title: 'Title', type: 'string'}),
+            defineField({name: 'text',  title: 'Text',  type: 'text', rows: 2}),
+          ],
+        }),
+      ],
+    }),
+
+    // ════════════════════════════════════════════════════════════════
     // HOME
     // ════════════════════════════════════════════════════════════════
 
@@ -264,14 +347,30 @@ export default defineType({
       type: 'object',
       group: 'home',
       fields: [
-        defineField({name: 'headline', title: 'Headline', type: 'string',
-          description: 'ej. "Turn EdTech purpose into brand power."'}),
+        defineField({
+          name: 'headline',
+          title: 'Headline',
+          type: 'array',
+          of: accentHeadingOf('h1'),
+          validation: (Rule) => Rule.max(1).warning('Este campo es un encabezado de una sola línea.'),
+          description:
+            'Encabezado de una sola línea. Para resaltar un tramo con el acento de color del diseño, seleccionalo y ponelo en cursiva (italic) — no se va a ver en cursiva en el sitio, se convierte automáticamente en el acento. ej. "Turn EdTech purpose into brand power."',
+        }),
         defineField({name: 'subtitle', title: 'Subtitle', type: 'string'}),
+        defineField({name: 'ctaLink', title: 'CTA Link', type: 'string',
+          description: 'URL del botón del hero. Puede ser ruta interna (ej. "/contact") o externa. Si queda vacío, el botón no se renderiza.'}),
+        defineField({name: 'ctaCaption', title: 'CTA Caption', type: 'string',
+          description: 'Texto pequeño debajo del botón. ej. "Free. 30 min. No sales pitch."'}),
         defineField({name: 'video',    title: 'Background Video URL', type: 'url',
           description: 'URL directa al archivo .mp4 (servido desde assets/).'}),
-        defineField({name: 'poster',   title: 'Video Poster Image', type: 'image',
+        defineField({
+          name: 'poster',
+          title: 'Video Poster Image',
+          type: 'image',
           options: {hotspot: true},
-          description: 'Se muestra mientras carga el video.'}),
+          fields: [defineField({name: 'alt', title: 'Alt text', type: 'string'})],
+          description: 'Se muestra mientras carga el video, o como fondo fijo si no hay video cargado.',
+        }),
       ],
     }),
 
@@ -281,11 +380,26 @@ export default defineType({
       type: 'object',
       group: 'home',
       fields: [
-        defineField({name: 'headline',    title: 'Headline',     type: 'string'}),
+        defineField({
+          name: 'headline',
+          title: 'Headline',
+          type: 'array',
+          of: accentHeadingOf('h2'),
+          validation: (Rule) => Rule.max(1).warning('Este campo es un encabezado de una sola línea.'),
+          description:
+            'Encabezado de una sola línea. Para resaltar un tramo con el acento de color del diseño, seleccionalo y ponelo en cursiva (italic) — no se va a ver en cursiva en el sitio, se convierte automáticamente en el acento.',
+        }),
         defineField({name: 'subtitle',    title: 'Subtitle',     type: 'string',
           description: 'Texto corto debajo del título. ej. "First-hand expertise, innovative conceptual thinking & design, client-first approach."'}),
         defineField({name: 'showreelUrl', title: 'Showreel URL', type: 'url',
           description: 'URL de YouTube o Vimeo para el botón del showreel.'}),
+        defineField({
+          name: 'featuredWork',
+          title: 'Featured Work Card',
+          type: 'reference',
+          to: [{type: 'work'}],
+          description: 'Reemplaza el placeholder de la sección Intro de Home. Si queda vacío, se mantiene el placeholder actual.',
+        }),
       ],
     }),
 
@@ -295,35 +409,16 @@ export default defineType({
       type: 'object',
       group: 'home',
       fields: [
-        defineField({name: 'headline', title: 'Headline', type: 'string'}),
-        defineField({name: 'subtitle', title: 'Subtitle', type: 'string'}),
-      ],
-    }),
-
-    defineField({
-      name: 'homeApart',
-      title: '"What Sets 27zero Apart" Section',
-      type: 'object',
-      group: 'home',
-      fields: [
-        defineField({name: 'headline',    title: 'Headline',    type: 'string'}),
-        defineField({name: 'description', title: 'Description', type: 'text', rows: 2}),
         defineField({
-          name: 'slides',
-          title: 'Slides',
+          name: 'headline',
+          title: 'Headline',
           type: 'array',
-          of: [
-            defineArrayMember({
-              type: 'object',
-              name: 'apartSlide',
-              fields: [
-                defineField({name: 'title', title: 'Title', type: 'string'}),
-                defineField({name: 'text',  title: 'Text',  type: 'text', rows: 2}),
-              ],
-              preview: {select: {title: 'title', subtitle: 'text'}},
-            }),
-          ],
+          of: accentHeadingOf('h2'),
+          validation: (Rule) => Rule.max(1).warning('Este campo es un encabezado de una sola línea.'),
+          description:
+            'Encabezado de una sola línea. Para resaltar un tramo con el acento de color del diseño, seleccionalo y ponelo en cursiva (italic) — no se va a ver en cursiva en el sitio, se convierte automáticamente en el acento.',
         }),
+        defineField({name: 'subtitle', title: 'Subtitle', type: 'string'}),
       ],
     }),
 
