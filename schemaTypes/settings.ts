@@ -35,7 +35,8 @@ import {defineType, defineField, defineArrayMember} from 'sanity'
 /**
  * Config de bloque para encabezados de una sola línea con "texto de acento":
  * el editor selecciona un tramo y lo pone en cursiva (Italic) — el frontend lo
- * renderiza como el acento de color del design system, no como texto en cursiva
+ * renderiza como el acento tipográfico del design system (Inter medium en vez de
+ * Lora; no tiene color propio, hereda el del heading), no como texto en cursiva
  * real. Un solo decorador disponible a propósito, para que no haya ambigüedad
  * con qué logra qué.
  */
@@ -354,7 +355,7 @@ export default defineType({
           of: accentHeadingOf('h1'),
           validation: (Rule) => Rule.max(1).warning('Este campo es un encabezado de una sola línea.'),
           description:
-            'Encabezado de una sola línea. Para resaltar un tramo con el acento de color del diseño, seleccionalo y ponelo en cursiva (italic) — no se va a ver en cursiva en el sitio, se convierte automáticamente en el acento. ej. "Turn EdTech purpose into brand power."',
+            'Encabezado de una sola línea. Para resaltar un tramo con el acento tipográfico del diseño (Inter medium en vez de Lora), seleccionalo y ponelo en cursiva (italic) — no se va a ver en cursiva en el sitio, se convierte automáticamente en el acento. ej. "Turn EdTech purpose into brand power."',
         }),
         defineField({name: 'subtitle', title: 'Subtitle', type: 'string'}),
         defineField({name: 'ctaLink', title: 'CTA Link', type: 'string',
@@ -387,7 +388,7 @@ export default defineType({
           of: accentHeadingOf('h2'),
           validation: (Rule) => Rule.max(1).warning('Este campo es un encabezado de una sola línea.'),
           description:
-            'Encabezado de una sola línea. Para resaltar un tramo con el acento de color del diseño, seleccionalo y ponelo en cursiva (italic) — no se va a ver en cursiva en el sitio, se convierte automáticamente en el acento.',
+            'Encabezado de una sola línea. Para resaltar un tramo con el acento tipográfico del diseño (Inter medium en vez de Lora), seleccionalo y ponelo en cursiva (italic) — no se va a ver en cursiva en el sitio, se convierte automáticamente en el acento.',
         }),
         defineField({name: 'subtitle',    title: 'Subtitle',     type: 'string',
           description: 'Texto corto debajo del título. ej. "First-hand expertise, innovative conceptual thinking & design, client-first approach."'}),
@@ -416,7 +417,7 @@ export default defineType({
           of: accentHeadingOf('h2'),
           validation: (Rule) => Rule.max(1).warning('Este campo es un encabezado de una sola línea.'),
           description:
-            'Encabezado de una sola línea. Para resaltar un tramo con el acento de color del diseño, seleccionalo y ponelo en cursiva (italic) — no se va a ver en cursiva en el sitio, se convierte automáticamente en el acento.',
+            'Encabezado de una sola línea. Para resaltar un tramo con el acento tipográfico del diseño (Inter medium en vez de Lora), seleccionalo y ponelo en cursiva (italic) — no se va a ver en cursiva en el sitio, se convierte automáticamente en el acento.',
         }),
         defineField({name: 'subtitle', title: 'Subtitle', type: 'string'}),
       ],
