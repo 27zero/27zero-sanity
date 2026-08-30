@@ -812,6 +812,18 @@ export default defineType({
           description: 'ej. "The first and only agency built for EdTech."'}),
         defineField({name: 'text',     title: 'Subtitle', type: 'string',
           description: 'ej. "Three practices. One goal: helping EdTech brands..."'}),
+        defineField({
+          name: 'image',
+          title: 'Background Image',
+          type: 'image',
+          options: {hotspot: true},
+          fields: [defineField({name: 'alt', title: 'Alt text', type: 'string'})],
+          description: 'El sitio no renderiza una imagen sin alt (CLAUDE.md §8.1): si queda vacío, la sección cae a su placeholder aunque la imagen esté cargada.',
+        }),
+        defineField({name: 'ctaLink', title: 'CTA Link', type: 'string',
+          description: 'URL del botón del hero. Puede ser ruta interna (ej. "/contact") o externa. Si queda vacío, el botón no se renderiza.'}),
+        defineField({name: 'ctaCaption', title: 'CTA Caption', type: 'string',
+          description: 'Texto pequeño debajo del botón. ej. "Free. 30 min. No sales pitch."'}),
       ],
     }),
 
@@ -837,6 +849,8 @@ export default defineType({
       fields: [
         defineField({name: 'headline', title: 'Headline', type: 'string',
           description: 'ej. "Let\'s partner to articulate and unpack meaningful results."'}),
+        defineField({name: 'ctaLink', title: 'CTA Link', type: 'string',
+          description: 'URL del botón. Si queda vacío, el botón no se renderiza.'}),
       ],
     }),
 
