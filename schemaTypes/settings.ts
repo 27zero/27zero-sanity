@@ -540,8 +540,19 @@ export default defineType({
 
     // ════════════════════════════════════════════════════════════════
     // CLIENTES — mismo `work` documentType que Work, distinta vista.
-    // Grupo nuevo: hoy solo SEO, la página no tiene hero editable todavía.
     // ════════════════════════════════════════════════════════════════
+
+    defineField({
+      name: 'clientsHero',
+      title: 'Hero',
+      type: 'object',
+      group: 'clients',
+      fields: [
+        defineField({name: 'eyebrow',  title: 'Eyebrow',  type: 'string'}),
+        defineField({name: 'headline', title: 'Headline', type: 'string'}),
+        defineField({name: 'subtitle', title: 'Subtitle', type: 'string'}),
+      ],
+    }),
 
     // ── SEO de la página ───────────────────────────────────────────
 
