@@ -457,8 +457,14 @@ export default defineType({
       fields: [
         defineField({name: 'headline', title: 'Headline', type: 'string'}),
         defineField({name: 'text',     title: 'Text',     type: 'text', rows: 3}),
-        defineField({name: 'image',    title: 'Background Image', type: 'image',
-          options: {hotspot: true}}),
+        defineField({
+          name: 'image',
+          title: 'Background Image',
+          type: 'image',
+          options: {hotspot: true},
+          fields: [defineField({name: 'alt', title: 'Alt text', type: 'string'})],
+          description: 'El sitio no renderiza una imagen sin alt (CLAUDE.md §8.1): si queda vacío, la sección cae a su placeholder aunque la imagen esté cargada.',
+        }),
       ],
     }),
 
@@ -482,8 +488,14 @@ export default defineType({
       fields: [
         defineField({name: 'title', title: 'Title', type: 'string'}),
         defineField({name: 'text',  title: 'Text',  type: 'text', rows: 3}),
-        defineField({name: 'image', title: 'Image', type: 'image',
-          options: {hotspot: true}}),
+        defineField({
+          name: 'image',
+          title: 'Image',
+          type: 'image',
+          options: {hotspot: true},
+          fields: [defineField({name: 'alt', title: 'Alt text', type: 'string'})],
+          description: 'El sitio no renderiza una imagen sin alt (CLAUDE.md §8.1): si queda vacío, la sección cae a su placeholder aunque la imagen esté cargada.',
+        }),
       ],
     }),
 
