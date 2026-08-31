@@ -1,11 +1,5 @@
 import {defineType, defineField, defineArrayMember} from 'sanity'
 
-const INTERVIEW_CATEGORY_OPTIONS = [
-  {title: 'Essential Series', value: 'essential'},
-  {title: 'Investor Series', value: 'investor'},
-  {title: 'Founders Series', value: 'founders'},
-]
-
 export default defineType({
   name: 'edtechMentor',
   title: 'EdTech Mentor Interviews',
@@ -256,25 +250,14 @@ export default defineType({
     // ─────────────────────────────────────────────────────────────
 
     defineField({
-      name: 'interviewCategory',
-      title: 'Interview Category',
-      type: 'string',
+      name: 'category',
+      title: 'Category',
+      type: 'reference',
       group: 'meta',
-      options: {
-        list: INTERVIEW_CATEGORY_OPTIONS,
-        layout: 'radio',
-      },
-      description: 'Determina en qué slider aparece esta entrevista en la página de índice.',
-    }),
-
-    defineField({
-      name: 'categories',
-      title: 'Categories',
-      type: 'array',
-      group: 'meta',
-      of: [defineArrayMember({type: 'reference', to: [{type: 'mentorCategory'}]})],
+      to: [{type: 'mentorCategory'}],
+      validation: (Rule) => Rule.required(),
       description:
-        'Ej. CEOs, Founders, Investors. Para crear, editar o eliminar categorías, usa la opción "Create new" al elegir una aquí, o entra a "Mentor Categories" en el menú lateral del Studio.',
+        'Categoría única de la entrevista — determina en qué sección aparece en la página de índice. Ej. Essential, Investor, Founders, CEOs. Para crear, editar o eliminar categorías, usa la opción "Create new" al elegir una aquí, o entra a "Mentor Categories" en el menú lateral del Studio.',
     }),
 
     defineField({
@@ -373,22 +356,17 @@ export default defineType({
     select: {
       title: 'guestName',
       subtitle: 'title',
-      interviewCategory: 'interviewCategory',
+      category: 'category.title',
       isFeatured: 'isFeatured',
       media: 'guestPhoto',
     },
 
-    prepare({title, subtitle, interviewCategory, isFeatured, media}) {
-      const interviewCategoryLabel =
-        INTERVIEW_CATEGORY_OPTIONS.find((item) => item.value === interviewCategory)?.title ??
-        interviewCategory ??
-        ''
-
+    prepare({title, subtitle, category, isFeatured, media}) {
       const star = isFeatured ? '⭐ ' : ''
 
       return {
         title: `${star}${title ?? 'Unnamed guest'}`,
-        subtitle: [subtitle, interviewCategoryLabel].filter(Boolean).join(' · '),
+        subtitle: [subtitle, category].filter(Boolean).join(' · '),
         media,
       }
     },

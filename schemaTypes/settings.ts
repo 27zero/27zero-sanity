@@ -32,27 +32,7 @@
 
 import {defineType, defineField, defineArrayMember} from 'sanity'
 
-/**
- * Config de bloque para encabezados de una sola línea con "texto de acento":
- * el editor selecciona un tramo y lo pone en cursiva (Italic) — el frontend lo
- * renderiza como el acento tipográfico del design system (Inter medium en vez de
- * Lora; no tiene color propio, hereda el del heading), no como texto en cursiva
- * real. Un solo decorador disponible a propósito, para que no haya ambigüedad
- * con qué logra qué.
- */
-function accentHeadingOf(style: 'h1' | 'h2') {
-  return [
-    defineArrayMember({
-      type: 'block',
-      styles: [{title: style.toUpperCase(), value: style}],
-      lists: [],
-      marks: {
-        decorators: [{title: 'Italic (= texto de acento)', value: 'em'}],
-        annotations: [],
-      },
-    }),
-  ]
-}
+import {accentHeadingOf} from './lib/accentHeading'
 
 export default defineType({
   name: 'settings',
@@ -600,6 +580,22 @@ export default defineType({
       fields: [
         defineField({name: 'headline', title: 'Headline', type: 'string'}),
         defineField({name: 'text',     title: 'Text',     type: 'text', rows: 2}),
+
+        // El primer botón ("Let's Talk" → /contact) queda hardcodeado en el
+        // componente del sitio: es una ruta interna fija, no copy editable.
+        defineField({
+          name: 'secondaryCtaText',
+          title: 'Secondary Button Text',
+          type: 'string',
+          initialValue: 'Learn More',
+        }),
+        defineField({
+          name: 'secondaryCtaLink',
+          title: 'Secondary Button Link',
+          type: 'url',
+          validation: (Rule) => Rule.uri({scheme: ['http', 'https'], allowRelative: true}),
+          description: 'Vacío → el segundo botón no se renderiza.',
+        }),
       ],
     }),
 
