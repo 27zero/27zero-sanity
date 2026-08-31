@@ -158,9 +158,24 @@ export default defineType({
           name: 'pearlOfWisdom',
           title: 'Pearl of Wisdom',
           fields: [
+            defineField({
+              name: 'title',
+              title: 'Pearl Title',
+              type: 'string',
+              description:
+                'Titular propio de la perla. Opcional: las entrevistas migradas de Webflow que nunca lo personalizaron quedan sin él.',
+            }),
             defineField({name: 'quote', title: 'Quote', type: 'text'}),
           ],
-          preview: {select: {title: 'quote'}},
+          // `title` es opcional, así que la perla cae de vuelta a la cita para no
+          // quedar sin encabezado en la lista del Studio.
+          preview: {
+            select: {title: 'title', quote: 'quote'},
+            prepare: ({title, quote}) => ({
+              title: title || quote,
+              subtitle: title ? quote : undefined,
+            }),
+          },
         }),
       ],
     }),
