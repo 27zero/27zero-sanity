@@ -50,6 +50,23 @@ export default defineType({
     }),
 
     defineField({
+      name: 'category',
+      title: 'Category',
+      type: 'reference',
+      to: [{type: 'resourceCategory'}],
+      description:
+        'Categoría del recurso. Opcional: hoy no se muestra en el sitio, el diseño de Resources todavía no tiene dónde ponerla.',
+    }),
+
+    defineField({
+      name: 'isFeatured',
+      title: 'Featured',
+      type: 'boolean',
+      initialValue: false,
+      description: 'Marcar como destacado para mostrar en la card destacada del listado de Resources.',
+    }),
+
+    defineField({
       name: 'cardThumbnail',
       title: 'Card Thumbnail',
       type: 'image',
@@ -86,6 +103,14 @@ export default defineType({
       title: 'Content',
       type: 'array',
       of: [{type: 'block'}],
+    }),
+
+    defineField({
+      name: 'contentCta',
+      title: 'Content CTA',
+      type: 'array',
+      of: [{type: 'block'}],
+      description: 'Bloque de cierre al final del artículo, debajo del contenido.',
     }),
 
     defineField({
