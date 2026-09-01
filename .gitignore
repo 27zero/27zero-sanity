@@ -33,3 +33,8 @@
 
 # Dataset backups (exports)
 /backups
+
+# Etapa 12 migration run reports and staged Webflow payloads — generated output,
+# not source. The scripts that produce them are tracked; their results are not.
+/scripts/reports
+/scripts/*.webflow.json
