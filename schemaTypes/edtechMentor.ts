@@ -186,7 +186,9 @@ export default defineType({
       type: 'string',
       group: 'content',
       description: 'Titular mostrado en cards y en la cabecera de la página de detalle.',
-      validation: (Rule) => Rule.max(120),
+      // 150 y no 120: 4 de las 74 entrevistas migradas de Webflow traen títulos
+      // de artículo más largos (136 el mayor) y el copy no se reescribe.
+      validation: (Rule) => Rule.max(150),
     }),
 
     defineField({
