@@ -41,6 +41,7 @@ export default defineType({
 
   groups: [
     {name: 'card',         title: 'Card',                default: true},
+    {name: 'images', title: 'Images'},
     {name: 'pageContent',  title: 'Page Content'},
     {name: 'conversation', title: 'Conversation Engine'},
     {name: 'pageCta',      title: 'Page CTA'},
@@ -92,7 +93,7 @@ export default defineType({
       name: 'cardImage',
       title: 'Card Image',
       type: 'image',
-      group: 'card',
+            group: ['card', 'images'],
       options: {hotspot: true},
       description: 'Imagen de la card de la práctica en el índice de EdTech Marketing. Recomendado: 800×600 px.',
       fields: [
@@ -133,7 +134,7 @@ export default defineType({
       name: 'heroImage',
       title: 'Hero Background Image',
       type: 'image',
-      group: 'pageContent',
+            group: ['pageContent', 'images'],
       fieldset: 'hero',
       options: {hotspot: true},
     }),
