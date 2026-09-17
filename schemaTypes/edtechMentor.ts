@@ -23,6 +23,7 @@ export default defineType({
       name: 'seo',
       title: 'SEO',
     },
+    {name: 'images', title: 'Images'},
   ],
 
   fieldsets: [
@@ -62,7 +63,7 @@ export default defineType({
       name: 'guestPhoto',
       title: 'Guest Photo',
       type: 'image',
-      group: 'guest',
+            group: ['guest', 'images'],
       options: {hotspot: true},
       fields: [
         defineField({
@@ -82,7 +83,7 @@ export default defineType({
       name: 'thumbnail',
       title: 'Thumbnail',
       type: 'image',
-      group: 'content',
+            group: ['content', 'images'],
       options: {
         hotspot: true,
       },
@@ -117,7 +118,7 @@ export default defineType({
       name: 'mainImage',
       title: 'Featured Image',
       type: 'image',
-      group: 'content',
+            group: ['content', 'images'],
       fieldset: 'interviewIntro',
       options: {hotspot: true},
       fields: [
@@ -130,7 +131,7 @@ export default defineType({
       name: 'bannerPost',
       title: 'Banner Post',
       type: 'image',
-      group: 'content',
+            group: ['content', 'images'],
       options: {hotspot: true},
       description: 'Banner del post para uso en cabeceras y destacados.',
       fields: [defineField({name: 'alt', title: 'Alt text', type: 'string'})],
