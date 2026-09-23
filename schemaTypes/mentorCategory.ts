@@ -2,11 +2,12 @@
  * mentorCategory.ts — EdTech Mentor category (taxonomy for `edtechMentor.category`).
  *
  * Además de clasificar entrevistas, cada categoría es dueña del copy de su propia
- * sección en la página de índice de EdTech Mentor (headline, subtitle y link a la
- * página de la serie).
+ * sección en la página de índice de EdTech Mentor (headline y subtitle) y de la
+ * selección curada de entrevistas de su slider. La URL de su página propia sale del
+ * `slug` (o del `title` si el slug está vacío) — no hay campo de link aparte.
  */
 
-import {defineType, defineField} from 'sanity'
+import {defineType, defineField, defineArrayMember} from 'sanity'
 
 import {accentHeadingOf} from './lib/accentHeading'
 
@@ -28,7 +29,8 @@ export default defineType({
       title: 'Slug',
       type: 'slug',
       options: {source: 'title'},
-      validation: Rule => Rule.required(),
+      description:
+        'Define la URL de la página de la categoría (/edtech-mentor/[slug]). Si se deja vacío, la URL se arma a partir del título.',
     }),
 
     defineField({
@@ -43,6 +45,14 @@ export default defineType({
       title: 'Accent Color',
       type: 'string',
       description: 'Color hexadecimal usado para el pill de categoría en la UI, ej. #4b3df2',
+    }),
+
+    defineField({
+      name: 'textColor',
+      title: 'Accent Color Text',
+      type: 'string',
+      description:
+        'Color hexadecimal del texto de los pills que usan el Accent Color, ej. #ffffff. En los pills de filtro se ve al hacer hover. Si se deja vacío, se elige blanco o negro automáticamente según el Accent Color.',
     }),
 
     defineField({
@@ -72,13 +82,15 @@ export default defineType({
       description: 'Texto corto debajo del encabezado de la sección.',
     }),
 
+    // Sin campo de orden aparte: el orden del array es el orden del slider.
     defineField({
-      name: 'ctaUrl',
-      title: 'Series Page URL',
-      type: 'url',
-      validation: (Rule) => Rule.uri({scheme: ['http', 'https'], allowRelative: true}),
+      name: 'featuredInterviews',
+      title: 'Featured Interviews',
+      type: 'array',
+      of: [defineArrayMember({type: 'reference', to: [{type: 'edtechMentor'}]})],
+      validation: (Rule) => Rule.max(10).unique(),
       description:
-        'Link de la página interna de la categoría. Vacío hasta que el cliente confirme esas páginas — mientras esté vacío, el botón "Go to [categoría]" no se renderiza.',
+        'Entrevistas que se muestran en el slider de esta sección (máximo 10). El orden en que las arrastres acá es el orden en que aparecen en el slider.',
     }),
   ],
 

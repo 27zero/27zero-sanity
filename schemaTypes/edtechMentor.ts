@@ -16,6 +16,10 @@ export default defineType({
       title: 'Content',
     },
     {
+      name: 'images',
+      title: 'Images',
+    },
+    {
       name: 'meta',
       title: 'Metadata',
     },
@@ -23,13 +27,23 @@ export default defineType({
       name: 'seo',
       title: 'SEO',
     },
-    {name: 'images', title: 'Images'},
   ],
 
+  // Los fieldsets `images*` hacen de divider dentro de la tab Images, agrupando cada
+  // imagen según dónde se usa en el sitio. `rapidFire.image` queda fuera: vive dentro
+  // del objeto `rapidFire` y sacarla rompería esa agrupación.
   fieldsets: [
     {
-      name: 'interviewIntro',
-      title: 'Interview Intro',
+      name: 'imagesGuest',
+      title: 'Guest',
+    },
+    {
+      name: 'imagesCard',
+      title: 'Card',
+    },
+    {
+      name: 'imagesDetail',
+      title: 'Detail page',
     },
   ],
 
@@ -59,43 +73,9 @@ export default defineType({
       group: 'guest',
     }),
 
-    defineField({
-      name: 'guestPhoto',
-      title: 'Guest Photo',
-      type: 'image',
-            group: ['guest', 'images'],
-      options: {hotspot: true},
-      fields: [
-        defineField({
-          name: 'alt',
-          title: 'Alt text',
-          type: 'string',
-          validation: (Rule) => Rule.required(),
-        }),
-      ],
-    }),
-
     // ─────────────────────────────────────────────────────────────
     // CONTENT
     // ─────────────────────────────────────────────────────────────
-
-    defineField({
-      name: 'thumbnail',
-      title: 'Thumbnail',
-      type: 'image',
-            group: ['content', 'images'],
-      options: {
-        hotspot: true,
-      },
-      description: 'Imagen miniatura de la card del mentor. Recomendado: 800 × 600 px.',
-      fields: [
-        defineField({
-          name: 'alt',
-          title: 'Alt text',
-          type: 'string',
-        }),
-      ],
-    }),
 
     defineField({
       name: 'highlightTitle',
@@ -110,32 +90,10 @@ export default defineType({
       title: 'Intro Paragraph',
       type: 'text',
       group: 'content',
-      fieldset: 'interviewIntro',
-      description: 'Texto introductorio que acompaña la imagen principal de la entrevista',
+      description:
+        'Texto introductorio que acompaña la imagen principal de la entrevista (Featured Image, en la tab Images).',
     }),
 
-    defineField({
-      name: 'mainImage',
-      title: 'Featured Image',
-      type: 'image',
-            group: ['content', 'images'],
-      fieldset: 'interviewIntro',
-      options: {hotspot: true},
-      fields: [
-        defineField({name: 'alt', title: 'Alt text', type: 'string'}),
-        defineField({name: 'caption', title: 'Caption', type: 'string'}),
-      ],
-    }),
-
-    defineField({
-      name: 'bannerPost',
-      title: 'Banner Post',
-      type: 'image',
-            group: ['content', 'images'],
-      options: {hotspot: true},
-      description: 'Banner del post para uso en cabeceras y destacados.',
-      fields: [defineField({name: 'alt', title: 'Alt text', type: 'string'})],
-    }),
     defineField({
       name: 'slug',
       title: 'Slug',
@@ -264,6 +222,71 @@ export default defineType({
     }),
 
     // ─────────────────────────────────────────────────────────────
+    // IMAGES
+    // ─────────────────────────────────────────────────────────────
+
+    defineField({
+      name: 'guestPhoto',
+      title: 'Guest Photo',
+      type: 'image',
+      group: 'images',
+      fieldset: 'imagesGuest',
+      options: {hotspot: true},
+      fields: [
+        defineField({
+          name: 'alt',
+          title: 'Alt text',
+          type: 'string',
+          validation: (Rule) => Rule.required(),
+        }),
+      ],
+    }),
+
+    defineField({
+      name: 'thumbnail',
+      title: 'Thumbnail',
+      type: 'image',
+      group: 'images',
+      fieldset: 'imagesCard',
+      options: {
+        hotspot: true,
+      },
+      description: 'Imagen miniatura de la card del mentor. Recomendado: 800 × 600 px.',
+      fields: [
+        defineField({
+          name: 'alt',
+          title: 'Alt text',
+          type: 'string',
+        }),
+      ],
+    }),
+
+    defineField({
+      name: 'mainImage',
+      title: 'Featured Image',
+      type: 'image',
+      group: 'images',
+      fieldset: 'imagesDetail',
+      options: {hotspot: true},
+      description: 'Imagen principal de la entrevista, junto al Intro Paragraph (tab Content).',
+      fields: [
+        defineField({name: 'alt', title: 'Alt text', type: 'string'}),
+        defineField({name: 'caption', title: 'Caption', type: 'string'}),
+      ],
+    }),
+
+    defineField({
+      name: 'bannerPost',
+      title: 'Banner Post',
+      type: 'image',
+      group: 'images',
+      fieldset: 'imagesDetail',
+      options: {hotspot: true},
+      description: 'Banner del post para uso en cabeceras y destacados.',
+      fields: [defineField({name: 'alt', title: 'Alt text', type: 'string'})],
+    }),
+
+    // ─────────────────────────────────────────────────────────────
     // METADATA
     // ─────────────────────────────────────────────────────────────
 
@@ -276,6 +299,17 @@ export default defineType({
       validation: (Rule) => Rule.required(),
       description:
         'Categoría única de la entrevista — determina en qué sección aparece en la página de índice. Ej. Essential, Investor, Founders, CEOs. Para crear, editar o eliminar categorías, usa la opción "Create new" al elegir una aquí, o entra a "Mentor Categories" en el menú lateral del Studio.',
+    }),
+
+    // Opcional: las entrevistas migradas de Webflow (Etapa 12) no traen season.
+    defineField({
+      name: 'season',
+      title: 'Season',
+      type: 'reference',
+      group: 'meta',
+      to: [{type: 'mentorSeason'}],
+      description:
+        'Season de la entrevista — se muestra como pill en las cards. Para crear o editar seasons, usa la opción "Create new" al elegir una aquí, o entra a "Mentor Seasons" en el menú lateral del Studio.',
     }),
 
     defineField({
