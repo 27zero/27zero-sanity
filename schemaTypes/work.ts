@@ -9,7 +9,7 @@
  *
  * The "Case Study" tab follows a fixed editorial flow:
  *
- *   Hero Image → Results
+ *   Results
  *   ────────────────────────────────────────
  *   The Business Problem → Communication Challenge → Strategic Idea → Client Quote
  *   ────────────────────────────────────────
@@ -207,11 +207,11 @@ export default defineType({
       initialValue: 100,
     }),
 
-    // ── Media (index thumbnail, video, galería) ─────────────────────────
+    // ── Media (card thumbnail, hero image, video, galería) ─────────────
 
     defineField({
       name: 'thumbnail',
-      title: 'Index Thumbnail',
+      title: 'Card Thumbnail',
       type: 'image',
       group: 'media',
       options: {hotspot: true},
@@ -219,6 +219,18 @@ export default defineType({
         defineField({name: 'alt', title: 'Alt text', type: 'string'}),
       ],
       description: 'Se muestra en la card del índice de Work. Recomendado: 800×600 px.',
+    }),
+
+    defineField({
+      name: 'heroImage',
+      title: 'Hero Image',
+      type: 'image',
+      group: 'media',
+      options: {hotspot: true},
+      fields: [
+        defineField({name: 'alt', title: 'Alt text', type: 'string'}),
+      ],
+      description: 'Imagen a todo el ancho en la parte superior de la página de detalle. Recomendado: 1600×900 px.',
     }),
 
     defineField({
@@ -251,19 +263,7 @@ export default defineType({
     // CASE STUDY TAB — flujo editorial estándar
     // ═══════════════════════════════════════════════════════════════════
 
-    // ── 1. Hero → Results ────────────────────────────────────────────────
-
-    defineField({
-      name: 'heroImage',
-      title: 'Hero Image',
-      type: 'image',
-      group: 'case',
-      options: {hotspot: true},
-      fields: [
-        defineField({name: 'alt', title: 'Alt text', type: 'string'}),
-      ],
-      description: 'Imagen a todo el ancho en la parte superior de la página de detalle. Recomendado: 1600×900 px.',
-    }),
+    // ── 1. Results ───────────────────────────────────────────────────────
 
     defineField({
       name: 'results',
