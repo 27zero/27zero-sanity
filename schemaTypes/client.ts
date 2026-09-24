@@ -15,10 +15,8 @@
  *
  * Logo fields
  * -----------
- * Two separate image fields are provided because logos often need
- * different versions depending on background colour:
- *   logo      — dark version (for white/light backgrounds)
- *   logoLight — light/white version (for dark/indigo backgrounds)
+ *   logo — full client logo (Work detail page)
+ *   icon — small mark for the circle on the Work card
  *
  * Display controls
  * ----------------
@@ -56,18 +54,24 @@ export default defineType({
 
     defineField({
       name: 'logo',
-      title: 'Logo (dark)',
+      title: 'Logo',
       type: 'image',
       options: {hotspot: true},
-      description: 'Versión oscura — usada sobre fondos blancos o claros. Se prefiere SVG.',
+      description: 'Logo completo del cliente, usado en la página de detalle de Work. Se prefiere SVG.',
+      fields: [
+        defineField({name: 'alt', title: 'Alt text', type: 'string', validation: Rule => Rule.required()}),
+      ],
     }),
 
     defineField({
-      name: 'logoLight',
-      title: 'Logo (light)',
+      name: 'icon',
+      title: 'Icon',
       type: 'image',
       options: {hotspot: true},
-      description: 'Versión clara/blanca — usada sobre fondos oscuros o índigo.',
+      description: 'Isotipo o marca reducida del cliente, usado en el círculo pequeño de la card de Work. Se prefiere SVG cuadrado.',
+      fields: [
+        defineField({name: 'alt', title: 'Alt text', type: 'string', validation: Rule => Rule.required()}),
+      ],
     }),
 
     // ── Controles del logo strip de Home ────────────────────────────────

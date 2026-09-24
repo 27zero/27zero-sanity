@@ -3,18 +3,25 @@
  *
  * Each document represents one client engagement (a case study).
  *
+ * The "Project Brief" tab holds the client details block of the detail page:
+ * Client Tagline, the intro paragraph and the Project Type / Agency Role /
+ * Location / Year details.
+ *
  * The "Case Study" tab follows a fixed editorial flow:
  *
- *   Hero Image → Intro (Brief) → Results
+ *   Hero Image → Results
  *   ────────────────────────────────────────
  *   The Business Problem → Communication Challenge → Strategic Idea → Client Quote
  *   ────────────────────────────────────────
  *   Additional Sections
  *   ────────────────────────────────────────
- *   (Other / legacy fields, collapsed — kept for backward compatibility)
+ *   Final CTA Section
  *
- * The 4 "narrative" sections (Business Problem, Communication Challenge,
- * Strategic Idea, Client Quote) each carry their own editable "Section
+ * Client Quote has no field here: it is the testimonials slider, fed by the
+ * `testimonial` documents whose `workProject` points to this case study.
+ *
+ * The 3 narrative sections with content (Business Problem, Communication
+ * Challenge, Strategic Idea) each carry their own editable "Section
  * Label" field. It ships with a standard default (e.g. "Business Problem")
  * but can be overridden per project (e.g. "RFP Brief") for clients that use
  * their own terminology — the label is content, not code.
@@ -25,6 +32,29 @@
 
 import {defineField, defineType} from 'sanity'
 
+/**
+ * Altura de las imágenes de una sección del Case Study. Los valores reales (rem/vh)
+ * viven en el sitio; acá solo se elige la variante. Una por sección, porque cada
+ * sección tiene un único array de imágenes.
+ */
+const heightVariantField = () =>
+  defineField({
+    name: 'heightVariant',
+    title: 'Images Height',
+    type: 'string',
+    options: {
+      list: [
+        {title: 'Low', value: 'low'},
+        {title: 'Medium', value: 'medium'},
+        {title: 'High', value: 'high'},
+      ],
+      layout: 'radio',
+      direction: 'horizontal',
+    },
+    initialValue: 'medium',
+    description: 'Altura con la que se muestran las imágenes de esta sección en la página de detalle.',
+  })
+
 export default defineType({
   name: 'work',
   title: 'Work',
@@ -32,6 +62,7 @@ export default defineType({
 
   groups: [
     {name: 'overview',  title: 'Overview',     default: true},
+    {name: 'brief',     title: 'Project Brief'},
     {name: 'case',      title: 'Case Study'},
     {name: 'media',     title: 'Media'},
     {name: 'seo',       title: 'SEO & Social'},
@@ -42,18 +73,12 @@ export default defineType({
     {
       name: 'narrative',
       title: 'Case Narrative — Business Problem → Communication Challenge → Strategic Idea → Client Quote',
-      description: 'Cada sección tiene su propio "Section Label" editable: úsalo para renombrar la sección en proyectos donde el cliente usa su propia terminología (ej. "Business Problem" → "RFP Brief").',
+      description: 'Cada sección tiene su propio "Section Label" editable: úsalo para renombrar la sección en proyectos donde el cliente usa su propia terminología (ej. "Business Problem" → "RFP Brief"). El Client Quote no se carga acá: sale de los Testimonials cuyo "Related Work Project" apunta a este caso.',
     },
     {
       name: 'additionalSections',
       title: 'Additional Sections',
       description: 'Bloques de contenido flexible extra, después de la narrativa principal (opcional).',
-    },
-    {
-      name: 'legacy',
-      title: 'Other Case Fields',
-      description: 'Campos existentes que no forman parte del flujo estándar de arriba. Se conservan por compatibilidad — no se pierde información.',
-      options: {collapsible: true, collapsed: true},
     },
   ],
 
@@ -98,17 +123,6 @@ export default defineType({
       validation: Rule => Rule.required(),
     }),
 
-    defineField({
-      name: 'clientLogo',
-      title: 'Client Logo',
-      type: 'image',
-      group: 'overview',
-      options: {hotspot: true},
-      fields: [
-        defineField({name: 'alt', title: 'Alt text', type: 'string'}),
-      ],
-    }),
-
     // ── Campos de resumen (usados en el índice y el hero de detalle) ────
 
     defineField({
@@ -131,56 +145,58 @@ export default defineType({
       description: 'Todos los servicios involucrados; se usa para relacionar proyectos similares.',
     }),
 
+    // ── Project Brief (bloque de detalles del cliente en la página de detalle) ──
+
+    defineField({
+      name: 'clientTagline',
+      title: 'Client Tagline',
+      type: 'string',
+      group: 'brief',
+      description: 'Tagline corto mostrado debajo del nombre del cliente en la página de detalle. También es el título del proyecto en la lista del Studio.',
+    }),
+
+    defineField({
+      name: 'briefParagraph',
+      title: 'Brief Paragraph',
+      type: 'text',
+      group: 'brief',
+      rows: 5,
+      description: 'Párrafo de introducción del caso: brief del cliente y contexto. Si el SEO no tiene Meta Description, se usan sus primeros 160 caracteres.',
+    }),
+
     defineField({
       name: 'projectType',
       title: 'Project Type',
       type: 'string',
-      group: 'overview',
+      group: 'brief',
       description: 'Tipo de proyecto (ej. campaña, rediseño de sitio, video)',
     }),
 
     defineField({
       name: 'agencyRole',
-      title: '27zero Role',
+      title: 'Agency Role',
       type: 'string',
-      group: 'overview',
+      group: 'brief',
       description: 'Rol de 27zero en este proyecto',
+    }),
+
+    defineField({
+      name: 'location',
+      title: 'Location',
+      type: 'string',
+      group: 'brief',
+      description: 'ej. "New York, USA"',
     }),
 
     defineField({
       name: 'year',
       title: 'Year',
       type: 'number',
-      group: 'overview',
+      group: 'brief',
       validation: Rule => Rule.integer().min(2000).max(2099),
     }),
 
-    defineField({
-      name: 'excerpt',
-      title: 'Short Description',
-      type: 'text',
-      group: 'overview',
-      rows: 4,
-      description: 'Resumen mostrado en la card del índice de Work.',
-      validation: Rule => Rule.required().max(660),
-    }),
-
-    defineField({
-      name: 'clientTagline',
-      title: 'Client Tagline',
-      type: 'string',
-      group: 'overview',
-      description: 'Tagline corto mostrado debajo del nombre del cliente en la página de detalle.',
-    }),
-
-    defineField({
-      name: 'isFeatured',
-      title: 'Featured',
-      type: 'boolean',
-      group: 'meta',
-      initialValue: false,
-      description: 'Los proyectos destacados aparecen primero y más grandes en la página de índice.',
-    }),
+    // ── Metadata ─────────────────────────────────────────────────────────
 
     defineField({
       name: 'order',
@@ -235,7 +251,7 @@ export default defineType({
     // CASE STUDY TAB — flujo editorial estándar
     // ═══════════════════════════════════════════════════════════════════
 
-    // ── 1. Hero → Intro → Results ────────────────────────────────────────
+    // ── 1. Hero → Results ────────────────────────────────────────────────
 
     defineField({
       name: 'heroImage',
@@ -247,15 +263,6 @@ export default defineType({
         defineField({name: 'alt', title: 'Alt text', type: 'string'}),
       ],
       description: 'Imagen a todo el ancho en la parte superior de la página de detalle. Recomendado: 1600×900 px.',
-    }),
-
-    defineField({
-      name: 'brief',
-      title: 'Intro (Brief)',
-      type: 'text',
-      group: 'case',
-      rows: 3,
-      description: 'Brief del cliente / contexto, en un párrafo. Se muestra como la sección de introducción del caso.',
     }),
 
     defineField({
@@ -314,6 +321,7 @@ export default defineType({
             },
           ],
         }),
+        heightVariantField(),
       ],
     }),
 
@@ -354,6 +362,7 @@ export default defineType({
             },
           ],
         }),
+        heightVariantField(),
       ],
     }),
 
@@ -391,31 +400,7 @@ export default defineType({
             },
           ],
         }),
-      ],
-    }),
-
-    defineField({
-      name: 'clientQuote',
-      title: 'Client Quote',
-      type: 'object',
-      group: 'case',
-      fieldset: 'narrative',
-      description: 'Cita del cliente para esta sección. Enlaza un documento "Testimonial" existente (créalo en Testimonials si no existe aún, y enlaza su campo "Related Work Project" a este mismo caso).',
-      fields: [
-        defineField({
-          name: 'sectionLabel',
-          title: 'Section Label',
-          type: 'string',
-          initialValue: 'Client Quote',
-          description: 'Título mostrado sobre esta sección. Editable por proyecto.',
-        }),
-        defineField({
-          name: 'testimonial',
-          title: 'Testimonial',
-          type: 'reference',
-          to: [{type: 'testimonial'}],
-          description: 'Testimonial a mostrar en esta sección del caso de estudio.',
-        }),
+        heightVariantField(),
       ],
     }),
 
@@ -440,91 +425,66 @@ export default defineType({
               fields: [defineField({name: 'alt', title: 'Alt text', type: 'string'})],
             }],
           }),
+          heightVariantField(),
+          defineField({
+            name: 'bgColor',
+            title: 'Background Color',
+            type: 'string',
+            description: 'Color hexadecimal del fondo de la sección, ej. #f5f5f5. Si se deja vacío, el fondo es blanco.',
+          }),
+          defineField({
+            name: 'textColor',
+            title: 'Text Color',
+            type: 'string',
+            description: 'Color hexadecimal del texto de la sección, ej. #101010.',
+          }),
         ],
         preview: {select: {title: 'title'}},
       }],
       description: 'Secciones de contenido flexible adicionales, después de la narrativa principal.',
     }),
 
-    // ── 4. Other / legacy case fields (kept for backward compatibility) ──
+    // ── 4. Final CTA Section ─────────────────────────────────────────────
 
     defineField({
-      name: 'impact',
-      title: 'The Impact',
-      type: 'array',
-      group: 'case',
-      fieldset: 'legacy',
-      of: [
-        {
-          type: 'object',
-          fields: [
-            {name: 'verb',   title: 'Verb',   type: 'string', description: 'ej. "Fueled"'},
-            {name: 'result', title: 'Result', type: 'text',   description: 'ej. "El ciclo de ventas con más de 50 cuentas clave."'},
-          ],
-          preview: {
-            select: {title: 'verb', subtitle: 'result'},
-          },
-        },
-      ],
-      description: 'Puntos de impacto: pares verbo + resultado (usado en el layout de lista destacada).',
-    }),
-
-    defineField({
-      name: 'contributions',
-      title: 'Contributions',
-      type: 'array',
-      group: 'case',
-      fieldset: 'legacy',
-      of: [{type: 'string'}],
-      options: {layout: 'tags'},
-      description: 'Lista de contribuciones/servicios entregados, mostrada como lista de viñetas.',
-    }),
-
-    defineField({
-      name: 'location',
-      title: 'Location',
-      type: 'string',
-      group: 'case',
-      fieldset: 'legacy',
-      description: 'ej. "New York, USA"',
-    }),
-
-    defineField({
-      name: 'description',
-      title: 'Project Description',
+      name: 'finalCta',
+      title: 'Final CTA Section',
       type: 'object',
       group: 'case',
-      fieldset: 'legacy',
-      description: 'Sección de contenido/descripción del proyecto',
+      description: 'Bloque de cierre de la página de detalle, con llamado a la acción.',
       fields: [
         defineField({
-          name: 'projectTitle',
-          title: 'Section Title',
+          name: 'sectionBgColor',
+          title: 'Section Background Color',
           type: 'string',
-          initialValue: 'Project Content',
-          description: 'Título mostrado sobre el contenido del proyecto',
+          description: 'Color hexadecimal del fondo de la sección, ej. #4b3df2.',
         }),
         defineField({
-          name: 'projectContent',
-          title: 'Project Content',
-          type: 'blockContent',
-          description: 'Descripción completa del proyecto mostrada en la sección de información del cliente.',
+          name: 'sectionHeadlineColor',
+          title: 'Headline Color',
+          type: 'string',
+          description: 'Color hexadecimal del headline, ej. #ffffff.',
         }),
         defineField({
-          name: 'projectImages',
-          title: 'Project Images',
-          type: 'array',
-          description: 'Imágenes de la sección de contenido del proyecto',
-          of: [
-            {
-              type: 'image',
-              options: {hotspot: true},
-              fields: [
-                defineField({name: 'alt', title: 'Alt text', type: 'string', validation: Rule => Rule.required()}),
-                defineField({name: 'caption', title: 'Caption', type: 'string'}),
-              ],
-            },
-          ],
+          name: 'sectionBodyTextColor',
+          title: 'Body Text Color',
+          type: 'string',
+          description: 'Color hexadecimal del texto del cuerpo, ej. #ffffff.',
+        }),
+        defineField({name: 'headline', title: 'Headline', type: 'string'}),
+        defineField({name: 'bodyText', title: 'Body Text', type: 'text', rows: 3}),
+        defineField({
+          name: 'ctaText',
+          title: 'CTA Text',
+          type: 'string',
+          description: 'Texto del botón, ej. "Book a strategy session".',
+        }),
+        defineField({
+          name: 'ctaLink',
+          title: 'CTA Link',
+          type: 'url',
+          validation: Rule => Rule.uri({scheme: ['http', 'https', 'mailto'], allowRelative: true}),
+          description: 'Destino del botón. Acepta rutas internas (ej. /contact) o URLs completas.',
         }),
       ],
     }),
@@ -539,12 +499,11 @@ export default defineType({
 
   orderings: [
     {
-      title: 'Featured first, then by order',
-      name: 'featuredOrder',
+      title: 'Display order',
+      name: 'displayOrder',
       by: [
-        {field: 'isFeatured', direction: 'desc'},
-        {field: 'order',      direction: 'asc'},
-        {field: 'title',      direction: 'asc'},
+        {field: 'order', direction: 'asc'},
+        {field: 'title', direction: 'asc'},
       ],
     },
     {
@@ -564,18 +523,15 @@ export default defineType({
       title:         'title',
       clientTagline: 'clientTagline',
       client:        'client.name',
-      category:      'category.title',
-      isFeatured:    'isFeatured',
       media:         'thumbnail',
     },
-    prepare({title, clientTagline, client, category, isFeatured, media}) {
-      const star = isFeatured ? '⭐ ' : ''
+    prepare({title, clientTagline, client, media}) {
       // En la lista del Studio mostramos el Client Tagline (más corto y
       // fácil de identificar entre muchos proyectos). Si el proyecto
       // todavía no tiene tagline, usamos el Project Title como respaldo.
       return {
-        title:    `${star}${clientTagline || title || 'Untitled'}`,
-        subtitle: [client, category].filter(Boolean).join(' · '),
+        title:    clientTagline || title || 'Untitled',
+        subtitle: client ?? '',
         media,
       }
     },
