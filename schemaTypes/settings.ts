@@ -807,7 +807,7 @@ export default defineType({
         defineField({name: 'headline', title: 'Headline', type: 'string',
           description: 'ej. "The first and only agency built for EdTech."'}),
         defineField({name: 'text',     title: 'Subtitle', type: 'string',
-          description: 'ej. "Three practices. One goal: helping EdTech brands..."'}),
+          description: 'ej. "Practices built around your moment. Services that deliver on it..."'}),
         defineField({
           name: 'image',
           title: 'Background Image',
@@ -828,10 +828,10 @@ export default defineType({
       title: 'Practices Section',
       type: 'object',
       group: 'agency',
-      description: 'El encabezado de la sección "Three practices. One goal."',
+      description: 'El encabezado de la sección de Practices (ej. "The moments we\'re built for."). Las cards salen de los documentos EdTech Marketing Practice, ordenados por su Display Order.',
       fields: [
         defineField({name: 'headline', title: 'Headline', type: 'string',
-          description: 'ej. "Three practices. One goal."'}),
+          description: 'ej. "The moments we\'re built for."'}),
         defineField({name: 'text',     title: 'Text',     type: 'text', rows: 2}),
       ],
     }),

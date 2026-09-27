@@ -38,3 +38,6 @@
 # not source. The scripts that produce them are tracked; their results are not.
 /scripts/reports
 /scripts/*.webflow.json
+
+# Client revision docs (feedback rounds) — local reference, not source
+/revs

@@ -3,21 +3,41 @@
  *
  * Renders its own detail page (`edtechMarketingService` detail, Etapa 6), so it
  * carries the shared `seo` object like `work` and `edtechMentor`.
+ *
+ * Los servicios son la capa de cumplimiento/ejecución de la oferta: cada
+ * Practice (ver edtechMarketingPractice.ts) referencia explícitamente los
+ * servicios que la resuelven vía `relatedServices`, así que esta taxonomía de
+ * categorías ya no necesita coincidir con ninguna lista aparte en Practice —
+ * es la única fuente de verdad para category en todo el proyecto.
  */
 
 import {defineType, defineField, defineArrayMember} from 'sanity'
 
 // ── Service categories — distinct taxonomy from workCategory, does not share
-//    ids/labels with Work's categories (see servicesByCategory.ts in 27zero-sitio).
+//    ids/labels with Work's categories. El sitio espeja ids, labels y orden a mano
+//    (SERVICE_CATEGORY_* en src/types/sanity.ts de 27zero-sitio): cambiar esta
+//    lista obliga a actualizar ese archivo.
+//
+// CAMBIO (conflicto 1): taxonomía de 8 categorías alineada con el RFC de
+// oferta ("27zero Offering Taxonomy Project"). Reemplaza la lista anterior
+// (UX/UI & Web Design, Brand & Messaging Strategy, Project Management, Events,
+// Content Development, Marketing Programs, Strategic Services, Others), que no
+// correspondía a la taxonomía actual salvo en 'Strategic Services' y
+// 'UX/UI & Web Design'.
+//
+// ATENCIÓN AL MIGRAR: cualquier documento de Service ya publicado con un
+// valor viejo (project-management, marketing-programs, content-development,
+// brand-messaging-strategy) va a quedar con un campo category inválido/vacío
+// en el Studio hasta que se reasigne a mano a uno de los 8 valores nuevos.
 const SERVICE_CATEGORIES = [
-  {title: 'UX/UI & Web Design',            value: 'ux-ui-web-design'},
-  {title: 'Brand & Messaging Strategy',    value: 'brand-messaging-strategy'},
-  {title: 'Project Management',            value: 'project-management'},
-  {title: 'Events',                        value: 'events'},
-  {title: 'Content Development',           value: 'content-development'},
-  {title: 'Marketing Programs',            value: 'marketing-programs'},
-  {title: 'Strategic Services',            value: 'strategic-services'},
-  {title: 'Others',                        value: 'others'},
+  {title: 'Strategic Services',        value: 'strategic-services'},
+  {title: 'Brand & Identity',          value: 'brand-identity'},
+  {title: 'UX/UI & Web Design',        value: 'ux-ui-web-design'},
+  {title: 'Content Marketing',         value: 'content-marketing'},
+  {title: 'Demand Generation',         value: 'demand-generation'},
+  {title: 'Marketing Operations',      value: 'marketing-operations'},
+  {title: 'Sales Enablement',          value: 'sales-enablement'},
+  {title: 'Events & Experiences',      value: 'events-experiences'},
 ]
 
 const ICON_OPTIONS = [
@@ -59,7 +79,7 @@ export default defineType({
       title: 'Category',
       type: 'string',
       options: {list: SERVICE_CATEGORIES, layout: 'dropdown'},
-      description: 'Agrupación en el menú del índice de EdTech Marketing. Taxonomía distinta a la de Work.',
+      description: 'Agrupación en el menú del índice de EdTech Marketing y fuente de verdad para relatedServices en Practice.',
       validation: Rule => Rule.required(),
     }),
 
@@ -76,6 +96,23 @@ export default defineType({
       title: 'Description',
       type: 'string',
       description: 'Descripción general del servicio',
+    }),
+
+    // CAMBIO (conflicto 6): edtechMarketingService no tenía ningún campo de
+    // imagen para el hero — a diferencia de edtechMarketingPractice, que sí
+    // tiene 'heroImage' (ver Conflicto 5). No es un bug de un campo mal
+    // armado: directamente no existía dónde cargar la imagen. Se agrega acá
+    // con el mismo patrón ya corregido en Practice (alt requerido desde el
+    // inicio, para no repetir el mismo problema).
+    defineField({
+      name: 'heroImage',
+      title: 'Hero Image',
+      type: 'image',
+      options: {hotspot: true},
+      description: 'Imagen del hero de la página de detalle del servicio.',
+      fields: [
+        defineField({name: 'alt', title: 'Alt text', type: 'string', validation: Rule => Rule.required()}),
+      ],
     }),
 
     // ── Intro ────────────────────────────────────────────────────────
@@ -177,6 +214,8 @@ export default defineType({
       title: 'CTA Link',
       type: 'url',
       fieldset: 'pageCta',
+      validation: Rule => Rule.uri({allowRelative: true, scheme: ['http', 'https']}),
+      description: 'Puede ser ruta interna (ej. "/contact") o URL externa.',
     }),
 
     defineField({

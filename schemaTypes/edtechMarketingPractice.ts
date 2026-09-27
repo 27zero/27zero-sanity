@@ -1,38 +1,29 @@
 /**
  * edtechMarketingPractice.ts — EdTech Marketing Practice document.
  *
- * 27zero has exactly three practices:
- *   Customer Marketing       /edtech-marketing-agency/customer-marketing
- *   Granular Marketing Programs  /edtech-marketing-agency/granular-marketing-programs
- *   Agile Brand Development  /edtech-marketing-agency/agile-brand-development
+ * 27zero organiza su oferta en Practices: cada una nombrada por el motivo real
+ * que trae a un cliente a la agencia (un rebranding, un lanzamiento, una entrada
+ * a un nuevo mercado), no por la metodología interna usada para resolverlo.
+ * La lista de Practices es abierta — hoy son nueve, pero se espera que crezca
+ * a medida que surjan nuevos triggers recurrentes en conversaciones reales con
+ * clientes. No hardcodear una cantidad ni un listado fijo en comentarios ni en
+ * el front — el `order` de abajo controla la grilla, no un enum cerrado.
  *
- * Each practice appears in two frontend contexts:
+ * Cada practice aparece en tres contextos:
  *
- *   1. Home page — pcard (small card: title + shortDescription + clients list + href)
+ *   1. Home page — pcard (card chica: title + shortDescription + clientNames + href)
  *   2. EdTech Marketing index — practices-card (title + shortDescription + cardImage).
- *      El ícono NO sale de acá: los 3 de la grilla son fijos y posicionales, resueltos
- *      en el sitio (PRACTICE_ICONS en edtech-marketing.astro).
- *   3. Practice detail page — full page with hero, credibility section,
- *      conversation engine dropdowns, and services menu
+ *      El ícono NO sale de acá: se resuelve en el sitio (PRACTICE_ICONS en
+ *      edtech-marketing.astro).
+ *   3. Practice detail page — página completa con hero, sección de capacidad,
+ *      bloque de clientes, practice scopes ("conversation engine"), y menú de
+ *      servicios relacionados (relatedServices)
  *
- * Field groups follow the editorial sections of the detail page so
- * content editors see exactly what they're editing.
+ * Field groups siguen las secciones editoriales de la página de detalle para
+ * que los editores de contenido vean exactamente lo que están editando.
  */
 
 import {defineType, defineField, defineArrayMember} from 'sanity'
-
-// ── Misma taxonomía que edtechMarketingService.category — string + list,
-//    no reference (category en edtechMarketingService tampoco es un documento).
-const RELATED_SERVICE_CATEGORIES = [
-  {title: 'UX/UI & Web Design',            value: 'ux-ui-web-design'},
-  {title: 'Brand & Messaging Strategy',    value: 'brand-messaging-strategy'},
-  {title: 'Project Management',            value: 'project-management'},
-  {title: 'Events',                        value: 'events'},
-  {title: 'Content Development',           value: 'content-development'},
-  {title: 'Marketing Programs',            value: 'marketing-programs'},
-  {title: 'Strategic Services',            value: 'strategic-services'},
-  {title: 'Others',                        value: 'others'},
-]
 
 export default defineType({
   name: 'edtechMarketingPractice',
@@ -60,23 +51,41 @@ export default defineType({
 
     // ── Card (home pcard + agency practices-card) ──────────────────────
 
+    // CAMBIO (conflicto 4): antes 'title' hacía doble función — nombre corto
+    // de la práctica Y encabezado mostrado en la card. Ahora 'title' es solo el
+    // titular en voz del comprador que se muestra grande en la card (el H1 de
+    // la página de detalle sale de 'heroHeadline', no de acá), y 'practiceName'
+    // es el nombre de trabajo corto, mostrado con su propio estilo (bold/label)
+    // en la card. Separar los dos evita necesitar texto enriquecido en
+    // shortDescription para poder poner en negrita solo el nombre.
     defineField({
       name: 'title',
-      title: 'Title',
+      title: 'Title (buyer-voice headline)',
       type: 'string',
       group: 'card',
       validation: Rule => Rule.required(),
-      description: 'ej. "Customer Marketing"',
+      description: 'Titular en voz del comprador, mostrado en grande en la card. ej. "You\'ve Outgrown Your Brand"',
     }),
 
+    defineField({
+      name: 'practiceName',
+      title: 'Practice Name',
+      type: 'string',
+      group: 'card',
+      validation: Rule => Rule.required(),
+      description: 'Nombre corto de trabajo de la práctica, mostrado con estilo propio (bold/label) en la card, antes de la Short Description. ej. "Brand Evolution". También es la fuente sugerida para el slug.',
+    }),
+
+    // Source 'practiceName' (antes 'title'): la URL no depende del titular en
+    // voz del comprador, que puede ser largo y cambiar más seguido.
     defineField({
       name: 'slug',
       title: 'URL Slug',
       type: 'slug',
       group: 'meta',
-      options: {source: 'title', maxLength: 96},
+      options: {source: 'practiceName', maxLength: 96},
       validation: Rule => Rule.required(),
-      description: 'ej. "customer-marketing" → /edtech-marketing-agency/customer-marketing',
+      description: 'ej. "brand-evolution" → /edtech-marketing/practices/brand-evolution',
     }),
 
     defineField({
@@ -86,7 +95,18 @@ export default defineType({
       rows: 3,
       group: 'card',
       validation: Rule => Rule.required(),
-      description: 'Descripción corta mostrada en el pcard de Home y en el practices-card de Agency.',
+      description: 'Descripción corta mostrada en el pcard de Home y en el practices-card de Agency, después del Practice Name.',
+    }),
+
+    // CAMBIO (conflicto 3): no existía ningún campo para personalizar el texto
+    // del link/CTA de cada card. Opcional — si queda vacío, el front cae al
+    // texto genérico actual ("Explore the practice").
+    defineField({
+      name: 'cardCtaLabel',
+      title: 'Card CTA Label',
+      type: 'string',
+      group: 'card',
+      description: 'Texto del link de la card, específico al contenido de esta práctica. ej. "Turn community into growth". Si queda vacío, el front usa el texto genérico por default.',
     }),
 
     defineField({
@@ -112,13 +132,16 @@ export default defineType({
 
     // ── Hero (página de detalle) ───────────────────────────────────────
 
+    // NOTA: heroHeadline es el H1 real de la página de detalle, y es distinto
+    // de 'title' (que es el titular de la card). Acá va el nombre corto de la
+    // práctica — mismo valor que 'practiceName' en la mayoría de los casos.
     defineField({
       name: 'heroHeadline',
-      title: 'Hero Headline',
+      title: 'Hero Headline (page H1)',
       type: 'string',
       group: 'pageContent',
       fieldset: 'hero',
-      description: 'ej. "Turning communities into growth engines."',
+      description: 'H1 real de la página de detalle. ej. "Brand Evolution" — el nombre corto, no el titular en voz del comprador.',
     }),
 
     defineField({
@@ -137,6 +160,14 @@ export default defineType({
             group: ['pageContent', 'images'],
       fieldset: 'hero',
       options: {hotspot: true},
+      // CAMBIO (conflicto 5): faltaba 'alt'. Por convención del proyecto
+      // (CLAUDE.md §8.1, ver también aboutHero/aboutProofPoint/bookCard en
+      // settings.ts), el front no renderiza ninguna imagen sin alt text,
+      // aunque el asset esté cargado — esto es lo que hacía que la imagen
+      // "cargara en Sanity pero no se desplegara" en el sitio.
+      fields: [
+        defineField({name: 'alt', title: 'Alt text', type: 'string', validation: Rule => Rule.required()}),
+      ],
     }),
 
     // ── Intro ────────────────────────────────────────────────────────
@@ -172,16 +203,23 @@ export default defineType({
 
     // ── Servicios relacionados ──────────────────────────────────────────
 
-    // Vive en 'pageContent' y no en 'meta' porque es contenido de la página, no
-    // metadato: decide qué bloque de servicios ("What's on the menu?") se renderiza
-    // en la interna. Estaba en 'meta' y ahí nadie lo encontraba.
+    // CAMBIO (conflicto 2): antes 'relatedServiceCategory' era un string único
+    // (dropdown de una sola categoría), lo que no permitía ni multi-categoría
+    // ni curaduría a nivel de servicio individual. Reemplazado por un array de
+    // referencias directas a edtechMarketingService: cada práctica elige
+    // exactamente qué servicios mostrar, en el orden que quiera, sin importar
+    // a qué categoría pertenezcan. Vacío → el front debe renderizar el
+    // fallback "For all" (link al índice completo de servicios), igual que
+    // ya se ve hoy en Marketing Partner.
+    // Vive en 'pageContent' y no en 'meta': decide qué bloque de servicios
+    // ("What's on the menu?") se renderiza en la interna.
     defineField({
-      name: 'relatedServiceCategory',
-      title: 'Related Service Category',
-      type: 'string',
+      name: 'relatedServices',
+      title: 'Related Services',
+      type: 'array',
       group: 'pageContent',
-      options: {list: RELATED_SERVICE_CATEGORIES, layout: 'dropdown'},
-      description: 'Categoría de EdTech Marketing Service a mostrar en esta página.',
+      of: [defineArrayMember({type: 'reference', to: [{type: 'edtechMarketingService'}]})],
+      description: 'Servicios específicos a mostrar en "What\'s on the menu?" de esta página, en el orden elegido. Vacío = renderizar "For all" en vez de una lista curada.',
     }),
 
     // ── Clientes ────────────────────────────────────────────────────────
@@ -259,6 +297,8 @@ export default defineType({
       title: 'CTA Link',
       type: 'url',
       group: 'pageCta',
+      validation: Rule => Rule.uri({allowRelative: true, scheme: ['http', 'https']}),
+      description: 'Puede ser ruta interna (ej. "/contact") o URL externa.',
     }),
 
     // ── SEO ─────────────────────────────────────────────────────────────
@@ -282,7 +322,7 @@ export default defineType({
 
   preview: {
     select: {
-      title:    'title',
+      title:    'practiceName',
       subtitle: 'shortDescription',
       media:    'heroImage',
     },
