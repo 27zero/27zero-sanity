@@ -1,0 +1,1247 @@
+{
+  "services": [
+    {
+      "title": "GTM / Marketing Audit",
+      "slug": "gtm-marketing-audit",
+      "category": "strategic-services",
+      "iconId": "asterisk",
+      "description": "A structured review of your brand, messaging, and competitive position, with a prioritized list of quick wins.",
+      "introTitle": "One shared set of facts before you spend on execution.",
+      "introDescription": "A client with no clear picture of how their brand, message, and competitive position currently read in the market needs a shared, evidence-based starting point, whether that's the first engagement with a new client or a periodic check-in with an existing one. This audit gives you a written overview of what's working, what isn't, and a prioritized list of quick wins and next steps.",
+      "featuresTitle": "What this looks like",
+      "features": [
+        {
+          "title": "Brand and messaging review",
+          "description": "Assessment of the current website, social presence, and marketing messaging against where the brand and category actually stand today."
+        },
+        {
+          "title": "Stakeholder and customer interviews",
+          "description": "Structured conversations with internal stakeholders and, where possible, customers, to separate what the team assumes is landing from what's actually landing."
+        },
+        {
+          "title": "Competitive comparison",
+          "description": "A direct read on how competitors position and go to market, benchmarked against the client's own positioning."
+        }
+      ],
+      "proofPointTitle": "Proof Point",
+      "ctaTitle": "Get a clear picture before you spend another dollar.",
+      "ctaLabel": "Book a strategy session",
+      "ctaHref": "/contact",
+      "seo": {
+        "title": "GTM / Marketing Audit — 27zero",
+        "description": "A structured review of your brand, messaging, competitive position, and how your market currently perceives you, with a prioritized list of quick wins."
+      }
+    },
+    {
+      "title": "Positioning & Messaging Foundation",
+      "slug": "positioning-messaging-foundation",
+      "category": "strategic-services",
+      "iconId": "quatrefoil",
+      "description": "A positioning and messaging framework grounded in real buyer language, translated into core messages your team can write and sell from.",
+      "introTitle": "One story, every time it's told.",
+      "introDescription": "When a client's message changes depending on who's talking, sales, marketing, or the founders, every piece of content and every campaign is working from a different brief. This service builds the one, grounded in market and competitive analysis and how real buyers describe the choice, not internal opinion.",
+      "featuresTitle": "What this looks like",
+      "features": [
+        {
+          "title": "Market and competitive analysis",
+          "description": "A grounded read on the category and the alternatives a buyer is actually weighing."
+        },
+        {
+          "title": "Buyer-language interviews",
+          "description": "Conversations with sales, customer-facing staff, and customers to capture how the choice actually gets described, not how the team assumes it does."
+        },
+        {
+          "title": "Messaging framework",
+          "description": "Core messages at company, product, and feature level, plus a reference document any writer or campaign lead can use."
+        }
+      ],
+      "proofPointTitle": "Proof Point",
+      "ctaTitle": "Get one story everyone on your team can tell.",
+      "ctaLabel": "Book a strategy session",
+      "ctaHref": "/contact",
+      "seo": {
+        "title": "Positioning & Messaging Foundation — 27zero",
+        "description": "A positioning and messaging framework grounded in market analysis and real buyer language, translated into core messages your team can write and sell from."
+      }
+    },
+    {
+      "title": "Buyer Decode",
+      "slug": "buyer-decode",
+      "category": "strategic-services",
+      "iconId": "arc",
+      "description": "An ICP maturity model, buying-group personas, and a map of how the decision actually moves through the institution.",
+      "introTitle": "Higher ed doesn't have one buyer. It has a committee.",
+      "introDescription": "A provost, a dean, a CTL committee, IT, and procurement can all be part of one decision. Buyer Decode builds an ICP maturity model, the specific signals (beyond institution type or size) that indicate a good fit, plus personas for each role in the buying group and where the decision typically stalls.",
+      "featuresTitle": "What this looks like",
+      "features": [
+        {
+          "title": "Fit signals",
+          "description": "The specific characteristics, beyond institution type or size, that indicate a department is ready to buy."
+        },
+        {
+          "title": "Buying-group personas",
+          "description": "Decider, user, and influencer personas, and what each one needs to hear, and when."
+        },
+        {
+          "title": "Decision map",
+          "description": "How the decision actually moves through the institution, including where it typically stalls."
+        }
+      ],
+      "proofPointTitle": "Proof Point",
+      "ctaTitle": "Know exactly who you're selling to.",
+      "ctaLabel": "Book a strategy session",
+      "ctaHref": "/contact",
+      "seo": {
+        "title": "Buyer Decode — 27zero",
+        "description": "An ICP maturity model, personas for each role in the buying group, and a map of how the decision actually moves through the institution."
+      }
+    },
+    {
+      "title": "Brand Strategy",
+      "slug": "brand-strategy",
+      "category": "brand-identity",
+      "iconId": "asterisk",
+      "description": "A documented brand strategy: what you stand for, how you're different, and how that shows up across every touchpoint.",
+      "introTitle": "The foundation everything else builds from.",
+      "introDescription": "A client without a clear strategic foundation, value proposition, brand pillars, competitive differentiation, ends up making every other brand and marketing decision from scratch, every time. This service defines the strategic core once, so the rest of the system has something to build from.",
+      "featuresTitle": "What this looks like",
+      "features": [
+        {
+          "title": "Stakeholder workshops",
+          "description": "Structured sessions to surface what the brand actually stands for today, and where it needs to go."
+        },
+        {
+          "title": "Category and competitive review",
+          "description": "A grounded read on where the brand sits relative to the category and the alternatives."
+        },
+        {
+          "title": "Brand framework",
+          "description": "Brand pillars, promise, and personality, documented as a strategic framework the rest of the brand system builds from."
+        }
+      ],
+      "proofPointTitle": "Proof Point",
+      "ctaTitle": "Get a brand strategy the rest of your decisions can stand on.",
+      "ctaLabel": "Book a strategy session",
+      "ctaHref": "/contact",
+      "seo": {
+        "title": "Brand Strategy — 27zero",
+        "description": "A documented brand strategy: what you stand for, how you're different, and how that shows up consistently across every touchpoint."
+      }
+    },
+    {
+      "title": "Visual Identity",
+      "slug": "visual-identity",
+      "category": "brand-identity",
+      "iconId": "quatrefoil",
+      "description": "A complete, usable visual identity system, logo, color, typography, and imagery, with guidelines your team can apply consistently.",
+      "introTitle": "A system, not just a logo.",
+      "introDescription": "A visual identity that isn't systemized, logo, color, typography, imagery, direction, gets reinvented every time someone new touches it. This service translates brand strategy into a visual system with clear guidelines, so consistency doesn't depend on who's doing the work.",
+      "featuresTitle": "What this looks like",
+      "features": [
+        {
+          "title": "Logo design or refinement",
+          "description": "A mark that fits the brand strategy, whether built from scratch or refined from what exists."
+        },
+        {
+          "title": "Color and typography system",
+          "description": "A defined palette and type system built for consistent use across every channel."
+        },
+        {
+          "title": "Brand guidelines",
+          "description": "Imagery and iconography direction, documented so any team member or partner can apply it correctly."
+        }
+      ],
+      "proofPointTitle": "Proof Point",
+      "ctaTitle": "Get a visual system your team can actually run.",
+      "ctaLabel": "Book a strategy session",
+      "ctaHref": "/contact",
+      "seo": {
+        "title": "Visual Identity — 27zero",
+        "description": "A complete, usable visual identity system, logo, color, typography, and imagery, with guidelines your team and any partner can apply consistently."
+      }
+    },
+    {
+      "title": "Naming",
+      "slug": "naming",
+      "category": "brand-identity",
+      "iconId": "arc",
+      "description": "A vetted, ownable name, or short list, grounded in your brand strategy and screened for conflicts before you commit.",
+      "introTitle": "A name you can actually keep.",
+      "introDescription": "Naming a new company, product, or initiative, or renaming one that no longer fits, is as much a screening problem as a creative one. This service runs a structured process from territory exploration through linguistic and trademark screening, so the name that gets chosen is one the client can actually own.",
+      "featuresTitle": "What this looks like",
+      "features": [
+        {
+          "title": "Naming territories",
+          "description": "Exploration of the strategic and creative directions a name could take, grounded in the brand strategy."
+        },
+        {
+          "title": "Candidate generation",
+          "description": "A working list of name candidates against those territories."
+        },
+        {
+          "title": "Screening",
+          "description": "Linguistic, cultural, and preliminary trademark screening, narrowing the list to what's genuinely usable."
+        }
+      ],
+      "proofPointTitle": "Proof Point",
+      "ctaTitle": "Get a name that's actually yours to keep.",
+      "ctaLabel": "Book a strategy session",
+      "ctaHref": "/contact",
+      "seo": {
+        "title": "Naming — 27zero",
+        "description": "A vetted, ownable name, or short list, grounded in your brand strategy and screened for conflicts before you commit."
+      }
+    },
+    {
+      "title": "Brand Storytelling",
+      "slug": "brand-storytelling",
+      "category": "brand-identity",
+      "iconId": "asterisk",
+      "description": "A brand story your team can tell consistently, in pitches, on your site, in content, that makes the brand memorable.",
+      "introTitle": "One narrative, told the same way twice.",
+      "introDescription": "A brand with a strong strategy and identity but no throughline narrative still asks every person telling its story to invent one on the spot. This service develops the core narrative once, origin, purpose, and the story that ties positioning and identity together, in formats the team can reuse.",
+      "featuresTitle": "What this looks like",
+      "features": [
+        {
+          "title": "Narrative workshops",
+          "description": "Sessions to surface the brand's real origin and purpose, not a manufactured one."
+        },
+        {
+          "title": "Core story and key messages",
+          "description": "The throughline narrative that ties positioning and identity together."
+        },
+        {
+          "title": "Adaptable formats",
+          "description": "The story built out for an About page, a pitch narrative, and a founder story."
+        }
+      ],
+      "proofPointTitle": "Proof Point",
+      "ctaTitle": "Get a story worth repeating.",
+      "ctaLabel": "Book a strategy session",
+      "ctaHref": "/contact",
+      "seo": {
+        "title": "Brand Storytelling — 27zero",
+        "description": "A brand story your team can tell consistently, in pitches, on your site, in content, that makes the brand memorable, not just recognizable."
+      }
+    },
+    {
+      "title": "Website Design",
+      "slug": "website-design",
+      "category": "ux-ui-web-design",
+      "iconId": "quatrefoil",
+      "description": "A new website built around how EdTech buyers actually evaluate, information architecture, UX, UI, and copy, designed to convert.",
+      "introTitle": "Built for how EdTech buyers actually evaluate.",
+      "introDescription": "A website that doesn't reflect the current brand, doesn't convert, or needs a full rebuild costs more than it looks, it's often the first place a buyer forms an opinion. This service is an end-to-end design and build: information architecture, UX, UI, and copy, all built around the way EdTech buyers actually move through an evaluation.",
+      "featuresTitle": "What this looks like",
+      "features": [
+        {
+          "title": "Information architecture",
+          "description": "A sitemap and structure built around the buyer's actual path, not the org chart."
+        },
+        {
+          "title": "UX and UI design",
+          "description": "Wireframes through to final UI, designed to convert, not just to look current."
+        },
+        {
+          "title": "Copy, build, and launch",
+          "description": "Copywriting, development, QA, and launch, handled end-to-end."
+        }
+      ],
+      "proofPointTitle": "Proof Point",
+      "ctaTitle": "Get a site built to convert, not just to look good.",
+      "ctaLabel": "Book a strategy session",
+      "ctaHref": "/contact",
+      "seo": {
+        "title": "Website Design — 27zero",
+        "description": "A new website built around how EdTech buyers actually evaluate, information architecture, UX, UI, and copy, designed to convert."
+      }
+    },
+    {
+      "title": "Website Adjustments or Updates",
+      "slug": "website-adjustments-or-updates",
+      "category": "ux-ui-web-design",
+      "iconId": "arc",
+      "description": "Targeted improvements to your existing site, new pages, refreshed messaging, design fixes, without a full rebuild.",
+      "introTitle": "Most website problems aren't rebuild problems.",
+      "introDescription": "A site that mostly works doesn't need to be torn down to fix what's actually broken, new pages, updated messaging, a design element that's fallen behind the rest of the brand. We scope these as focused, fast-turnaround engagements, targeted at the specific pages or issues in question, not a ground-up redesign.",
+      "featuresTitle": "What this looks like",
+      "features": [
+        {
+          "title": "Scope & Audit",
+          "description": "A focused review of the specific pages, flows, or issues in question, benchmarked against current messaging and brand standards."
+        },
+        {
+          "title": "Design & Copy Updates",
+          "description": "Updated layouts, visuals, and copy for the pages in scope, brought in line with where the brand and messaging stand today."
+        },
+        {
+          "title": "Implementation & QA",
+          "description": "Changes built and tested directly on the live site, with a final pass to confirm nothing else broke in the process."
+        }
+      ],
+      "proofPointTitle": "Proof Point",
+      "ctaTitle": "Fix what's not working, without starting over.",
+      "ctaLabel": "Book a strategy session",
+      "ctaHref": "/contact",
+      "seo": {
+        "title": "Website Adjustments or Updates — 27zero",
+        "description": "Targeted improvements to your existing site, new pages, refreshed messaging, design fixes, without the cost or timeline of a full rebuild."
+      }
+    },
+    {
+      "title": "Interactive Digital Experiences",
+      "slug": "interactive-digital-experiences",
+      "category": "ux-ui-web-design",
+      "iconId": "asterisk",
+      "description": "Custom interactive tools, calculators, configurators, assessments, that help prospects understand fit on their own terms.",
+      "introTitle": "When a static page can't explain it.",
+      "introDescription": "Some products are complex enough that a page of text asks too much of a prospect. This service builds custom interactive tools, calculators, configurators, assessment tools, explorable demos, that let a buyer self-serve understanding instead of guessing from a spec sheet.",
+      "featuresTitle": "What this looks like",
+      "features": [
+        {
+          "title": "Interaction definition",
+          "description": "Identifying the specific question or decision the tool should help a buyer answer."
+        },
+        {
+          "title": "UX and interaction design",
+          "description": "Designing the experience around that decision, not around the feature list."
+        },
+        {
+          "title": "Build and QA",
+          "description": "Development and testing of the finished, embeddable tool."
+        }
+      ],
+      "proofPointTitle": "Proof Point",
+      "ctaTitle": "Let prospects discover fit on their own.",
+      "ctaLabel": "Book a strategy session",
+      "ctaHref": "/contact",
+      "seo": {
+        "title": "Interactive Digital Experiences — 27zero",
+        "description": "Custom interactive tools, calculators, configurators, assessments, that help prospects understand fit and value on their own terms."
+      }
+    },
+    {
+      "title": "Conversion Rate Optimization",
+      "slug": "conversion-rate-optimization",
+      "category": "ux-ui-web-design",
+      "iconId": "quatrefoil",
+      "description": "Ongoing, evidence-based improvements to the pages that matter most for conversion, tested, not guessed.",
+      "introTitle": "Traffic isn't the problem. Conversion is.",
+      "introDescription": "Meaningful website traffic that isn't converting at the rate it should is usually a messaging, layout, or flow problem, not a volume problem. This service runs structured testing and iteration on the pages that matter most, improving conversion without waiting for a full redesign.",
+      "featuresTitle": "What this looks like",
+      "features": [
+        {
+          "title": "Conversion audit",
+          "description": "A review of the pages and flows most responsible for lost conversion."
+        },
+        {
+          "title": "Hypothesis development",
+          "description": "Specific, testable hypotheses for what's holding conversion back."
+        },
+        {
+          "title": "Testing and implementation",
+          "description": "A/B or iterative testing, with winning variants implemented directly."
+        }
+      ],
+      "proofPointTitle": "Proof Point",
+      "ctaTitle": "Convert more of the traffic you already have.",
+      "ctaLabel": "Book a strategy session",
+      "ctaHref": "/contact",
+      "seo": {
+        "title": "Conversion Rate Optimization — 27zero",
+        "description": "Ongoing, evidence-based improvements to the pages that matter most for conversion, tested, not guessed."
+      }
+    },
+    {
+      "title": "Content Strategy",
+      "slug": "content-strategy",
+      "category": "content-marketing",
+      "iconId": "arc",
+      "description": "A content plan tied to buyer stages and your Practices, what gets made, for which audience, and how it's measured.",
+      "introTitle": "A plan behind every piece, not a calendar of topics.",
+      "introDescription": "Content produced without a clear plan for what to create, for whom, and why tends to scatter instead of compound. This service builds a content plan tied to buyer stages, an editorial calendar and set of content pillars grounded in an actual audience and journey map, plus a way to measure whether it's working.",
+      "featuresTitle": "What this looks like",
+      "features": [
+        {
+          "title": "Audience and journey mapping",
+          "description": "Where content needs to meet the buyer at each stage of their decision."
+        },
+        {
+          "title": "Content audit",
+          "description": "A review of what's already been produced and what it's actually doing."
+        },
+        {
+          "title": "Editorial calendar and pillars",
+          "description": "A content plan and measurement framework the team can execute against."
+        }
+      ],
+      "proofPointTitle": "Proof Point",
+      "ctaTitle": "Get content that compounds instead of scattering.",
+      "ctaLabel": "Book a strategy session",
+      "ctaHref": "/contact",
+      "seo": {
+        "title": "Content Strategy — 27zero",
+        "description": "A content plan tied to buyer stages and your Practices, what gets made, for which audience, at which point in the journey, and how it's measured."
+      }
+    },
+    {
+      "title": "Content Production",
+      "slug": "content-production",
+      "category": "content-marketing",
+      "iconId": "asterisk",
+      "description": "Polished content assets, articles, video, motion graphics, editorial pieces, built to travel across social, email, print, and web.",
+      "introTitle": "A steady supply, without an in-house team.",
+      "introDescription": "Having a content plan and having the actual assets made are two different problems. This service produces the articles, video, motion graphics, and editorial pieces the plan calls for, formatted to travel across whichever channels they need to reach.",
+      "featuresTitle": "What this looks like",
+      "features": [
+        {
+          "title": "Scripting and writing",
+          "description": "Content written or scripted for the specific format and channel."
+        },
+        {
+          "title": "Production or design",
+          "description": "Video, motion, and editorial production, handled end-to-end."
+        },
+        {
+          "title": "Channel formatting",
+          "description": "Final assets formatted for each channel they'll run on."
+        }
+      ],
+      "proofPointTitle": "Proof Point",
+      "ctaTitle": "Keep a steady supply of on-brand content.",
+      "ctaLabel": "Book a strategy session",
+      "ctaHref": "/contact",
+      "seo": {
+        "title": "Content Production — 27zero",
+        "description": "Polished content assets, articles, video, motion graphics, editorial pieces, built to travel across social, email, print, and web."
+      }
+    },
+    {
+      "title": "Case Studies & Proof Assets",
+      "slug": "case-studies-proof-assets",
+      "category": "content-marketing",
+      "iconId": "quatrefoil",
+      "description": "Credible, specific proof of results, case studies, testimonials, one-pagers, packaged for wherever your buyers need to see it.",
+      "introTitle": "Results, in a form a buyer can actually use.",
+      "introDescription": "Strong results that live only in a spreadsheet or a sales rep's memory don't shorten anyone's sales cycle. This service turns client outcomes into structured proof, case studies, testimonials, results one-pagers, built for use in both sales and marketing.",
+      "featuresTitle": "What this looks like",
+      "features": [
+        {
+          "title": "Client interviews",
+          "description": "Structured conversations to surface the real story behind the result."
+        },
+        {
+          "title": "Results validation",
+          "description": "Gathering and confirming the specific numbers and outcomes worth featuring."
+        },
+        {
+          "title": "Multi-format production",
+          "description": "Written and designed for web, sales decks, and social."
+        }
+      ],
+      "proofPointTitle": "Proof Point",
+      "ctaTitle": "Give your buyers proof, not just claims.",
+      "ctaLabel": "Book a strategy session",
+      "ctaHref": "/contact",
+      "seo": {
+        "title": "Case Studies & Proof Assets — 27zero",
+        "description": "Credible, specific proof of results, case studies, testimonials, one-pagers, packaged for wherever your buyers need to see it."
+      }
+    },
+    {
+      "title": "Thought Leadership & Executive Content",
+      "slug": "thought-leadership-executive-content",
+      "category": "content-marketing",
+      "iconId": "arc",
+      "description": "Executive ghostwriting, branded interview series, and webinar content that turn expertise, yours or your community's, into influence.",
+      "introTitle": "Two voices worth building a platform for.",
+      "introDescription": "Real expertise without a consistent platform for sharing it goes unheard, whether that expertise sits with a client's own leadership or with the practitioners and customers who use their product. This service covers both: executive-led content for a client's own leadership, and the practitioner-led version pulled into Community-Led Growth, where the voices featured are customers and community members instead.",
+      "featuresTitle": "What this looks like",
+      "features": [
+        {
+          "title": "Interviews",
+          "description": "With executives or featured practitioners, depending on which voice the program is built around."
+        },
+        {
+          "title": "Written content",
+          "description": "Ghostwritten articles and LinkedIn content, built from those interviews."
+        },
+        {
+          "title": "Webinars and series",
+          "description": "Webinar planning and branded series development for ongoing, recurring content."
+        }
+      ],
+      "proofPointTitle": "Proof Point",
+      "proofPointDescription": "WorldQuant Learning's 2026 thought-leadership program runs twelve interviews a year, each with full production: questionnaire, recording, transcript, video, article, two illustrations, animation, teaser, and newsletter distribution. The same production model 27zero built for itself with The EdTech Mentor, scoped for a client brand.",
+      "ctaTitle": "Turn expertise into influence.",
+      "ctaLabel": "Book a strategy session",
+      "ctaHref": "/contact",
+      "seo": {
+        "title": "Thought Leadership & Executive Content — 27zero",
+        "description": "Executive ghostwriting, branded interview series, and webinar content that turn expertise, from leadership or your own community, into influence."
+      }
+    },
+    {
+      "title": "SEO",
+      "slug": "seo",
+      "category": "demand-generation",
+      "iconId": "asterisk",
+      "description": "A search presence built around how EdTech buyers actually search, technical, on-page, and content SEO for durable visibility.",
+      "introTitle": "Visibility that doesn't disappear when the budget does.",
+      "introDescription": "Paid visibility ends the moment spend stops. This service builds organic search visibility around the terms and questions EdTech buyers actually search, technical, on-page, and content SEO that compounds over time instead of resetting every month.",
+      "featuresTitle": "What this looks like",
+      "features": [
+        {
+          "title": "Technical audit",
+          "description": "Identifying what's currently holding the site back in search."
+        },
+        {
+          "title": "Keyword and topic research",
+          "description": "Grounded in how EdTech buyers actually search, not generic volume."
+        },
+        {
+          "title": "On-page optimization and content support",
+          "description": "Ongoing optimization plus support for the content and links that build authority over time."
+        }
+      ],
+      "proofPointTitle": "Proof Point",
+      "ctaTitle": "Build visibility that compounds.",
+      "ctaLabel": "Book a strategy session",
+      "ctaHref": "/contact",
+      "seo": {
+        "title": "SEO — 27zero",
+        "description": "A search presence built around how EdTech buyers actually search, technical, on-page, and content SEO for durable organic visibility."
+      }
+    },
+    {
+      "title": "AEO",
+      "slug": "aeo",
+      "category": "demand-generation",
+      "iconId": "quatrefoil",
+      "description": "Visibility in the AI-generated answers buyers increasingly see before they ever visit a website, distinct from traditional SEO.",
+      "introTitle": "The newest layer of buyer research.",
+      "introDescription": "AI-powered answer engines are increasingly the first stop in a buyer's research, and being cited there is a different discipline from ranking in traditional search. This service audits and structures content specifically for how answer engines summarize and cite sources, ahead of most competitors who haven't addressed it yet.",
+      "featuresTitle": "What this looks like",
+      "features": [
+        {
+          "title": "Answer-engine visibility audit",
+          "description": "Understanding where and how a brand currently shows up in AI-generated answers."
+        },
+        {
+          "title": "Content structuring for citability",
+          "description": "Structuring content so it's the kind of source AI tools actually pull from."
+        },
+        {
+          "title": "Ongoing monitoring",
+          "description": "Tracking how AI-generated answers reference the client over time."
+        }
+      ],
+      "proofPointTitle": "Proof Point",
+      "ctaTitle": "Be the source the AI cites.",
+      "ctaLabel": "Book a strategy session",
+      "ctaHref": "/contact",
+      "seo": {
+        "title": "AEO — 27zero",
+        "description": "Visibility in the AI-generated answers buyers increasingly see before they ever visit a website, distinct from and ahead of traditional SEO."
+      }
+    },
+    {
+      "title": "Paid Media / ABM",
+      "slug": "paid-media-abm",
+      "category": "demand-generation",
+      "iconId": "arc",
+      "description": "Paid search, social, and account-based marketing targeted at the specific institutions and decision-makers that matter most.",
+      "introTitle": "Reach the accounts that matter, not just an audience.",
+      "introDescription": "Broad demographic targeting wastes spend reaching people who were never going to buy. This service runs paid search, social, and account-based campaigns targeted at the specific institutions and buying groups that matter most, for faster, more targeted pipeline than organic alone can generate.",
+      "featuresTitle": "What this looks like",
+      "features": [
+        {
+          "title": "Audience and account targeting",
+          "description": "Built from the specific institutions and buying groups worth reaching."
+        },
+        {
+          "title": "Campaign strategy and creative",
+          "description": "Messaging and creative built for that specific audience."
+        },
+        {
+          "title": "Platform management and reporting",
+          "description": "Ongoing management with performance reporting tied back to pipeline."
+        }
+      ],
+      "proofPointTitle": "Proof Point",
+      "ctaTitle": "Reach the accounts that actually matter.",
+      "ctaLabel": "Book a strategy session",
+      "ctaHref": "/contact",
+      "seo": {
+        "title": "Paid Media / ABM — 27zero",
+        "description": "Paid search, social, and account-based marketing campaigns targeted at the specific institutions and decision-makers that matter most."
+      }
+    },
+    {
+      "title": "Email & Marketing Automation",
+      "slug": "email-marketing-automation",
+      "category": "demand-generation",
+      "iconId": "asterisk",
+      "description": "Email campaigns and automated nurture sequences built around the buyer journey, reaching the right person automatically.",
+      "introTitle": "A database that nurtures itself.",
+      "introDescription": "A list or database that isn't being nurtured systematically is pipeline sitting idle. This service builds email campaigns and automated sequences around the buyer journey, so more of an existing database converts into pipeline without manual, one-by-one follow-up.",
+      "featuresTitle": "What this looks like",
+      "features": [
+        {
+          "title": "List segmentation",
+          "description": "Grouping the database by where each contact actually sits in the journey."
+        },
+        {
+          "title": "Nurture sequence design",
+          "description": "Automated sequences built around that journey, not a single generic drip."
+        },
+        {
+          "title": "Creative, copy, and setup",
+          "description": "Email creative, copywriting, and automation setup and testing."
+        }
+      ],
+      "proofPointTitle": "Proof Point",
+      "ctaTitle": "Turn your database into pipeline.",
+      "ctaLabel": "Book a strategy session",
+      "ctaHref": "/contact",
+      "seo": {
+        "title": "Email & Marketing Automation — 27zero",
+        "description": "Email campaigns and automated nurture sequences built around the buyer journey, reaching the right person automatically at the right stage."
+      }
+    },
+    {
+      "title": "GTM Playbooks & Launch Campaigns",
+      "slug": "gtm-playbooks-launch-campaigns",
+      "category": "demand-generation",
+      "iconId": "quatrefoil",
+      "description": "A concrete, sequenced campaign that puts your go-to-market strategy into motion, not a document that stays on a shelf.",
+      "introTitle": "The plan, translated into a campaign.",
+      "introDescription": "A go-to-market strategy that's already defined still needs to become an executable campaign, channels, timeline, assets, sequencing, before it does anything. This service is the tactical translation: turning a strategic plan into a playbook and a launch campaign that actually runs.",
+      "featuresTitle": "What this looks like",
+      "features": [
+        {
+          "title": "Campaign planning and timeline",
+          "description": "Sequencing the plan into an executable timeline."
+        },
+        {
+          "title": "Channel selection",
+          "description": "Choosing the channels the campaign will actually run on."
+        },
+        {
+          "title": "Asset coordination and launch support",
+          "description": "Coordinating the asset list and supporting execution through launch."
+        }
+      ],
+      "proofPointTitle": "Proof Point",
+      "ctaTitle": "Put your go-to-market strategy into motion.",
+      "ctaLabel": "Book a strategy session",
+      "ctaHref": "/contact",
+      "seo": {
+        "title": "GTM Playbooks & Launch Campaigns — 27zero",
+        "description": "A concrete, sequenced campaign that puts your go-to-market strategy into motion, not a strategy document that stays on a shelf."
+      }
+    },
+    {
+      "title": "Marketing Automation Setup & Management",
+      "slug": "marketing-automation-setup-management",
+      "category": "marketing-operations",
+      "iconId": "arc",
+      "description": "Setup, configuration, and ongoing management of your marketing automation platform, so it actually runs your campaigns.",
+      "introTitle": "The platform you're already paying for, finally working.",
+      "introDescription": "A marketing automation platform that's unused, underused, or never properly set up is a cost without a return. This service sets up, configures, and manages the platform underlying campaigns and nurture, so it's actually doing the work it was bought to do.",
+      "featuresTitle": "What this looks like",
+      "features": [
+        {
+          "title": "Platform setup or audit",
+          "description": "Getting the platform properly configured, or auditing what's already there."
+        },
+        {
+          "title": "Workflow and trigger configuration",
+          "description": "Building the workflows and triggers that actually run campaigns."
+        },
+        {
+          "title": "CRM integration and ongoing management",
+          "description": "Connecting it to the CRM and managing it on an ongoing basis."
+        }
+      ],
+      "proofPointTitle": "Proof Point",
+      "ctaTitle": "Make your automation platform earn its keep.",
+      "ctaLabel": "Book a strategy session",
+      "ctaHref": "/contact",
+      "seo": {
+        "title": "Marketing Automation Setup & Management — 27zero",
+        "description": "Setup, configuration, and ongoing management of your marketing automation platform, so it actually runs your campaigns."
+      }
+    },
+    {
+      "title": "CRM Management",
+      "slug": "crm-management",
+      "category": "marketing-operations",
+      "iconId": "asterisk",
+      "description": "CRM cleanup, configuration, and ongoing management, so marketing and sales can finally work from the same data.",
+      "introTitle": "One CRM, one set of numbers.",
+      "introDescription": "CRM data that's inconsistent, siloed, or not trusted by the teams using it costs more than time, it costs alignment between marketing and sales. This service cleans up and manages the CRM so both teams work from data they actually trust.",
+      "featuresTitle": "What this looks like",
+      "features": [
+        {
+          "title": "Data audit and cleanup",
+          "description": "Cleaning up the data that's currently undermining trust in the system."
+        },
+        {
+          "title": "Field and pipeline configuration",
+          "description": "Configuring the CRM around how the business actually sells."
+        },
+        {
+          "title": "Marketing-sales alignment",
+          "description": "Getting both teams working from shared definitions, with ongoing management to keep it that way."
+        }
+      ],
+      "proofPointTitle": "Proof Point",
+      "ctaTitle": "Get marketing and sales onto the same numbers.",
+      "ctaLabel": "Book a strategy session",
+      "ctaHref": "/contact",
+      "seo": {
+        "title": "CRM Management — 27zero",
+        "description": "CRM cleanup, configuration, and ongoing management, so marketing and sales can finally work from the same data."
+      }
+    },
+    {
+      "title": "Campaign Orchestration",
+      "slug": "campaign-orchestration",
+      "category": "marketing-operations",
+      "iconId": "quatrefoil",
+      "description": "One coordinated campaign engine across channels and campaigns, instead of disconnected, channel-by-channel efforts.",
+      "introTitle": "When every channel is running its own campaign.",
+      "introDescription": "Multiple campaigns and channels running at once without a single view of how they fit together tend to compete with each other instead of reinforcing each other. This service coordinates timing, messaging, and handoffs across the full campaign set.",
+      "featuresTitle": "What this looks like",
+      "features": [
+        {
+          "title": "Campaign calendar and dependency mapping",
+          "description": "A single view of what's running, when, and how it depends on everything else."
+        },
+        {
+          "title": "Cross-channel coordination",
+          "description": "Keeping timing and messaging aligned across every channel in play."
+        },
+        {
+          "title": "Performance tracking",
+          "description": "Tracking the full campaign set together, not channel by channel."
+        }
+      ],
+      "proofPointTitle": "Proof Point",
+      "ctaTitle": "Get every channel working toward the same campaign.",
+      "ctaLabel": "Book a strategy session",
+      "ctaHref": "/contact",
+      "seo": {
+        "title": "Campaign Orchestration — 27zero",
+        "description": "One coordinated campaign engine across channels and campaigns, instead of disconnected, channel-by-channel efforts."
+      }
+    },
+    {
+      "title": "Sales Assets & Experiences",
+      "slug": "sales-assets-experiences",
+      "category": "sales-enablement",
+      "iconId": "arc",
+      "description": "Sales decks and interactive tools built from the same positioning and proof used in marketing, so nothing feels disconnected.",
+      "introTitle": "The same story, in the room and online.",
+      "introDescription": "A sales team building its own decks and materials without marketing support usually ends up telling a slightly different story than the one prospects saw earlier in the funnel. This service builds sales decks and interactive tools from the same positioning and proof already established in marketing.",
+      "featuresTitle": "What this looks like",
+      "features": [
+        {
+          "title": "Sales asset audit",
+          "description": "Reviewing what the sales team is currently working from."
+        },
+        {
+          "title": "Deck and one-pager design",
+          "description": "Built from current, approved positioning and messaging."
+        },
+        {
+          "title": "Interactive sales tools",
+          "description": "Where useful, tools that help a rep walk a prospect through fit in real time."
+        }
+      ],
+      "proofPointTitle": "Proof Point",
+      "ctaTitle": "Give sales the same story marketing already told.",
+      "ctaLabel": "Book a strategy session",
+      "ctaHref": "/contact",
+      "seo": {
+        "title": "Sales Assets & Experiences — 27zero",
+        "description": "Sales decks and interactive tools built from the same positioning and proof used in marketing, so nothing feels disconnected."
+      }
+    },
+    {
+      "title": "Sales Training",
+      "slug": "sales-training",
+      "category": "sales-enablement",
+      "iconId": "asterisk",
+      "description": "Training that translates positioning and proof into how your sales team actually talks to buyers, consistently, across the whole team.",
+      "introTitle": "What your best rep already knows, taught to the rest.",
+      "introDescription": "Positioning and messaging only matter if the sales team can actually use them in a live conversation. This service trains the team on how to explain value and handle objections, closing the gap between the brief and how the team actually talks to buyers.",
+      "featuresTitle": "What this looks like",
+      "features": [
+        {
+          "title": "Current-state assessment",
+          "description": "Understanding where the team's messaging is landing and where it isn't."
+        },
+        {
+          "title": "Training design",
+          "description": "Sessions built around real objections and real conversations, not generic sales theory."
+        },
+        {
+          "title": "Practice and reinforcement",
+          "description": "Role-play, objection handling, and materials the team keeps using after the session ends."
+        }
+      ],
+      "proofPointTitle": "Proof Point",
+      "ctaTitle": "Get your whole team selling like your best rep.",
+      "ctaLabel": "Book a strategy session",
+      "ctaHref": "/contact",
+      "seo": {
+        "title": "Sales Training — 27zero",
+        "description": "Training that translates positioning and proof into how your sales team actually talks to buyers, consistently, across the whole team."
+      }
+    },
+    {
+      "title": "Industry Event Presence",
+      "slug": "industry-event-presence",
+      "category": "events-experiences",
+      "iconId": "quatrefoil",
+      "description": "Strategy and design for your presence at industry conferences, booth design, speaking, and pre/post-event engagement.",
+      "introTitle": "More than a booth.",
+      "introDescription": "Exhibiting or speaking at industry conferences like ISTE or EDUCAUSE is a real investment, and a generic booth rarely earns it back. This service builds the strategy and design behind a client's presence, booth, speaking, sponsorship, and the outreach before and after the event that actually turns it into pipeline.",
+      "featuresTitle": "What this looks like",
+      "features": [
+        {
+          "title": "Event selection and goal-setting",
+          "description": "Choosing which events are actually worth the investment, and what success looks like."
+        },
+        {
+          "title": "Presence design",
+          "description": "Booth or presence design built to create conversations, not just visibility."
+        },
+        {
+          "title": "Speaking and sponsorship strategy",
+          "description": "Positioning the client for the speaking or sponsorship opportunities that matter."
+        },
+        {
+          "title": "Pre- and post-event outreach",
+          "description": "Outreach that turns event attendance into follow-up conversations."
+        }
+      ],
+      "proofPointTitle": "Proof Point",
+      "ctaTitle": "Make your next event actually pay off.",
+      "ctaLabel": "Book a strategy session",
+      "ctaHref": "/contact",
+      "seo": {
+        "title": "Industry Event Presence — 27zero",
+        "description": "Strategy and design for your presence at industry conferences, booth design, speaking, and pre/post-event engagement, built for real conversations."
+      }
+    },
+    {
+      "title": "User Conference Production",
+      "slug": "user-conference-production",
+      "category": "events-experiences",
+      "iconId": "arc",
+      "description": "End-to-end production of a client-hosted event, an annual user conference or summit that builds loyalty beyond the day itself.",
+      "introTitle": "A reason for your best customers to show up.",
+      "introDescription": "Hosting a client's own conference, summit, or user gathering is one of the strongest signals of community strength an EdTech brand can send, but only if it's genuinely well produced. This service handles it end to end, from format and agenda through logistics and on-site support.",
+      "featuresTitle": "What this looks like",
+      "features": [
+        {
+          "title": "Event strategy and format",
+          "description": "Defining what kind of gathering actually fits the brand and audience."
+        },
+        {
+          "title": "Agenda and speaker coordination",
+          "description": "Building the program and securing the right voices."
+        },
+        {
+          "title": "Branding and materials",
+          "description": "Everything attendees see, from signage to session materials."
+        },
+        {
+          "title": "Logistics and on-site support",
+          "description": "Coordinated execution through the event itself."
+        }
+      ],
+      "proofPointTitle": "Proof Point",
+      "ctaTitle": "Build the event your best customers show up for.",
+      "ctaLabel": "Book a strategy session",
+      "ctaHref": "/contact",
+      "seo": {
+        "title": "User Conference Production — 27zero",
+        "description": "End-to-end production of a client-hosted event, an annual user conference or summit that builds loyalty well beyond the day itself."
+      }
+    },
+    {
+      "title": "Account Activation Events",
+      "slug": "account-activation-events",
+      "category": "events-experiences",
+      "iconId": "asterisk",
+      "description": "Smaller-scale, account-specific events, a dinner, a regional meetup, a field event, built to move relationships forward.",
+      "introTitle": "Depth over scale.",
+      "introDescription": "Not every event needs to be a conference. Sometimes the highest-leverage move is a dinner, a regional meetup, or a field event built around a specific account or narrow segment. This service designs and runs that kind of event, built for depth with the relationships that matter most.",
+      "featuresTitle": "What this looks like",
+      "features": [
+        {
+          "title": "Account or segment selection",
+          "description": "Identifying which accounts or segments are worth the investment."
+        },
+        {
+          "title": "Event concept and format",
+          "description": "Designing a format that fits the relationship, not a generic template."
+        },
+        {
+          "title": "Invitations and logistics",
+          "description": "Handling the details that make a small event feel considered."
+        },
+        {
+          "title": "Sales follow-up integration",
+          "description": "Connecting the event directly back into the sales process."
+        }
+      ],
+      "proofPointTitle": "Proof Point",
+      "ctaTitle": "Move your most important accounts forward.",
+      "ctaLabel": "Book a strategy session",
+      "ctaHref": "/contact",
+      "seo": {
+        "title": "Account Activation Events — 27zero",
+        "description": "Smaller-scale, account-specific events, a dinner, a regional meetup, a field event, built to move a targeted set of relationships forward."
+      }
+    }
+  ],
+  "practices": [
+    {
+      "title": "You've Outgrown Your Brand",
+      "practiceName": "Brand Evolution",
+      "shortDescription": "A refreshed identity, or a rebuilt website, that finally matches the company you've become.",
+      "cardCtaLabel": "See your brand evolve",
+      "order": 10,
+      "slug": "brand-evolution",
+      "heroHeadline": "Brand Evolution",
+      "heroText": "This is a fresh look at your brand and, where it's needed, your website, checked against who your company has actually become today. For startups, that often means growing a brand that was scrappy by necessity into one that matches the company you've become. For others, it's less about changing anything and more about brand expression: making sure an identity that already works shows up consistently everywhere it needs to.",
+      "introTitle": "One practice, three ways in.",
+      "introDescription": "Some clients arrive after a real pivot: a funding round, a merger, a product that no longer matches the brand built around it. Others are startups whose founder-built identity never meant to carry the weight the company has now earned. And some already have a brand strategy that works, it just isn't showing up consistently everywhere it should. All three are Brand Evolution.",
+      "capabilities": [
+        "Brand and website assessment",
+        "Visual identity refresh",
+        "Messaging refresh",
+        "Website design or redesign",
+        "Brand guideline documentation",
+        "Startup-to-scale brand maturity review"
+      ],
+      "relatedServices": [
+        "brand-strategy",
+        "visual-identity",
+        "naming",
+        "brand-storytelling",
+        "website-design",
+        "website-adjustments-or-updates"
+      ],
+      "clientSectionTitle": "Brands we've helped grow into themselves.",
+      "clientNames": [
+        "Salesforce",
+        "OpenLMS",
+        "WorldQuant Learning"
+      ],
+      "ctaTitle": "Get a brand that looks like where you're headed.",
+      "ctaLabel": "Book a strategy session",
+      "ctaHref": "/contact",
+      "seo": {
+        "title": "Brand Evolution — 27zero",
+        "description": "A brand and website that reflect who your company has actually become, whether that's evolving it, growing it up, or expressing it consistently."
+      }
+    },
+    {
+      "title": "Your Community Isn't Fueling Growth Yet",
+      "practiceName": "Community-Led Growth",
+      "shortDescription": "Turn the users and practitioners who already love you into a real growth channel.",
+      "cardCtaLabel": "Turn community into growth",
+      "order": 20,
+      "slug": "community-led-growth",
+      "heroHeadline": "Community-Led Growth",
+      "heroText": "The people who already love what you do, your users, customers, and partners, can become your most credible growth channel. We turn that goodwill into testimonials, referrals, ambassador programs, and thought-leadership content built around your own practitioners.",
+      "introTitle": "We don't just observe the EdTech market, we help shape it.",
+      "introDescription": "Through The EdTech Mentor, our in-house customer marketing initiative, we engage more than 6,500 subscribers and over 80 practitioners across our Essentials, Founders, and Investor series. This active community, combined with our research capabilities, keeps us close to emerging trends, audience behaviors, and product innovations, fueling every strategy with actionable insight.",
+      "capabilities": [
+        "Case study production",
+        "Customer Spotlights video series",
+        "Thought leadership programs",
+        "Community-driven content",
+        "The EdTech Mentor initiative",
+        "Interview series — Essentials, Founders, Investor"
+      ],
+      "relatedServices": [
+        "content-strategy",
+        "content-production",
+        "case-studies-proof-assets",
+        "thought-leadership-executive-content"
+      ],
+      "clientSectionTitle": "Brands we've turned into growth engines.",
+      "clientNames": [
+        "Busuu",
+        "D2L",
+        "Anthology",
+        "Instructure"
+      ],
+      "practiceScopesTitle": "From a single conversation to a content engine.",
+      "practiceScopes": [
+        {
+          "title": "The EdTech Mentor",
+          "description": "Our owned thought-leadership publication, and the clearest expression of this practice. Long-form interviews with EdTech founders, investors, and operators, produced end-to-end: questionnaire, recording, full video, article, illustration, teaser clip, and newsletter distribution.",
+          "ctaLabel": "Visit The EdTech Mentor",
+          "ctaHref": "/edtech-mentor"
+        },
+        {
+          "title": "Customer Spotlights",
+          "description": "Video profiles of the practitioners and institutions getting real results with a client's product, built from their own words rather than a marketing brief. Produced as short, shareable clips for social and long-form features for the client's own site and sales materials."
+        }
+      ],
+      "ctaTitle": "Turn your customers into your growth engine.",
+      "ctaLabel": "Book a strategy session",
+      "ctaHref": "/contact",
+      "seo": {
+        "title": "Community-Led Growth — 27zero",
+        "description": "Turn the users, customers, and practitioners who already love your product into testimonials, referrals, and thought leadership built from their voices."
+      }
+    },
+    {
+      "title": "Your Marketing Has Outgrown How It Runs",
+      "practiceName": "Marketing Momentum",
+      "shortDescription": "One connected operating system for your team, objectives, and tools, built and run with you.",
+      "cardCtaLabel": "Build your operating model",
+      "order": 30,
+      "slug": "marketing-momentum",
+      "heroHeadline": "Marketing Momentum",
+      "heroText": "This brings your marketing team's people, processes, communication, and objectives together as one operating system, with modern tools, including AI, built into how the team actually works. 27zero works with your team to design it, then stays on to help run the rollout itself, adjusting the plan as real work gets underway.",
+      "introTitle": "An operating model that scales with your team.",
+      "introDescription": "Growth is the good problem. The operating model that got a five-person marketing team through its first year rarely survives the team doubling in size. Marketing Momentum is a structured reset: shared objectives, clearer processes, better communication across departments, and the right technology doing the right work, with 27zero staying engaged through the actual rollout.",
+      "capabilities": [
+        "Objective-setting workshops",
+        "Process and communication audit",
+        "AI and martech assessment",
+        "Sequenced rollout roadmap",
+        "Embedded rollout support"
+      ],
+      "relatedServices": [
+        "marketing-automation-setup-management",
+        "crm-management",
+        "campaign-orchestration"
+      ],
+      "ctaTitle": "Get a marketing operation built to scale.",
+      "ctaLabel": "Book a strategy session",
+      "ctaHref": "/contact",
+      "seo": {
+        "title": "Marketing Momentum — 27zero",
+        "description": "A written marketing operating model for your team, covering objectives, processes, communication, and technology, with 27zero staying on to run it."
+      }
+    },
+    {
+      "title": "You Don't Have a Go-to-Market Plan Yet",
+      "practiceName": "GTM Strategy",
+      "shortDescription": "One go-to-market plan, positioning through channel strategy, that 27zero helps carry out.",
+      "cardCtaLabel": "Build your GTM plan",
+      "order": 40,
+      "slug": "gtm-strategy",
+      "heroHeadline": "GTM Strategy",
+      "heroText": "This builds your go-to-market as one connected plan: who you are selling to, why they should choose you over the alternatives, how the message reaches them at each stage of the buying process, and where budget and channels should concentrate to support it. 27zero stays on to run it, the campaigns and content the plan calls for.",
+      "introTitle": "One plan, carried all the way through.",
+      "introDescription": "Early growth, a new funding round, a first serious push beyond a founder-led sales motion, these are the moments a company needs its full go-to-market approach built or rebuilt as one connected effort, not four separate exercises assembled after the fact. 27zero builds the plan and then runs it: the campaigns and content it calls for.",
+      "capabilities": [
+        "Market and competitive analysis",
+        "ICP refinement",
+        "Buyer journey and messaging architecture",
+        "Channel and resource allocation planning",
+        "Campaign execution against the plan"
+      ],
+      "relatedServices": [
+        "gtm-marketing-audit",
+        "positioning-messaging-foundation",
+        "buyer-decode",
+        "gtm-playbooks-launch-campaigns"
+      ],
+      "ctaTitle": "Get a go-to-market plan that actually runs.",
+      "ctaLabel": "Book a strategy session",
+      "ctaHref": "/contact",
+      "seo": {
+        "title": "GTM Strategy — 27zero",
+        "description": "One connected go-to-market plan, positioning through channel strategy, with 27zero staying on to execute it, not just hand over a document."
+      }
+    },
+    {
+      "title": "You're Bringing Something New to Market",
+      "practiceName": "New Product Launch",
+      "shortDescription": "A launch plan across sales, marketing, and product, with 27zero running it alongside you.",
+      "cardCtaLabel": "Plan your launch",
+      "order": 50,
+      "slug": "new-product-launch",
+      "heroHeadline": "New Product Launch",
+      "heroText": "This sets clear objectives for the launch, defines who the product is for and how it should sit alongside what you already sell, and builds an integrated launch plan across sales, marketing, and product so each team is working from the same plan. 27zero stays on to run the campaigns, content, and events through the launch window itself, with regular strategic check-ins to keep it on track.",
+      "introTitle": "A launch is a team sport.",
+      "introDescription": "A new product, or a major new capability, only lands if sales, marketing, and product are moving together against the same plan and the same timeline. This practice defines who the product is for and why now, builds the launch sequence, and carries it into execution rather than leaving each team to interpret the plan on its own.",
+      "capabilities": [
+        "Positioning and launch narrative",
+        "Launch objective-setting",
+        "Integrated launch sequencing",
+        "Campaign and content production",
+        "Launch-window check-ins"
+      ],
+      "relatedServices": [
+        "gtm-playbooks-launch-campaigns",
+        "paid-media-abm",
+        "content-production",
+        "account-activation-events"
+      ],
+      "ctaTitle": "Get a launch that runs like one plan.",
+      "ctaLabel": "Book a strategy session",
+      "ctaHref": "/contact",
+      "seo": {
+        "title": "New Product Launch — 27zero",
+        "description": "An integrated launch plan across sales, marketing, and product, with 27zero running the campaigns, content, and events through the launch window."
+      }
+    },
+    {
+      "title": "You're Expanding Into a New Market",
+      "practiceName": "New Market Entry",
+      "shortDescription": "A go-to-market plan for the new geography, with 27zero running the campaigns that bring it to life.",
+      "cardCtaLabel": "Enter your new market",
+      "order": 60,
+      "slug": "new-market-entry",
+      "heroHeadline": "New Market Entry",
+      "heroText": "This checks what from your current positioning, messaging, and buyer definition actually travels to the new market and what needs to change, sets clear objectives for the entry, and builds an integrated go-to-market plan around it. 27zero runs the campaigns and content that bring it to life in the new market, with regular strategic check-ins through the first phase of execution.",
+      "introTitle": "What travels, and what has to change.",
+      "introDescription": "Entering a new geography means finding out, with evidence rather than assumption, what from the current playbook still works and what has to be rebuilt for local buyers, competitors, and decision-making. This practice does that research, sets entry objectives, and then runs the campaigns that make the new market real.",
+      "capabilities": [
+        "New-market buyer and competitor research",
+        "Positioning fit assessment",
+        "Localized go-to-market plan",
+        "Local campaign production",
+        "Execution check-ins"
+      ],
+      "relatedServices": [
+        "gtm-marketing-audit",
+        "buyer-decode",
+        "seo",
+        "aeo",
+        "paid-media-abm"
+      ],
+      "ctaTitle": "Get a market entry plan someone actually runs.",
+      "ctaLabel": "Book a strategy session",
+      "ctaHref": "/contact",
+      "seo": {
+        "title": "New Market Entry — 27zero",
+        "description": "An integrated go-to-market plan for a new geography, with 27zero running the campaigns and content that bring it to life locally."
+      }
+    },
+    {
+      "title": "You're Selling to a Segment You Haven't Cracked",
+      "practiceName": "New Segment Entry",
+      "shortDescription": "Positioning, personas, and a campaign built and run for the buying group you're new to.",
+      "cardCtaLabel": "Reach your new segment",
+      "order": 70,
+      "slug": "new-segment-entry",
+      "heroHeadline": "New Segment Entry",
+      "heroText": "This checks what from your current positioning and messaging travels into the new buyer segment and what needs to change, builds personas for the new segment's buying group, and puts together a targeted campaign built specifically for them, then runs it.",
+      "introTitle": "A new buying group needs its own playbook.",
+      "introDescription": "Knowing how to sell to one buying group doesn't mean the playbook transfers when a new one opens up, a Higher-Ed-focused EdTech company moving into K-12 or Corporate Learning, for instance. This practice builds the buyer research, positioning, and personas the new segment actually needs, and builds and runs the campaign behind it.",
+      "capabilities": [
+        "Segment buyer research",
+        "Persona development",
+        "Positioning and messaging adaptation",
+        "Segment campaign production",
+        "Campaign execution"
+      ],
+      "relatedServices": [
+        "buyer-decode",
+        "paid-media-abm",
+        "email-marketing-automation"
+      ],
+      "ctaTitle": "Get a campaign built for the segment you're entering.",
+      "ctaLabel": "Book a strategy session",
+      "ctaHref": "/contact",
+      "seo": {
+        "title": "New Segment Entry — 27zero",
+        "description": "Positioning, personas, and a campaign built and run for a buyer segment you haven't cracked, from Higher Ed into K-12 or Corporate Learning."
+      }
+    },
+    {
+      "title": "You Sold It, But They're Not Using It",
+      "practiceName": "Product Adoption",
+      "shortDescription": "A usage diagnostic and a targeted plan to turn licenses into a real renewal story.",
+      "cardCtaLabel": "Turn usage into renewal",
+      "order": 80,
+      "slug": "product-adoption",
+      "heroHeadline": "Product Adoption",
+      "heroText": "This looks at why usage isn't where it needs to be, whether people never really started, adoption has stalled, or usage is falling off, and runs a targeted plan to close that gap, aimed directly at the people meant to use the product. You come out of it with a renewal or expansion story backed by real usage data.",
+      "introTitle": "The deal closing is only the start.",
+      "introDescription": "A license getting purchased and a product actually getting used inside an institution are two different outcomes, and EdTech buyers know it: shelfware is a real renewal risk. This practice diagnoses where usage is breaking down, across activation, sustained use, or at-risk renewal, and runs engagement work aimed at the people actually meant to use the product.",
+      "capabilities": [
+        "Usage and adoption diagnostic",
+        "End-user engagement campaigns",
+        "Enablement content production",
+        "Renewal and expansion narrative",
+        "Usage data reporting"
+      ],
+      "relatedServices": [
+        "email-marketing-automation",
+        "case-studies-proof-assets",
+        "sales-assets-experiences"
+      ],
+      "ctaTitle": "Turn usage into your renewal story.",
+      "ctaLabel": "Book a strategy session",
+      "ctaHref": "/contact",
+      "seo": {
+        "title": "Product Adoption — 27zero",
+        "description": "A usage and adoption diagnostic, run by 27zero and aimed at your end users, plus a renewal story backed by real usage data."
+      }
+    },
+    {
+      "title": "You Need a Marketing Team",
+      "practiceName": "Marketing Partner",
+      "shortDescription": "A coordinated 27zero team, embedded and ongoing, functioning as your marketing department.",
+      "cardCtaLabel": "Get your marketing team",
+      "order": 90,
+      "slug": "marketing-partner",
+      "heroHeadline": "Marketing Partner",
+      "heroText": "This puts a coordinated 27zero team across your marketing function, covering the Practices and Services your business actually needs, working under one strategic direction. It's built to function as your marketing team.",
+      "introTitle": "The full agency, embedded as your team.",
+      "introDescription": "Some clients don't have a marketing function at all, or not enough of one, and want 27zero to be it: not a vendor on a project list, but an embedded, coordinated extension of the team. This is the one practice built around an ongoing relationship rather than a single moment, drawing on the full range of 27zero's Practices and Services as the business needs them.",
+      "capabilities": [
+        "Capability and capacity assessment",
+        "Dedicated, embedded 27zero team",
+        "Integrated content and campaign calendar",
+        "Ongoing strategic direction",
+        "Cross-practice coordination"
+      ],
+      "ctaTitle": "Get a marketing team that's already yours.",
+      "ctaLabel": "Book a strategy session",
+      "ctaHref": "/contact",
+      "seo": {
+        "title": "Marketing Partner — 27zero",
+        "description": "A coordinated 27zero team, embedded and ongoing, functioning as your marketing department under one strategic direction."
+      }
+    }
+  ],
+  "settings": {
+    "agencyHero": {
+      "headline": "The first and only agency built for EdTech.",
+      "text": "Practices built around your moment. Services that deliver on it. One partner, from strategy through execution, helping EdTech brands turn purpose into lasting impact.",
+      "ctaLink": "/contact",
+      "ctaCaption": "Free. 30 min. No sales pitch."
+    },
+    "agencyPracticesSection": {
+      "headline": "The moments we're built for.",
+      "text": "Every engagement starts with something real: a rebrand, a launch, a market you haven't cracked yet. These are the situations EdTech leaders bring to us, and where each 27zero practice begins."
+    },
+    "servicesTitle": "What's on the menu?",
+    "servicesDescription": "Wherever you are in your marketing cycle, we have something cooking, strategy, creativity, and execution, ready to serve when you are.",
+    "agencyClosingCta": {
+      "headline": "Let's partner to articulate and unpack meaningful results.",
+      "ctaLink": "/contact"
+    },
+    "agencySeo": {
+      "title": "EdTech Marketing — 27zero",
+      "description": "27zero is the first and only agency built for EdTech. Nine practices built around your business moment, and the services to fully execute on it."
+    }
+  }
+}
