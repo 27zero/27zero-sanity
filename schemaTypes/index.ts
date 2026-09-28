@@ -18,6 +18,7 @@ import testimonial             from './testimonial'
 import client                  from './client'
 import edtechMarketingPractice from './edtechMarketingPractice'
 import team                    from './team'
+import cta                     from './cta'
 
 export const schemaTypes = [
   // Content
@@ -31,6 +32,7 @@ export const schemaTypes = [
   edtechMarketingPractice,
   edtechMarketingService,
   team,
+  cta,
 
   // Supporting
   author,

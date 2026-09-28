@@ -3,8 +3,11 @@
  *
  * Each document represents one client engagement (a case study).
  *
+ * `title` is internal only (identifies the project in the Studio). The public
+ * title is `headline`: H1 of the detail page and title of the Work cards.
+ *
  * The "Project Brief" tab holds the client details block of the detail page:
- * Client Tagline, the intro paragraph and the Project Type / Agency Role /
+ * Headline, the intro paragraph and the Project Type / Agency Role /
  * Location / Year details.
  *
  * The "Case Study" tab follows a fixed editorial flow:
@@ -20,6 +23,9 @@
  * Client Quote has no field here: it is the testimonials slider, fed by the
  * `testimonial` documents whose `workProject` points to this case study.
  *
+ * Final CTA Section is a reference to a reusable `cta` document, not an
+ * embedded object: the same CTA is shared across case studies.
+ *
  * The 3 narrative sections with content (Business Problem, Communication
  * Challenge, Strategic Idea) each carry their own editable "Section
  * Label" field. It ships with a standard default (e.g. "Business Problem")
@@ -31,13 +37,17 @@
  */
 
 import {defineField, defineType} from 'sanity'
+import {paletteColorField} from './lib/paletteColor'
 
 /**
  * Altura de las imágenes de una sección del Case Study. Los valores reales (rem/vh)
- * viven en el sitio; acá solo se elige la variante. Una por sección, porque cada
- * sección tiene un único array de imágenes.
+ * de Low / Medium / High viven en el sitio; acá solo se elige la variante. Una por
+ * sección, porque cada sección tiene un único array de imágenes.
+ *
+ * "Custom" habilita `customHeight`: la altura en px del diseño desktop, que el sitio
+ * escala proporcionalmente en mobile.
  */
-const heightVariantField = () =>
+const imageHeightFields = () => [
   defineField({
     name: 'heightVariant',
     title: 'Images Height',
@@ -47,13 +57,31 @@ const heightVariantField = () =>
         {title: 'Low', value: 'low'},
         {title: 'Medium', value: 'medium'},
         {title: 'High', value: 'high'},
+        {title: 'Custom', value: 'custom'},
       ],
       layout: 'radio',
       direction: 'horizontal',
     },
     initialValue: 'medium',
     description: 'Altura con la que se muestran las imágenes de esta sección en la página de detalle.',
-  })
+  }),
+  defineField({
+    name: 'customHeight',
+    title: 'Custom Height (px)',
+    type: 'number',
+    hidden: ({parent}) => parent?.heightVariant !== 'custom',
+    validation: Rule =>
+      Rule.min(80)
+        .max(1200)
+        .custom((value, context) => {
+          const parent = context.parent as {heightVariant?: string} | undefined
+          return parent?.heightVariant === 'custom' && value === undefined
+            ? 'Requerido cuando la altura es Custom.'
+            : true
+        }),
+    description: 'Altura de las imágenes en píxeles, tal como aparece en el diseño desktop. En mobile se reduce de forma proporcional automáticamente.',
+  }),
+]
 
 export default defineType({
   name: 'work',
@@ -88,10 +116,10 @@ export default defineType({
 
     defineField({
       name: 'title',
-      title: 'Project Title',
+      title: 'Project Title (internal)',
       type: 'string',
       group: 'overview',
-      description: 'ej. "Anthology — Legacy Conversations"',
+      description: 'Nombre interno del proyecto para identificarlo en el Studio. No se muestra en el sitio.',
       validation: Rule => Rule.required().max(120),
     }),
 
@@ -148,11 +176,12 @@ export default defineType({
     // ── Project Brief (bloque de detalles del cliente en la página de detalle) ──
 
     defineField({
-      name: 'clientTagline',
-      title: 'Client Tagline',
+      name: 'headline',
+      title: 'Headline',
       type: 'string',
       group: 'brief',
-      description: 'Tagline corto mostrado debajo del nombre del cliente en la página de detalle. También es el título del proyecto en la lista del Studio.',
+      description: 'Titular principal del proyecto. Se muestra como H1 en la página de detalle y como título en las cards de Work.',
+      validation: Rule => Rule.required(),
     }),
 
     defineField({
@@ -321,7 +350,7 @@ export default defineType({
             },
           ],
         }),
-        heightVariantField(),
+        ...imageHeightFields(),
       ],
     }),
 
@@ -362,7 +391,7 @@ export default defineType({
             },
           ],
         }),
-        heightVariantField(),
+        ...imageHeightFields(),
       ],
     }),
 
@@ -400,7 +429,7 @@ export default defineType({
             },
           ],
         }),
-        heightVariantField(),
+        ...imageHeightFields(),
       ],
     }),
 
@@ -425,18 +454,16 @@ export default defineType({
               fields: [defineField({name: 'alt', title: 'Alt text', type: 'string'})],
             }],
           }),
-          heightVariantField(),
-          defineField({
+          ...imageHeightFields(),
+          paletteColorField({
             name: 'bgColor',
             title: 'Background Color',
-            type: 'string',
-            description: 'Color hexadecimal del fondo de la sección, ej. #f5f5f5. Si se deja vacío, el fondo es blanco.',
+            description: 'Color de fondo de la sección. Si se deja vacío, el fondo es blanco.',
           }),
-          defineField({
+          paletteColorField({
             name: 'textColor',
             title: 'Text Color',
-            type: 'string',
-            description: 'Color hexadecimal del texto de la sección, ej. #101010.',
+            description: 'Color del texto de la sección.',
           }),
         ],
         preview: {select: {title: 'title'}},
@@ -447,46 +474,12 @@ export default defineType({
     // ── 4. Final CTA Section ─────────────────────────────────────────────
 
     defineField({
-      name: 'finalCta',
+      name: 'cta',
       title: 'Final CTA Section',
-      type: 'object',
+      type: 'reference',
       group: 'case',
-      description: 'Bloque de cierre de la página de detalle, con llamado a la acción.',
-      fields: [
-        defineField({
-          name: 'sectionBgColor',
-          title: 'Section Background Color',
-          type: 'string',
-          description: 'Color hexadecimal del fondo de la sección, ej. #4b3df2.',
-        }),
-        defineField({
-          name: 'sectionHeadlineColor',
-          title: 'Headline Color',
-          type: 'string',
-          description: 'Color hexadecimal del headline, ej. #ffffff.',
-        }),
-        defineField({
-          name: 'sectionBodyTextColor',
-          title: 'Body Text Color',
-          type: 'string',
-          description: 'Color hexadecimal del texto del cuerpo, ej. #ffffff.',
-        }),
-        defineField({name: 'headline', title: 'Headline', type: 'string'}),
-        defineField({name: 'bodyText', title: 'Body Text', type: 'text', rows: 3}),
-        defineField({
-          name: 'ctaText',
-          title: 'CTA Text',
-          type: 'string',
-          description: 'Texto del botón, ej. "Book a strategy session".',
-        }),
-        defineField({
-          name: 'ctaLink',
-          title: 'CTA Link',
-          type: 'url',
-          validation: Rule => Rule.uri({scheme: ['http', 'https', 'mailto'], allowRelative: true}),
-          description: 'Destino del botón. Acepta rutas internas (ej. /contact) o URLs completas.',
-        }),
-      ],
+      to: [{type: 'cta'}],
+      description: "CTA que se muestra al final del caso de estudio. Los CTAs se crean y editan en 'CTAs' en el menú lateral.",
     }),
 
     defineField({
@@ -520,17 +513,13 @@ export default defineType({
 
   preview: {
     select: {
-      title:         'title',
-      clientTagline: 'clientTagline',
-      client:        'client.name',
-      media:         'thumbnail',
+      title:  'title',
+      client: 'client.name',
+      media:  'thumbnail',
     },
-    prepare({title, clientTagline, client, media}) {
-      // En la lista del Studio mostramos el Client Tagline (más corto y
-      // fácil de identificar entre muchos proyectos). Si el proyecto
-      // todavía no tiene tagline, usamos el Project Title como respaldo.
+    prepare({title, client, media}) {
       return {
-        title:    clientTagline || title || 'Untitled',
+        title:    title || 'Untitled',
         subtitle: client ?? '',
         media,
       }
