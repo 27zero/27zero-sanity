@@ -12,6 +12,7 @@
  */
 
 import {defineType, defineField, defineArrayMember} from 'sanity'
+import {BG_COLOR_OPTIONS, TEXT_COLOR_OPTIONS} from './lib/palette'
 
 // ── Service categories — distinct taxonomy from workCategory, does not share
 //    ids/labels with Work's categories. El sitio espeja ids, labels y orden a mano
@@ -98,21 +99,21 @@ export default defineType({
       description: 'Descripción general del servicio',
     }),
 
-    // CAMBIO (conflicto 6): edtechMarketingService no tenía ningún campo de
-    // imagen para el hero — a diferencia de edtechMarketingPractice, que sí
-    // tiene 'heroImage' (ver Conflicto 5). No es un bug de un campo mal
-    // armado: directamente no existía dónde cargar la imagen. Se agrega acá
-    // con el mismo patrón ya corregido en Practice (alt requerido desde el
-    // inicio, para no repetir el mismo problema).
+    // Ronda 3: el hero pasa de imagen a color de fondo (reemplaza a heroImage).
     defineField({
-      name: 'heroImage',
-      title: 'Hero Image',
-      type: 'image',
-      options: {hotspot: true},
-      description: 'Imagen del hero de la página de detalle del servicio.',
-      fields: [
-        defineField({name: 'alt', title: 'Alt text', type: 'string', validation: Rule => Rule.required()}),
-      ],
+      name: 'heroBgColor',
+      title: 'Hero BG Color',
+      type: 'string',
+      options: {list: BG_COLOR_OPTIONS, layout: 'dropdown'},
+      description: 'Color de fondo del hero. Vacío = Dark.',
+    }),
+
+    defineField({
+      name: 'heroTextColor',
+      title: 'Hero Text Color',
+      type: 'string',
+      options: {list: TEXT_COLOR_OPTIONS, layout: 'dropdown'},
+      description: 'Color del texto, ícono y botón del hero. Revisar que se lea bien sobre el fondo elegido. Vacío = Light.',
     }),
 
     // ── Intro ────────────────────────────────────────────────────────

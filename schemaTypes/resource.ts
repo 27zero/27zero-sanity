@@ -1,4 +1,5 @@
 import {defineType, defineField} from 'sanity'
+import {BG_COLOR_OPTIONS, TEXT_COLOR_OPTIONS} from './lib/palette'
 
 export default defineType({
   name: 'resource',
@@ -83,11 +84,27 @@ export default defineType({
     }),
 
     defineField({
+      name: 'heroBgColor',
+      title: 'Hero BG Color',
+      type: 'string',
+      options: {list: BG_COLOR_OPTIONS, layout: 'dropdown'},
+      description: 'Color de fondo del hero. Vacío = Dark.',
+    }),
+
+    defineField({
+      name: 'heroTextColor',
+      title: 'Hero Text Color',
+      type: 'string',
+      options: {list: TEXT_COLOR_OPTIONS, layout: 'dropdown'},
+      description: 'Color del texto, ícono y botón del hero. Revisar que se lea bien sobre el fondo elegido. Vacío = Light.',
+    }),
+
+    defineField({
       name: 'heroBanner',
       title: 'Hero Banner',
       type: 'image',
       options: {hotspot: true},
-      description: 'Imagen de cabecera en la página interna del recurso.',
+      description: '⚠️ Campo migrado de Webflow, actualmente NO visible en el sitio (el hero usa Hero BG Color). Pendiente de decidir si se borra o se mantiene.',
       fields: [
         defineField({
           name: 'alt',

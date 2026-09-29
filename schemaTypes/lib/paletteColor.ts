@@ -6,7 +6,9 @@
  * nombre del token (ej. "indigo"), nunca el hex: el sitio lo mapea a
  * `var(--color-<valor>)` de `src/styles/global.css`, que es la fuente de verdad de
  * los hex. Los hex de los títulos son solo una referencia visual para el editor:
- * si cambia un token en `global.css`, se actualiza el título acá.
+ * si cambia un token en `global.css`, se actualiza el título acá. Excepción: `dark`
+ * (antes `black`, renombrado en la ronda 3 de feedback) es el #101010 que en
+ * `global.css` vive como `--color-black`.
  *
  * Vive en su propio módulo porque lo usan varios documentTypes (`cta` y
  * `work.contentSections` hoy). Su espejo en el sitio es `PaletteColor` en
@@ -21,7 +23,7 @@ import {defineField} from 'sanity'
 export const PALETTE_COLORS = [
   {title: 'Indigo (#440E92)', value: 'indigo'},
   {title: 'Purple (#B382F9)', value: 'purple'},
-  {title: 'Black (#101010)',  value: 'black'},
+  {title: 'Dark (#101010)',   value: 'dark'},
   {title: 'White (#FFFFFF)',  value: 'white'},
 ]
 

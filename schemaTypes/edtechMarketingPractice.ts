@@ -12,7 +12,8 @@
  * Cada practice aparece en tres contextos:
  *
  *   1. Home page — pcard (card chica: title + shortDescription + clientNames + href)
- *   2. EdTech Marketing index — practices-card (title + shortDescription + cardImage).
+ *   2. EdTech Marketing index — practices-card (title + shortDescription, con
+ *      bgColor/textColor, que también pintan el hero de la interna).
  *      El ícono NO sale de acá: se resuelve en el sitio (PRACTICE_ICONS en
  *      edtech-marketing.astro).
  *   3. Practice detail page — página completa con hero, sección de capacidad,
@@ -24,6 +25,7 @@
  */
 
 import {defineType, defineField, defineArrayMember} from 'sanity'
+import {BG_COLOR_OPTIONS, TEXT_COLOR_OPTIONS} from './lib/palette'
 
 export default defineType({
   name: 'edtechMarketingPractice',
@@ -32,7 +34,6 @@ export default defineType({
 
   groups: [
     {name: 'card',         title: 'Card',                default: true},
-    {name: 'images', title: 'Images'},
     {name: 'pageContent',  title: 'Page Content'},
     {name: 'conversation', title: 'Conversation Engine'},
     {name: 'pageCta',      title: 'Page CTA'},
@@ -109,16 +110,24 @@ export default defineType({
       description: 'Texto del link de la card, específico al contenido de esta práctica. ej. "Turn community into growth". Si queda vacío, el front usa el texto genérico por default.',
     }),
 
+    // Ronda 3: reemplazan a cardImage y heroImage. Un mismo par de colores
+    // pinta la card del índice y el hero de la interna.
     defineField({
-      name: 'cardImage',
-      title: 'Card Image',
-      type: 'image',
-            group: ['card', 'images'],
-      options: {hotspot: true},
-      description: 'Imagen de la card de la práctica en el índice de EdTech Marketing. Recomendado: 800×600 px.',
-      fields: [
-        defineField({name: 'alt', title: 'Alt text', type: 'string', validation: Rule => Rule.required()}),
-      ],
+      name: 'bgColor',
+      title: 'Card/Hero BG Color',
+      type: 'string',
+      group: 'card',
+      options: {list: BG_COLOR_OPTIONS, layout: 'dropdown'},
+      description: 'Color de fondo de la card en EdTech Marketing y del hero de la página interna. Vacío = Dark.',
+    }),
+
+    defineField({
+      name: 'textColor',
+      title: 'Card/Hero Text Color',
+      type: 'string',
+      group: 'card',
+      options: {list: TEXT_COLOR_OPTIONS, layout: 'dropdown'},
+      description: 'Color del texto, flecha, ícono y botón en la card y en el hero. Revisar que se lea bien sobre el fondo elegido. Vacío = Light.',
     }),
 
     defineField({
@@ -151,23 +160,6 @@ export default defineType({
       rows: 3,
       group: 'pageContent',
       fieldset: 'hero',
-    }),
-
-    defineField({
-      name: 'heroImage',
-      title: 'Hero Background Image',
-      type: 'image',
-            group: ['pageContent', 'images'],
-      fieldset: 'hero',
-      options: {hotspot: true},
-      // CAMBIO (conflicto 5): faltaba 'alt'. Por convención del proyecto
-      // (CLAUDE.md §8.1, ver también aboutHero/aboutProofPoint/bookCard en
-      // settings.ts), el front no renderiza ninguna imagen sin alt text,
-      // aunque el asset esté cargado — esto es lo que hacía que la imagen
-      // "cargara en Sanity pero no se desplegara" en el sitio.
-      fields: [
-        defineField({name: 'alt', title: 'Alt text', type: 'string', validation: Rule => Rule.required()}),
-      ],
     }),
 
     // ── Intro ────────────────────────────────────────────────────────
@@ -324,13 +316,11 @@ export default defineType({
     select: {
       title:    'practiceName',
       subtitle: 'shortDescription',
-      media:    'heroImage',
     },
-    prepare({title, subtitle, media}) {
+    prepare({title, subtitle}) {
       return {
         title:    title ?? 'Unnamed practice',
         subtitle: subtitle ? subtitle.slice(0, 60) + '…' : '',
-        media,
       }
     },
   },

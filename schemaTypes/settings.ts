@@ -33,6 +33,7 @@
 import {defineType, defineField, defineArrayMember} from 'sanity'
 
 import {accentHeadingOf} from './lib/accentHeading'
+import {BG_COLOR_OPTIONS, TEXT_COLOR_OPTIONS} from './lib/palette'
 
 export default defineType({
   name: 'settings',
@@ -442,8 +443,22 @@ export default defineType({
           title: 'Background Image',
           type: 'image',
           options: {hotspot: true},
-          fields: [defineField({name: 'alt', title: 'Alt text', type: 'string'})],
-          description: 'El sitio no renderiza una imagen sin alt (CLAUDE.md §8.1): si queda vacío, la sección cae a su placeholder aunque la imagen esté cargada.',
+          fields: [defineField({name: 'alt', title: 'Alt text', type: 'string', validation: Rule => Rule.required()})],
+          description: 'Si se carga, el hero muestra SOLO la imagen: título, texto y botones se ocultan visualmente. El alt debe describir el mensaje del hero. Vacío = hero de color.',
+        }),
+        defineField({
+          name: 'bgColor',
+          title: 'BG Color',
+          type: 'string',
+          options: {list: BG_COLOR_OPTIONS, layout: 'dropdown'},
+          description: 'Solo aplica si no hay imagen cargada. Vacío = Dark / Light.',
+        }),
+        defineField({
+          name: 'textColor',
+          title: 'Text Color',
+          type: 'string',
+          options: {list: TEXT_COLOR_OPTIONS, layout: 'dropdown'},
+          description: 'Solo aplica si no hay imagen cargada. Vacío = Dark / Light.',
         }),
       ],
     }),
@@ -813,8 +828,22 @@ export default defineType({
           title: 'Background Image',
           type: 'image',
           options: {hotspot: true},
-          fields: [defineField({name: 'alt', title: 'Alt text', type: 'string'})],
-          description: 'El sitio no renderiza una imagen sin alt (CLAUDE.md §8.1): si queda vacío, la sección cae a su placeholder aunque la imagen esté cargada.',
+          fields: [defineField({name: 'alt', title: 'Alt text', type: 'string', validation: Rule => Rule.required()})],
+          description: 'Si se carga, el hero muestra SOLO la imagen: título, texto y botones se ocultan visualmente. El alt debe describir el mensaje del hero. Vacío = hero de color.',
+        }),
+        defineField({
+          name: 'bgColor',
+          title: 'BG Color',
+          type: 'string',
+          options: {list: BG_COLOR_OPTIONS, layout: 'dropdown'},
+          description: 'Solo aplica si no hay imagen cargada. Vacío = Dark / Light.',
+        }),
+        defineField({
+          name: 'textColor',
+          title: 'Text Color',
+          type: 'string',
+          options: {list: TEXT_COLOR_OPTIONS, layout: 'dropdown'},
+          description: 'Solo aplica si no hay imagen cargada. Vacío = Dark / Light.',
         }),
         defineField({name: 'ctaLink', title: 'CTA Link', type: 'string',
           description: 'URL del botón del hero. Puede ser ruta interna (ej. "/contact") o externa. Si queda vacío, el botón no se renderiza.'}),
