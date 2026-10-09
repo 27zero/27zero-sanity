@@ -46,11 +46,33 @@ import {paletteColorField} from './lib/paletteColor'
  *
  * "Custom" habilita `customHeight`: la altura en px del diseño desktop, que el sitio
  * escala proporcionalmente en mobile.
+ *
+ * Sin argumentos genera el par `heightVariant` / `customHeight` dentro de un objeto
+ * de sección (lee la variante del `parent`). La galería lo reusa en el nivel superior
+ * del documento con nombres propios y `scope: 'document'`, porque ahí no hay `parent`
+ * que contenga la variante.
  */
-const imageHeightFields = () => [
+interface ImageHeightOptions {
+  variantName?: string
+  customName?: string
+  scope?: 'parent' | 'document'
+  /** Tab del documento; solo aplica con `scope: 'document'`. */
+  group?: string
+  /** Qué imágenes controla, para el texto de ayuda del editor. */
+  subject?: string
+}
+
+const imageHeightFields = ({
+  variantName = 'heightVariant',
+  customName = 'customHeight',
+  scope = 'parent',
+  group,
+  subject = 'esta sección',
+}: ImageHeightOptions = {}) => [
   defineField({
-    name: 'heightVariant',
+    name: variantName,
     title: 'Images Height',
+    group,
     type: 'string',
     options: {
       list: [
@@ -63,19 +85,23 @@ const imageHeightFields = () => [
       direction: 'horizontal',
     },
     initialValue: 'medium',
-    description: 'Altura con la que se muestran las imágenes de esta sección en la página de detalle.',
+    description: `Altura con la que se muestran las imágenes de ${subject} en la página de detalle.`,
   }),
   defineField({
-    name: 'customHeight',
+    name: customName,
     title: 'Custom Height (px)',
     type: 'number',
-    hidden: ({parent}) => parent?.heightVariant !== 'custom',
+    group,
+    hidden: ({parent, document}) =>
+      (scope === 'document' ? document : parent)?.[variantName] !== 'custom',
     validation: Rule =>
       Rule.min(80)
         .max(1200)
         .custom((value, context) => {
-          const parent = context.parent as {heightVariant?: string} | undefined
-          return parent?.heightVariant === 'custom' && value === undefined
+          const source = (scope === 'document' ? context.document : context.parent) as
+            | Record<string, unknown>
+            | undefined
+          return source?.[variantName] === 'custom' && value === undefined
             ? 'Requerido cuando la altura es Custom.'
             : true
         }),
@@ -92,7 +118,6 @@ export default defineType({
     {name: 'overview',  title: 'Overview',     default: true},
     {name: 'brief',     title: 'Project Brief'},
     {name: 'case',      title: 'Case Study'},
-    {name: 'media',     title: 'Media'},
     {name: 'seo',       title: 'SEO & Social'},
     {name: 'meta',      title: 'Metadata'},
   ],
@@ -196,9 +221,11 @@ export default defineType({
     defineField({
       name: 'projectType',
       title: 'Project Type',
-      type: 'string',
+      type: 'array',
       group: 'brief',
-      description: 'Tipo de proyecto (ej. campaña, rediseño de sitio, video)',
+      of: [{type: 'reference', to: [{type: 'edtechMarketingPractice'}]}],
+      validation: Rule => Rule.unique(),
+      description: 'Prácticas de EdTech Marketing aplicadas en este proyecto. Se muestran en la card de Work y en la página de detalle.',
     }),
 
     defineField({
@@ -236,13 +263,15 @@ export default defineType({
       initialValue: 100,
     }),
 
-    // ── Media (card thumbnail, hero image, video, galería) ─────────────
+    // ── Media (card thumbnail, hero image, video, galería) — tab Overview ──
+    // Van en Overview después de los campos de identidad/resumen: el orden del
+    // array define el orden dentro del tab.
 
     defineField({
       name: 'thumbnail',
       title: 'Card Thumbnail',
       type: 'image',
-      group: 'media',
+      group: 'overview',
       options: {hotspot: true},
       fields: [
         defineField({name: 'alt', title: 'Alt text', type: 'string'}),
@@ -254,7 +283,7 @@ export default defineType({
       name: 'heroImage',
       title: 'Hero Image',
       type: 'image',
-      group: 'media',
+      group: 'overview',
       options: {hotspot: true},
       fields: [
         defineField({name: 'alt', title: 'Alt text', type: 'string'}),
@@ -266,7 +295,7 @@ export default defineType({
       name: 'heroVideo',
       title: 'Hero Video URL',
       type: 'url',
-      group: 'media',
+      group: 'overview',
       description: 'URL opcional de YouTube o Vimeo. Se muestra en lugar de la imagen principal cuando está presente.',
     }),
 
@@ -274,7 +303,7 @@ export default defineType({
       name: 'gallery',
       title: 'Gallery',
       type: 'array',
-      group: 'media',
+      group: 'overview',
       of: [
         {
           type: 'image',
@@ -286,6 +315,16 @@ export default defineType({
         },
       ],
       description: 'Imágenes adicionales mostradas en la galería de la página de detalle.',
+    }),
+
+    // Una sola altura para toda la galería. Hermanos de `gallery` (no un objeto que
+    // la envuelva) para no cambiar el shape de los datos ya cargados.
+    ...imageHeightFields({
+      variantName: 'galleryHeightVariant',
+      customName: 'galleryCustomHeight',
+      scope: 'document',
+      group: 'overview',
+      subject: 'la galería',
     }),
 
     // ═══════════════════════════════════════════════════════════════════
