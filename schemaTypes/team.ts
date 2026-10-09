@@ -46,6 +46,15 @@ export default defineType({
       type: 'image',
       options: {hotspot: true},
       description: 'Foto profesional. Se muestra en la grilla de team de la página About.',
+      fields: [
+        defineField({
+          name: 'alt',
+          title: 'Alt text',
+          type: 'string',
+          validation: Rule => Rule.required(),
+          description: "Describe a la persona para lectores de pantalla. ej. 'Laureano Díaz, Chief Strategy Officer'",
+        }),
+      ],
     }),
 
     defineField({
