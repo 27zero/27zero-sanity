@@ -31,14 +31,22 @@ import {BG_COLOR_OPTIONS, TEXT_COLOR_OPTIONS} from './lib/palette'
 // brand-messaging-strategy) va a quedar con un campo category inválido/vacío
 // en el Studio hasta que se reasigne a mano a uno de los 8 valores nuevos.
 const SERVICE_CATEGORIES = [
-  {title: 'Strategic Services',        value: 'strategic-services'},
-  {title: 'Brand & Identity',          value: 'brand-identity'},
-  {title: 'UX/UI & Web Design',        value: 'ux-ui-web-design'},
-  {title: 'Content Marketing',         value: 'content-marketing'},
-  {title: 'Demand Generation',         value: 'demand-generation'},
-  {title: 'Marketing Operations',      value: 'marketing-operations'},
-  {title: 'Sales Enablement',          value: 'sales-enablement'},
-  {title: 'Events & Experiences',      value: 'events-experiences'},
+  {title: 'Strategic Foundations',         value: 'strategic-foundations'},
+  {title: 'Brand & Identity',              value: 'brand-identity'},
+  {title: 'UX/UI & Web Design',            value: 'ux-ui-web-design'},
+  {title: 'Brand Salience and Reputation', value: 'brand-salience-reputation'},
+  {title: 'Demand Generation',             value: 'demand-generation'},
+  {title: 'Marketing Operations',          value: 'marketing-operations'},
+  {title: 'Events & Experiences',          value: 'events-experiences'},
+  {title: 'Account-Based Marketing',       value: 'account-based-marketing'},
+  {title: 'Thought Leadership Programs',   value: 'thought-leadership-programs'},
+  {title: 'SEO, AEO & GEO',                value: 'seo-aeo-geo'},
+  // Legacy (taxonomía de 8 categorías): solo mientras corre
+  // scripts/import-content-spec.ts. Después del import ningún servicio las usa; borrar
+  // estas 3 líneas y las espejo en 27Zero-website/src/types/sanity.ts.
+  {title: 'Strategic Services (legacy)', value: 'strategic-services'},
+  {title: 'Content Marketing (legacy)',  value: 'content-marketing'},
+  {title: 'Sales Enablement (legacy)',   value: 'sales-enablement'},
 ]
 
 const ICON_OPTIONS = [
